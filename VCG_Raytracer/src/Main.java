@@ -24,8 +24,10 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 import raytracer.Raytracer;
+import scene.camera.PerspCam;
 import ui.Window;
 import scene.Scene;
+import utils.algebra.Vec3;
 
 // Main application class. This is the routine called by the JVM to run the program.
 public class Main {
@@ -56,7 +58,7 @@ public class Main {
         Draw the scene that was set up
      **/
     private static void draw(Window renderWindow){
-        Scene renderScene = new Scene();
+        Scene renderScene = setupScene();
 
         raytraceScene(renderWindow, renderScene);
     }
@@ -77,5 +79,17 @@ public class Main {
         long tEnd = System.currentTimeMillis();
         long tDelta = tEnd - tStart;
         return tDelta / 1000.0;
+    }
+
+    private static Scene setupScene(){
+        Scene scene = new Scene();
+
+        scene.createCamera(new PerspCam(
+                new Vec3(0,0,0),    //pos
+                new Vec3(1,0,0),    //center of view
+                new Vec3(0,1,0),    //user-up
+                90, 1));
+
+        return scene;
     }
 }
