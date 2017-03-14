@@ -35,7 +35,7 @@ public class Camera extends SceneObject {
         side = calcSide();
         camUp = calcCamUp();
 
-        Log.print(this, "camera coordinates: \nview: " + view + "\nside: " + side + "\nup: " + camUp);
+        Log.print(this, "camera coordinates: \nview: " + view + "\nside: " + side + "\nup:   " + camUp);
     }
 
     private Vec3 calcView(){

@@ -91,6 +91,11 @@ public class Vec3 {
         );
     }
 
+    public float DistanceTo(Vec3 v){
+
+        return sub(v).length();
+    }
+
     /**
         Print values
      **/

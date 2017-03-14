@@ -6,26 +6,25 @@ import scene.shape.Shape;
 import scene.shape.Sphere;
 import utils.io.Log;
 
+import java.util.*;
+
 public class Scene {
 
-    public Shape[] shapeList;
-    public Light[] lightList;
+    public ArrayList<Shape> shapeList = new ArrayList<>();
+    public ArrayList<Light> lightList  = new ArrayList<>();
     public Camera camera;
+    public float AmbientIntensity = 0.05f;
 
     public Scene(){
         Log.print(this, "Init");
     }
 
-    public void createSphere(Sphere sphere){
-
+    public void createShape(Shape shape){
+        shapeList.add(shape);
     }
 
-    public void createPlane(){
-
-    }
-
-    public void createPointLight(){
-
+    public void createLight(Light light){
+        lightList.add(light);
     }
 
     public void createCamera(Camera cam){
