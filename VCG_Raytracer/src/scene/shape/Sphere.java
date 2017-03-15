@@ -5,27 +5,26 @@ import raytracer.Intersection;
 import raytracer.Ray;
 import utils.algebra.Vec3;
 
-import java.util.ArrayList;
-
 public class Sphere extends Shape {
 
     private float radius;
+    private float radiusSquared;
 
     public Sphere(Vec3 pos, float radius, Material material) {
         super(pos, material);
 
         this.radius = radius;
+        radiusSquared = (float) Math.pow(radius, 2);
     }
 
     @Override
     public Intersection intersect(Ray ray) {
 
         Vec3 pos = ray.getStartPoint().sub(mPosition);
-//        Vec3 pos = ray.getStartPoint();
         Vec3 dir = ray.getDirection();
 
         float B = 2 * (pos.x * dir.x + pos.y * dir.y + pos.z * dir.z);
-        float C = (float) (Math.pow(pos.x, 2) + Math.pow(pos.y, 2) + Math.pow(pos.z, 2) - Math.pow(radius, 2)); //TODO: pow einmal berechnen
+        float C = (float) (Math.pow(pos.x, 2) + Math.pow(pos.y, 2) + Math.pow(pos.z, 2) - radiusSquared);
 
         float discriminant = (float) Math.pow(B, 2) - 4 * C;
 

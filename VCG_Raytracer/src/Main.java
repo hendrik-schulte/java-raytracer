@@ -92,7 +92,7 @@ public class Main {
     }
 
     private static Scene setupScene() {
-        Scene scene = new Scene();
+        Scene scene = new Scene(0.1f);
 
         scene.createCamera(new PerspCam(
                 new Vec3(0, 0, 17),    //pos
@@ -105,25 +105,53 @@ public class Main {
                 new Vec3(0, 0, 0),
                 1f,
                 new Phong(RgbColor.BLUE,
-                        0.7f,
-                        0.05f,
-                        26f)));
+                        new RgbColor(0f, 0f, 1f),
+                        new RgbColor(0.05f, 0.05f, 0.05f),
+                        26f,
+                        0,
+                        0)));
 
         scene.createShape(new Sphere(
                 new Vec3(-2, 1, - 1.5f),
                 1f,
                 new Phong(RgbColor.RED,
-                        0.7f,
-                        0.05f,
-                        26)));
+                        new RgbColor(1f, 0f, 0f),
+                        new RgbColor(0.05f, 0.05f, 0.05f),
+                        26,
+                        0,
+                        0)));
 
 //        scene.createShape(new Plane(
-//                new Vec3(-3, 0, -3),    //pos
-//                new Vec3(-1, 0, 0),     //normal
-//                new Phong(RgbColor.GREEN,
-//                        0.7f,
-//                        0.05f,
-//                        26)));
+//                new Vec3(0, 0, -7),    //pos
+//                new Vec3(0, 0, 1),     //normal
+//                new Phong(RgbColor.CYAN,        //ambient
+//                        RgbColor.CYAN,          //diffuse
+//                        new RgbColor(0.02f, 0.02f,0.02f),       //specular
+//                        12,
+//                        0,
+//                        0)));
+
+//        scene.createShape(new Plane(
+//                new Vec3(-4, 0, 0),    //pos
+//                new Vec3(1, 0, 0),     //normal
+//                new Phong(RgbColor.MAGENTA,        //ambient
+//                        RgbColor.MAGENTA,          //diffuse
+//                        new RgbColor(0.02f, 0.02f,0.02f),       //specular
+//                        12,
+//                        0,
+//                        0)));
+//
+//        scene.createShape(new Plane(
+//                new Vec3(0, -2, 0),    //pos
+//                new Vec3(0, 1, 0),     //normal
+//                new Phong(RgbColor.LIGHT_GRAY,        //ambient
+//                        RgbColor.LIGHT_GRAY,          //diffuse
+//                        new RgbColor(0.02f, 0.02f,0.02f),       //specular
+//                        12,
+//                        0,
+//                        0)));
+
+
 
 //        scene.createShape(new Sphere(new Vec3(5, 1, -3.5f), 1.1f, new Phong(RgbColor.GREEN, 0.2f, 0.0f, 4)));
 

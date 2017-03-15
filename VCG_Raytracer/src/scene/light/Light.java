@@ -21,11 +21,11 @@ public class Light extends SceneObject {
         return color;
     }
 
-    public float getIntensity(Vec3 point){
-        return getIntensity(mPosition.sub(point).length());
-    }
+//    public float getIntensity(){
+//        return getIntensity(mPosition.sub(point).length());
+//    }
 
-    public float getIntensity(float distance){
+    public float getIntensity(){
         return intensity;
     }
 }

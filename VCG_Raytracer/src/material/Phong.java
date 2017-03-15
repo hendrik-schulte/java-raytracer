@@ -11,58 +11,54 @@ import utils.io.Log;
 
 public class Phong extends Material {
 
-    public float specular;
-    public float specularExp;
+    private RgbColor specular;
+    private float specularExp;
     private float specularNormalFactor;
 
-    public Phong(RgbColor ambient, float diffus, float specular, float specularExp) {   //Todo: diffus = color, specular = color
-        super(ambient, diffus);
+    public Phong(RgbColor ambient, RgbColor diffus, RgbColor specular, float specularExp, float reflection, float refraction) {
+        super(ambient, diffus, reflection, refraction);
 
         this.specular = specular;
         this.specularExp = specularExp;
         specularNormalFactor = (float) ((specularExp + 2) / 2 * Math.PI);
-//        specularNormalFactor = 1;
     }
 
     @Override
     public RgbColor getColor(Vec3 pos, Vec3 normal, Vec3 view, Scene scene) {
-        return calcAmbient(scene).add(calcDiffus(pos, normal, scene).add(calcSpecular(pos, normal, view, scene)));
-    }
 
-    private RgbColor calcSpecular(Vec3 pos, Vec3 normal, Vec3 view, Scene scene) {
-        RgbColor specColor = RgbColor.BLACK;
+        RgbColor color = calcAmbient(scene);
 
         for (Light light : scene.lightList) {
 
             Vec3 lightVector = getLightVector(pos, light);      //getting light vector
 
-            Ray ray = new Ray(pos.add(lightVector.multScalar(0.0001f)), lightVector);                               //create ray from intersection to light source
-            Intersection intersec = ray.getIntersection(scene.shapeList, pos.DistanceTo(light.getPosition()));       //check if there is anything in the way to the light source
-//            Intersection intersec = ray.getIntersection(scene.shapeList, shape);       //check if there is anything in the way to the light source
+            Ray ray = new Ray(pos.add(lightVector.multScalar(0.000000001f)), lightVector);                               //create ray from intersection to light source
 
-            if(intersec != null) {
+            //check if there is anything in the way to the light source
+            if (ray.getIntersection(scene.shapeList, pos.DistanceTo(light.getPosition())) != null) {
+                //in shadow -> continue to next light
                 continue;
             }
 
-//            Vec3 reflectionVec = (normal.sub(lightVector).multScalar(normal.scalar(lightVector) * 2)).normalize();    //calculate reflection vector
-            Vec3 reflectionVec = normal.multScalar(2 * lightVector.scalar(normal)).sub(lightVector).normalize();    //calculate reflection vector
-
-            float dotProduct = view.multScalar(-1).scalar(reflectionVec);
-
-//            if(dotProduct <= 0) continue;
-
-//            Log.print(this, "dot: " + dotProduct);
-
-            float specScalar = light.getIntensity(pos) *        //get light intensity multiplied with
-                    specular *                                  //specular factor
-                    specularNormalFactor *                      //normalised specular factor
-                    ((float) Math.pow((Math.max(0, dotProduct)), specularExp));      //dot of view and reflection vector to the power of specular exponent
-
-            RgbColor result = light.getColor().multScalar(specScalar);  //multiply intensity with light color
-
-            specColor = specColor.add(result);
+            color = color.add(calcDiffus(light, normal, lightVector));
+            color = color.add(calcSpecular(light, normal, view, lightVector));
         }
 
-        return specColor;
+        return color;
+    }
+
+    private RgbColor calcSpecular(Light light, Vec3 normal, Vec3 view, Vec3 lightVector) {
+
+        Vec3 reflectionVec = normal.multScalar(2 * lightVector.scalar(normal)).sub(lightVector).normalize();    //calculate reflection vector
+
+        float dotProduct = view.scalar(reflectionVec);
+
+        float specScalar = light.getIntensity() *                           //get light intensity multiplied with
+                specularNormalFactor *                                      //normalised specular factor
+                ((float) Math.pow((Math.max(0, dotProduct)), specularExp));      //dot of view and reflection vector to the power of specular exponent
+
+        return specular.multRGB(
+                light.getColor()).multScalar(
+                specScalar);  //multiply intensity with light color and specular color
     }
 }

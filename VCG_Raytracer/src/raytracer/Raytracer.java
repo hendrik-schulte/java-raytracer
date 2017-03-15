@@ -19,6 +19,7 @@ package raytracer;
 import scene.Scene;
 
 import scene.camera.Camera;
+import scene.shape.Plane;
 import scene.shape.Shape;
 import ui.Window;
 import utils.*;
@@ -101,7 +102,9 @@ public class Raytracer {
 
         if (inter == null) return BackgroundColor;
 
-        return inter.shape.material.getColor(inter.interSectionPoint, inter.normal, ray.getDirection(), scene);
+//        if(inter.shape instanceof Plane) Log.print(this, "plane intersec");
+
+        return inter.shape.material.getColor(inter.interSectionPoint, inter.normal, ray.getDirection().multScalar(-1), scene);
     }
 
     private RgbColor traceRay(Ray ray) {

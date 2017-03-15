@@ -4,15 +4,18 @@ import material.Material;
 import raytracer.Intersection;
 import raytracer.Ray;
 import utils.algebra.Vec3;
+import utils.io.Log;
 
 public class Plane extends Shape {
 
     private Vec3 normal;
+    private float Q;
 
     public Plane(Vec3 pos, Vec3 normal, Material material) {
         super(pos, material);
 
         this.normal = normal.normalize();
+        Q = mPosition.length();
     }
 
     @Override
@@ -28,9 +31,14 @@ public class Plane extends Shape {
             return null;
         }
 
-        float Q = mPosition.length();
+        float t;
 
-        float t = (normal.scalar(pos) + Q) / denominator;
+        t = -(normal.scalar(pos) + Q) / Math.abs(denominator);      //TODO: why does inverting the normal change its position?!
+//        t = (mPosition.sub(pos).scalar(normal)) / denominator;
+
+
+
+//        Log.print(this, "d: " + denominator +  " t: " + t);
 
         return new Intersection(ray.calcPoint(t), normal, this, Math.abs(t), t > 0, true);
     }

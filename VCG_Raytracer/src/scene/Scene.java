@@ -13,10 +13,12 @@ public class Scene {
     public ArrayList<Shape> shapeList = new ArrayList<>();
     public ArrayList<Light> lightList  = new ArrayList<>();
     public Camera camera;
-    public float AmbientIntensity = 0.05f;
+    public float AmbientIntensity;
 
-    public Scene(){
+    public Scene(float AmbientIntensity){
+
         Log.print(this, "Init");
+        this.AmbientIntensity = AmbientIntensity;
     }
 
     public void createShape(Shape shape){

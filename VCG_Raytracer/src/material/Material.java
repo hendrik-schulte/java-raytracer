@@ -11,12 +11,16 @@ import utils.algebra.Vec3;
 public abstract class Material {
 
     public RgbColor ambient;
-    public float diffus;
+    public RgbColor diffus;
+    public float reflection;
+    public float refraction;
 
-    public Material(RgbColor ambient, float diffus) {
+    public Material(RgbColor ambient, RgbColor diffus, float reflection, float refraction) {
 
         this.ambient = ambient;
         this.diffus = diffus;
+        this.reflection = reflection;
+        this.refraction = refraction;
     }
 
     public abstract RgbColor getColor(Vec3 pos, Vec3 normal, Vec3 view, Scene scene);
@@ -26,39 +30,15 @@ public abstract class Material {
         return ambient.multScalar(scene.AmbientIntensity);
     }
 
-    protected RgbColor calcDiffus(Vec3 pos, Vec3 normal, Scene scene) {
+    protected RgbColor calcDiffus(Light light, Vec3 normal, Vec3 lightVector) {
 
-        RgbColor diffusColor = RgbColor.BLACK;
-
-        for (Light light : scene.lightList) {
-
-            Vec3 lightVector = getLightVector(pos, light);      //getting light vector
-
-            Ray ray = new Ray(pos.add(lightVector.multScalar(0.0001f)), lightVector);                               //create ray from intersection to light source
-            Intersection intersec = ray.getIntersection(scene.shapeList, pos.DistanceTo(light.getPosition()));       //check if there is anything in the way to the light source
-//            Intersection intersec = ray.getIntersection(scene.shapeList, shape);       //check if there is anything in the way to the light source
-
-            if(intersec != null) {
-                continue;
-            }
-
-//            float dotProduct = normal.scalar(lightVector);
-
-
-
-//            RgbColor result = light.getColor().multScalar(              //color of light multiplicated with
-            RgbColor result = ambient.multScalar(                         //color of material multiplicated with
-                            light.getIntensity(pos) *                       //intensity of light
-                            diffus *                                        //diffus strength
-                            Math.max(0, normal.scalar(lightVector)));       //dot product of normal and light vector
-
-            diffusColor = diffusColor.add(result);
-        }
-
-        return diffusColor;
+        return diffus.multRGB(                                   //color of light multiplicated with
+                light.getColor()).multScalar(                               //light color
+                light.getIntensity() *                                      //intensity of light
+                        Math.max(0, normal.scalar(lightVector)));           //dot product of normal and light vector
     }
 
-    protected Vec3 getLightVector(Vec3 pos, Light light){
+    protected Vec3 getLightVector(Vec3 pos, Light light) {
         return light.getPosition().sub(pos).normalize();
     }
 }
