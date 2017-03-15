@@ -9,7 +9,7 @@ import utils.io.Log;
 public class Plane extends Shape {
 
     private Vec3 normal;
-    private float Q;
+    private double Q;
 
     public Plane(Vec3 pos, Vec3 normal, Material material) {
         super(pos, material);
@@ -26,20 +26,20 @@ public class Plane extends Shape {
 
         float denominator = normal.scalar(D);
 
-        if (denominator == 0) {
-            //no intersection
-            return null;
-        }
+        if (denominator == 0)return null;   //no intersection
 
-        float t;
+        double t;
 
-        t = -(normal.scalar(pos) + Q) / Math.abs(denominator);      //TODO: why does inverting the normal change its position?!
-//        t = (mPosition.sub(pos).scalar(normal)) / denominator;
-
-
+//        t = -(normal.scalar(pos) + Q) / Math.abs(denominator);      //TODO: why does inverting the normal change its position?!
+        t = (mPosition.sub(pos).scalar(normal)) / denominator;
 
 //        Log.print(this, "d: " + denominator +  " t: " + t);
 
-        return new Intersection(ray.calcPoint(t), normal, this, Math.abs(t), t > 0, true);
+        return new Intersection(ray.calcPoint((float) t), normal, this, Math.abs(t), t > 0, true);
+    }
+
+    @Override
+    public String toString() {
+        return "Plane color " + material.ambient;
     }
 }

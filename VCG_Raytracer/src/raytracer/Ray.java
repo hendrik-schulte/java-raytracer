@@ -3,7 +3,6 @@ package raytracer;
 import scene.shape.Shape;
 import utils.algebra.Vec3;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -74,6 +73,7 @@ public class Ray {
             if (intersection == null) continue;
             if (intersection.distance > maxDistance/* || intersection.distance < minDistance */) continue;
             if (!intersection.incoming) continue;
+            if(Math.abs(intersection.distance) <= 0.01) continue;
 
             intersections.add(intersection);
         }

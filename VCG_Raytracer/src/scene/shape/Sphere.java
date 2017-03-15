@@ -26,7 +26,7 @@ public class Sphere extends Shape {
         float B = 2 * (pos.x * dir.x + pos.y * dir.y + pos.z * dir.z);
         float C = (float) (Math.pow(pos.x, 2) + Math.pow(pos.y, 2) + Math.pow(pos.z, 2) - radiusSquared);
 
-        float discriminant = (float) Math.pow(B, 2) - 4 * C;
+        double discriminant = Math.pow(B, 2) - 4 * C;
 
         if (discriminant < 0) {
             //no intersection
@@ -35,7 +35,7 @@ public class Sphere extends Shape {
         if (discriminant == 0) {
             //ray touches sphere
 
-            float t = -B / 2f;
+            double t = -B / 2f;
 
             if (t < 0) return null;
 
@@ -44,8 +44,8 @@ public class Sphere extends Shape {
         if (discriminant > 0) {
             //two intersections
 
-            float t0 = (-B - (float) Math.sqrt(discriminant)) / 2f;
-            float t1 = (-B + (float) Math.sqrt(discriminant)) / 2f;
+            double t0 = (-B - Math.sqrt(discriminant)) / 2f;
+            double t1 = (-B + Math.sqrt(discriminant)) / 2f;
 
             if (t0 < 0 && t1 < 0) return null;
             if (t0 > 0 && t1 <= 0) return getIntersection(ray, t0);
@@ -67,8 +67,8 @@ public class Sphere extends Shape {
         return pointOnSphere.sub(mPosition).normalize();
     }
 
-    private Intersection getIntersection(Ray ray, float t) {
-        Vec3 intersectionPoint = ray.calcPoint(t);
+    private Intersection getIntersection(Ray ray, double t) {
+        Vec3 intersectionPoint = ray.calcPoint((float) t);
 
         return new Intersection(intersectionPoint, calcNormal(intersectionPoint), this, Math.abs(t), t > 0, true);
     }

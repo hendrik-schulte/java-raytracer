@@ -8,7 +8,7 @@ public class Intersection {
     public Vec3 interSectionPoint;
     public Vec3 normal;
     public Shape shape;
-    public float distance;
+    public double distance;
     public boolean incoming;
     public boolean hit;
 
@@ -16,12 +16,12 @@ public class Intersection {
         this.interSectionPoint = null;
         this.normal = new Vec3();
         this.shape = shape;
-        this.distance = Float.MAX_VALUE;
+        this.distance = Double.MAX_VALUE;
         this.incoming = false;
         this.hit = false;
     }
 
-    public Intersection(Vec3 intersectionPoint, Vec3 normal, Shape shape, float distance, boolean incoming, boolean hit){
+    public Intersection(Vec3 intersectionPoint, Vec3 normal, Shape shape, double distance, boolean incoming, boolean hit){
         this.interSectionPoint = intersectionPoint;
         this.normal = normal;
         this.shape = shape;
@@ -40,5 +40,10 @@ public class Intersection {
 
     public boolean isOutOfDistance(){
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "point: " + interSectionPoint + " normal: " + normal + " shape: " + shape + " distance: " + distance + " incoming: " + incoming;
     }
 }

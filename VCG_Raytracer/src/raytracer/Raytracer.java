@@ -16,6 +16,7 @@
 
 package raytracer;
 
+import material.Material;
 import scene.Scene;
 
 import scene.camera.Camera;
@@ -69,8 +70,6 @@ public class Raytracer {
 //        Log.print(this, "window center: " + windowCenter);
 
 
-        RgbColor boringBackground = RgbColor.DARK_GRAY;
-
         // Rows
         for (int y = 0; y < mBufferedImage.getHeight(); y++) {
             // Columns
@@ -84,7 +83,7 @@ public class Raytracer {
                 Ray ray = new Ray(cam.getPosition(), worldPos.sub(cam.getPosition()));
 
 //                mRenderWindow.setPixel(mBufferedImage, rayToColor(ray), new Vec2(x,y));
-                mRenderWindow.setPixel(mBufferedImage, sendPrimaryRay(ray), new Vec2(x, y));
+                mRenderWindow.setPixel(mBufferedImage, traceRay(ray, 0), new Vec2(x, y));
 
 //                if(y % 10 == 0 && x % 10 == 0) Log.print(this, "pixel: " + x + "," + y + "\nnormPos:  " + normPos + "\nworldPos: " + worldPos);
             }
@@ -96,7 +95,19 @@ public class Raytracer {
         return new RgbColor(ray.getDirection().normalize());
     }
 
-    private RgbColor sendPrimaryRay(Ray ray) {
+//    private RgbColor sendPrimaryRay(Ray ray) {
+//
+//        return sendPrimaryRay(ray, false);
+//    }
+//
+//    private RgbColor sendPrimaryRay(Ray ray, boolean debug) {
+//
+//        return traceRay(ray, 0);
+//    }
+
+    private RgbColor traceRay(Ray ray, int currentRecursion) {
+
+//        Log.print(this, "start tracing ray from " + ray.getStartPoint() + " current recursion level: " + currentRecursion);
 
         Intersection inter = ray.getIntersection(scene.shapeList);
 
@@ -104,11 +115,25 @@ public class Raytracer {
 
 //        if(inter.shape instanceof Plane) Log.print(this, "plane intersec");
 
-        return inter.shape.material.getColor(inter.interSectionPoint, inter.normal, ray.getDirection().multScalar(-1), scene);
-    }
+//        if (debug) {
+//            Log.print(this, "debug ray intersec: ");
+//            Log.print(this, inter.toString());
+//        }
 
-    private RgbColor traceRay(Ray ray) {
-        return new RgbColor(0, 0, 0);
+        Material material = inter.shape.material;
+        float refl = material.reflection;
+
+        RgbColor color = material.getColor(inter.interSectionPoint, inter.normal, ray.getDirection().multScalar(-1), scene);
+
+        if(currentRecursion >= mMaxRecursions || refl == 0) return color;
+        else {
+            //calc reflection ray
+            Ray reflRay = new Ray(inter.interSectionPoint, Material.getReflectionVector(inter.normal, ray.getDirection().multScalar(-1)));
+            //recursively trace reflection ray
+            RgbColor reflectionColor = traceRay(reflRay, currentRecursion + 1);
+
+            return color.add(reflectionColor.multScalar(material.reflection));
+        }
     }
 
     private RgbColor shade() {
@@ -120,6 +145,7 @@ public class Raytracer {
     }
 
     private Vec3 screen2World(float x, float y) {
+
         return new Vec3(2 * ((x + 0.5f) / 1) - 1, 0f, 0);
     }
 

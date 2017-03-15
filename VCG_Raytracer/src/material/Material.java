@@ -38,7 +38,13 @@ public abstract class Material {
                         Math.max(0, normal.scalar(lightVector)));           //dot product of normal and light vector
     }
 
-    protected Vec3 getLightVector(Vec3 pos, Light light) {
+    protected static Vec3 getLightVector(Vec3 pos, Light light) {
+
         return light.getPosition().sub(pos).normalize();
+    }
+
+    public static Vec3 getReflectionVector(Vec3 normal, Vec3 lightVector){
+
+        return normal.multScalar(2 * lightVector.scalar(normal)).sub(lightVector).normalize();
     }
 }

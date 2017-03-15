@@ -32,7 +32,8 @@ public class Phong extends Material {
 
             Vec3 lightVector = getLightVector(pos, light);      //getting light vector
 
-            Ray ray = new Ray(pos.add(lightVector.multScalar(0.000000001f)), lightVector);                               //create ray from intersection to light source
+//            Ray ray = new Ray(pos.add(lightVector.multScalar(0.001f)), lightVector);                               //create ray from intersection to light source
+            Ray ray = new Ray(pos, lightVector);                               //create ray from intersection to light source
 
             //check if there is anything in the way to the light source
             if (ray.getIntersection(scene.shapeList, pos.DistanceTo(light.getPosition())) != null) {
@@ -49,7 +50,7 @@ public class Phong extends Material {
 
     private RgbColor calcSpecular(Light light, Vec3 normal, Vec3 view, Vec3 lightVector) {
 
-        Vec3 reflectionVec = normal.multScalar(2 * lightVector.scalar(normal)).sub(lightVector).normalize();    //calculate reflection vector
+        Vec3 reflectionVec = getReflectionVector(normal, lightVector);    //calculate reflection vector
 
         float dotProduct = view.scalar(reflectionVec);
 

@@ -3,6 +3,7 @@ package ui;
 import utils.RgbColor;
 import utils.algebra.Vec2;
 import utils.io.DataExporter;
+import utils.io.Log;
 
 import javax.swing.*;
 import java.awt.*;
@@ -66,6 +67,15 @@ public class Window {
         Draw pixel to our render frame
      **/
     public void setPixel(BufferedImage bufferedImage, RgbColor color, Vec2 screenPosition){
+
+        if(screenPosition.equals(new Vec2(5, 420))) {
+            Log.print(this,"Pixel 5, 420 has color " + color);
+        }
+
+        if(screenPosition.equals(new Vec2(5, 510))) {
+            Log.print(this,"Pixel 5, 510 has color " + color);
+        }
+
         bufferedImage.setRGB((int)screenPosition.x, (int)screenPosition.y, color.getRGB());
         mFrame.repaint();
     }
