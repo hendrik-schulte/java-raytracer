@@ -81,6 +81,14 @@ public class Vec3 {
     }
 
     /**
+     Get new vector with the given value multiplied to every component
+     **/
+    public Vec3 devideScalar(float value){
+        return new Vec3(this.x / value, this.y / value, this.z / value);
+    }
+
+
+    /**
         Get new vector through the cross product of the vector and the given vector
      **/
     public Vec3 cross(Vec3 inputVec){

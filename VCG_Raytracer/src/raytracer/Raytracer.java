@@ -30,8 +30,6 @@ import utils.io.Log;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class Raytracer {
 
@@ -41,11 +39,25 @@ public class Raytracer {
     private Window mRenderWindow;
 
     private int mMaxRecursions;
+    private AntiAliasingLevel antiAliasingLevel;
+    ArrayList<Vec2> antiAliasingPositions = new ArrayList<>();
 
-    public Raytracer(Scene scene, Window renderWindow, int recursions) {
+    public enum AntiAliasingLevel {
+        disabled,
+        x2,
+        x4,
+        x8
+    }
+
+//    private Vec2 antiAliasingResolution;
+
+    public Raytracer(Scene scene, Window renderWindow, int recursions, AntiAliasingLevel antiAliasingLevel) {
         Log.print(this, "Init");
         mMaxRecursions = recursions;
+        this.antiAliasingLevel = antiAliasingLevel;
         mBufferedImage = renderWindow.getBufferedImage();
+//        antiAliasingResolution = new Vec2(mBufferedImage.getWidth() * antiAliasingLevel, mBufferedImage.getHeight() * antiAliasingLevel);
+
 
         this.scene = scene;
         mRenderWindow = renderWindow;
@@ -62,12 +74,19 @@ public class Raytracer {
         float windowWidth = ratio * windowHeight;
         Vec3 windowCenter = cam.getPosition().add(cam.view.multScalar(cam.focalLength));
 
+        generateAADistribution();
+
 
 //        Log.print(this, "resolution: " + mBufferedImage.getWidth() + " x " + mBufferedImage.getHeight());
 //        Log.print(this, "ratio: " + ratio);
 //        Log.print(this, "window height: " + windowHeight);
 //        Log.print(this, "window width: " + windowWidth);
 //        Log.print(this, "window center: " + windowCenter);
+
+        Log.print(this, "0,0 = " + pixelPosNormalized(0, 0));
+        Log.print(this, "800,600 = " + pixelPosNormalized(799, 599));
+        Log.print(this, "0,600 = " + pixelPosNormalized(0, 599));
+        Log.print(this, "800,0 = " + pixelPosNormalized(799, 0));
 
 
         // Rows
@@ -76,34 +95,37 @@ public class Raytracer {
             for (int x = 0; x < mBufferedImage.getWidth(); x++) {
 
                 Vec2 normPos = pixelPosNormalized(x, y);
-                Vec3 worldPos = windowCenter
-                        .add(cam.camUp.multScalar(normPos.y * windowHeight / -2f))
-                        .add(cam.side.multScalar(normPos.x * windowWidth / 2f));
 
-                Ray ray = new Ray(cam.getPosition(), worldPos.sub(cam.getPosition()));
+                Vec3 colorVec = new Vec3(0, 0, 0);
 
-//                mRenderWindow.setPixel(mBufferedImage, rayToColor(ray), new Vec2(x,y));
-                mRenderWindow.setPixel(mBufferedImage, traceRay(ray, 0), new Vec2(x, y));
+                if (antiAliasingLevel == AntiAliasingLevel.disabled) {
+                    Vec3 worldPos = screen2World(windowCenter, normPos, windowWidth, windowHeight);
+
+                    Ray ray = new Ray(cam.getPosition(), worldPos.sub(cam.getPosition()));
+
+                    mRenderWindow.setPixel(mBufferedImage, traceRay(ray, 0), new Vec2(x, y));
+
+                } else {
+                    for (Vec2 pos : antiAliasingPositions) {
+
+                        Vec3 worldPos = screen2World(windowCenter, normPos.add(pos), windowWidth, windowHeight);
+
+                        Ray ray = new Ray(cam.getPosition(), worldPos.sub(cam.getPosition()));
+
+                        RgbColor color = traceRay(ray, 0);
+
+                        colorVec = colorVec.add(new Vec3(color.red(), color.green(), color.blue()));
+                    }
+
+                    colorVec = colorVec.devideScalar(antiAliasingPositions.size());
+
+                    mRenderWindow.setPixel(mBufferedImage, new RgbColor(colorVec.x, colorVec.y, colorVec.z), new Vec2(x, y));
+                }
+            }
 
 //                if(y % 10 == 0 && x % 10 == 0) Log.print(this, "pixel: " + x + "," + y + "\nnormPos:  " + normPos + "\nworldPos: " + worldPos);
-            }
         }
     }
-
-
-    private RgbColor rayToColor(Ray ray) {
-        return new RgbColor(ray.getDirection().normalize());
-    }
-
-//    private RgbColor sendPrimaryRay(Ray ray) {
-//
-//        return sendPrimaryRay(ray, false);
-//    }
-//
-//    private RgbColor sendPrimaryRay(Ray ray, boolean debug) {
-//
-//        return traceRay(ray, 0);
-//    }
 
     private RgbColor traceRay(Ray ray, int currentRecursion) {
 
@@ -125,7 +147,7 @@ public class Raytracer {
 
         RgbColor color = material.getColor(inter.interSectionPoint, inter.normal, ray.getDirection().multScalar(-1), scene);
 
-        if(currentRecursion >= mMaxRecursions || refl == 0) return color;
+        if (currentRecursion >= mMaxRecursions || refl == 0) return color;
         else {
             //calc reflection ray
             Ray reflRay = new Ray(inter.interSectionPoint, Material.getReflectionVector(inter.normal, ray.getDirection().multScalar(-1)));
@@ -136,21 +158,82 @@ public class Raytracer {
         }
     }
 
-    private RgbColor shade() {
-        return new RgbColor(0, 0, 0);
-    }
+//    private RgbColor shade() {
+//        return new RgbColor(0, 0, 0);
+//    }
+//
+//    private RgbColor traceIllumination() {
+//        return new RgbColor(0, 0, 0);
+//    }
 
-    private RgbColor traceIllumination() {
-        return new RgbColor(0, 0, 0);
-    }
+    private Vec3 screen2World(Vec3 windowCenter, Vec2 normPos, float windowWidth, float windowHeight) {
 
-    private Vec3 screen2World(float x, float y) {
-
-        return new Vec3(2 * ((x + 0.5f) / 1) - 1, 0f, 0);
+        return windowCenter
+                .add(scene.camera.camUp.multScalar(normPos.y * windowHeight / -2f))
+                .add(scene.camera.side.multScalar(normPos.x * windowWidth / 2f));
     }
 
     private Vec2 pixelPosNormalized(float x, float y) {
         return new Vec2(2 * ((x + 0.5f) / mBufferedImage.getWidth()) - 1,
                 2 * ((y + 0.5f) / mBufferedImage.getHeight()) - 1);
+    }
+
+    private void generateAADistribution() {
+        if (antiAliasingLevel != AntiAliasingLevel.disabled) {
+//            float pixelSize = windowHeight / (float) mBufferedImage.getHeight();
+            float pixelSizeNormPos = 2 / (float) mBufferedImage.getWidth(); //relative pixel size relative to resolution
+
+            switch (antiAliasingLevel) {
+                case x2:
+                    float q4 = pixelSizeNormPos / 4;
+
+                    antiAliasingPositions.add(new Vec2(-q4, -q4));
+                    antiAliasingPositions.add(new Vec2(-q4, q4));
+                    antiAliasingPositions.add(new Vec2(q4, -q4));
+                    antiAliasingPositions.add(new Vec2(q4, q4));
+                    break;
+                case x4:
+                    float q8 = pixelSizeNormPos / 8;
+
+                    //upper left corner
+                    antiAliasingPositions.add(new Vec2(-3 * q8, q8));
+                    antiAliasingPositions.add(new Vec2(-q8, 3 * q8));
+                    //bottom left corner
+                    antiAliasingPositions.add(new Vec2(-3 * q8, -q8));
+                    antiAliasingPositions.add(new Vec2(-q8, -3 * q8));
+                    //upper right corner
+                    antiAliasingPositions.add(new Vec2(3 * q8, q8));
+                    antiAliasingPositions.add(new Vec2(q8, 3 * q8));
+                    //bottom right
+                    antiAliasingPositions.add(new Vec2(3 * q8, -q8));
+                    antiAliasingPositions.add(new Vec2(q8, -3 * q8));
+                    break;
+
+                case x8:
+                    q8 = pixelSizeNormPos / 8;
+
+                    //upper left corner
+                    antiAliasingPositions.add(new Vec2(-q8, q8));
+                    antiAliasingPositions.add(new Vec2(-3 * q8, 3 * q8));
+                    antiAliasingPositions.add(new Vec2(-3 * q8, q8));
+                    antiAliasingPositions.add(new Vec2(-q8, 3 * q8));
+                    //bottom left corner
+                    antiAliasingPositions.add(new Vec2(-q8, -q8));
+                    antiAliasingPositions.add(new Vec2(-3 * q8, -3 * q8));
+                    antiAliasingPositions.add(new Vec2(-3 * q8, -q8));
+                    antiAliasingPositions.add(new Vec2(-q8, -3 * q8));
+                    //upper right corner
+                    antiAliasingPositions.add(new Vec2(q8, q8));
+                    antiAliasingPositions.add(new Vec2(3 * q8, 3 * q8));
+                    antiAliasingPositions.add(new Vec2(3 * q8, q8));
+                    antiAliasingPositions.add(new Vec2(q8, 3 * q8));
+                    //bottom right
+                    antiAliasingPositions.add(new Vec2(q8, -q8));
+                    antiAliasingPositions.add(new Vec2(3 * q8, -3 * q8));
+                    antiAliasingPositions.add(new Vec2(3 * q8, -q8));
+                    antiAliasingPositions.add(new Vec2(q8, -3 * q8));
+                    break;
+            }
+        }
     }
 }

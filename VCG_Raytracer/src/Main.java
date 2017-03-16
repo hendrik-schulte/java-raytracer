@@ -52,6 +52,7 @@ public class Main {
      **/
 
     static int RECURSIONS = 2;
+    static Raytracer.AntiAliasingLevel ANTIALIASING_LEVEL = Raytracer.AntiAliasingLevel.x2;
 
     /**
      * Initial method. This is where the show begins.
@@ -63,7 +64,7 @@ public class Main {
 
         draw(renderWindow);
 
-        renderWindow.exportRendering(String.valueOf(stopTime(tStart)), RECURSIONS, 0);
+        renderWindow.exportRendering(String.valueOf(stopTime(tStart)), RECURSIONS, getAntiAliasingLevel());
 
 //        while(true){
 //            //Thread.sleep(100);
@@ -86,7 +87,7 @@ public class Main {
      * Raytrace through the scene
      **/
     private static void raytraceScene(Window renderWindow, Scene renderScene) {
-        Raytracer raytracer = new Raytracer(renderScene, renderWindow, RECURSIONS);
+        Raytracer raytracer = new Raytracer(renderScene, renderWindow, RECURSIONS, ANTIALIASING_LEVEL);
 
         raytracer.renderScene();
     }
@@ -202,5 +203,16 @@ public class Main {
 //                0.5f));
 
         return scene;
+    }
+
+    private static int getAntiAliasingLevel(){
+
+        switch (ANTIALIASING_LEVEL){
+            case disabled: return 0;
+            case x2: return 2;
+            case x4: return 4;
+            case x8: return 8;
+        }
+        return 0;
     }
 }
