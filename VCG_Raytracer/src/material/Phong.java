@@ -1,13 +1,11 @@
 package material;
 
-import raytracer.Intersection;
+import Main.Main;
 import raytracer.Ray;
 import scene.Scene;
 import scene.light.Light;
-import scene.shape.Shape;
 import utils.RgbColor;
 import utils.algebra.Vec3;
-import utils.io.Log;
 
 public class Phong extends Material {
 
@@ -15,8 +13,8 @@ public class Phong extends Material {
     private float specularExp;
     private float specularNormalFactor;
 
-    public Phong(RgbColor ambient, RgbColor diffus, RgbColor specular, float specularExp, float reflection, float refraction) {
-        super(ambient, diffus, reflection, refraction);
+    public Phong(RgbColor ambient, RgbColor diffus, RgbColor specular, float specularExp, float reflection, float opacity, float refractiveIndex) {
+        super(ambient, diffus, reflection, opacity, refractiveIndex);
 
         this.specular = specular;
         this.specularExp = specularExp;
@@ -32,13 +30,14 @@ public class Phong extends Material {
 
             Vec3 lightVector = getLightVector(pos, light);      //getting light vector
 
-//            Ray ray = new Ray(pos.add(lightVector.multScalar(0.001f)), lightVector);                               //create ray from intersection to light source
-            Ray ray = new Ray(pos, lightVector);                               //create ray from intersection to light source
+            if( Main.USE_SHADOWS){
+                Ray ray = new Ray(pos, lightVector);                               //create ray from intersection to light source
 
-            //check if there is anything in the way to the light source
-            if (ray.getIntersection(scene.shapeList, pos.DistanceTo(light.getPosition())) != null) {
-                //in shadow -> continue to next light
-                continue;
+                //check if there is anything in the way to the light source
+                if (ray.getIntersection(scene.shapeList, pos.DistanceTo(light.getPosition())) != null) {
+                    //in shadow -> continue to next light
+                    continue;
+                }
             }
 
             color = color.add(calcDiffus(light, normal, lightVector));

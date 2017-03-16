@@ -34,7 +34,6 @@ public class Sphere extends Shape {
         }
         if (discriminant == 0) {
             //ray touches sphere
-
             double t = -B / 2f;
 
             if (t < 0) return null;
@@ -70,6 +69,6 @@ public class Sphere extends Shape {
     private Intersection getIntersection(Ray ray, double t) {
         Vec3 intersectionPoint = ray.calcPoint((float) t);
 
-        return new Intersection(intersectionPoint, calcNormal(intersectionPoint), this, Math.abs(t), t > 0, true);
+        return new Intersection(intersectionPoint, calcNormal(intersectionPoint), this, Math.abs(t), t > 0);
     }
 }

@@ -12,7 +12,7 @@ public class Ray {
     private Vec3 startPoint;
     //    Vec3 endPoint;
     private Vec3 direction;
-//    float distance;
+//    public float refractionIndex = 1;
 
     public Ray(Vec3 origin, Vec3 direction) {
         startPoint = origin;

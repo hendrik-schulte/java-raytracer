@@ -5,6 +5,9 @@ public class Vec3 {
     public float y;
     public float z;
 
+    public static Vec3 ZERO = new Vec3(0,0,0);
+    public static Vec3 ONE = new Vec3(1,1,1);
+
     /**
         Standard 3D constructor taking all values given
      **/
@@ -83,7 +86,7 @@ public class Vec3 {
     /**
      Get new vector with the given value multiplied to every component
      **/
-    public Vec3 devideScalar(float value){
+    public Vec3 divideScalar(float value){
         return new Vec3(this.x / value, this.y / value, this.z / value);
     }
 

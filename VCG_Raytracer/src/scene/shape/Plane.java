@@ -26,16 +26,29 @@ public class Plane extends Shape {
 
         float denominator = normal.scalar(D);
 
-        if (denominator == 0)return null;   //no intersection
+        if (denominator == 0) return null;   //no intersection
 
-        double t;
+        double t = 0;
 
-//        t = -(normal.scalar(pos) + Q) / Math.abs(denominator);      //TODO: why does inverting the normal change its position?!
-        t = (mPosition.sub(pos).scalar(normal)) / denominator;
+        if (denominator < 0) {
+            //intersection from front
+            t = -(normal.scalar(pos) + Q) / denominator;
+
+        }
+
+        if (denominator > 0) {
+            //intersection from behind
+//            t = -(normal.scalar(pos) + Q) / denominator;
+            return null;
+        }
+
+
+//        t = -(normal.scalar(pos) + Q) / Math.abs(denominator);
+//        t = (mPosition.sub(pos).scalar(normal)) / denominator;
 
 //        Log.print(this, "d: " + denominator +  " t: " + t);
 
-        return new Intersection(ray.calcPoint((float) t), normal, this, Math.abs(t), t > 0, true);
+        return new Intersection(ray.calcPoint((float) t), normal, this, Math.abs(t), t > 0);
     }
 
     @Override

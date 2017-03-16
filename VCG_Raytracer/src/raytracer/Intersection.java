@@ -10,24 +10,21 @@ public class Intersection {
     public Shape shape;
     public double distance;
     public boolean incoming;
-    public boolean hit;
 
-    public Intersection(Shape shape){
-        this.interSectionPoint = null;
-        this.normal = new Vec3();
-        this.shape = shape;
-        this.distance = Double.MAX_VALUE;
-        this.incoming = false;
-        this.hit = false;
-    }
+//    public Intersection(Shape shape){
+//        this.interSectionPoint = null;
+//        this.normal = new Vec3();
+//        this.shape = shape;
+//        this.distance = Double.MAX_VALUE;
+//        this.incoming = false;
+//    }
 
-    public Intersection(Vec3 intersectionPoint, Vec3 normal, Shape shape, double distance, boolean incoming, boolean hit){
+    public Intersection(Vec3 intersectionPoint, Vec3 normal, Shape shape, double distance, boolean incoming){
         this.interSectionPoint = intersectionPoint;
         this.normal = normal;
         this.shape = shape;
         this.distance = distance;
         this.incoming = incoming;
-        this.hit = hit;
     }
 
     public Ray calculateReflectionRay(){
@@ -36,10 +33,6 @@ public class Intersection {
 
     public Ray calculateRefractionRay(){
         return new Ray(new Vec3(), new Vec3());
-    }
-
-    public boolean isOutOfDistance(){
-        return false;
     }
 
     @Override

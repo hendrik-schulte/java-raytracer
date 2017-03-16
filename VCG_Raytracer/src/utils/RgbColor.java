@@ -85,6 +85,10 @@ public class RgbColor {
         return new RgbColor( colors.multScalar(value) );
     }
 
+    public RgbColor divideScalar(float value){
+        return new RgbColor( colors.divideScalar(value) );
+    }
+
     /**
         Get single byte value of color
      **/

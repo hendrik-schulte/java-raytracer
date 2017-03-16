@@ -68,13 +68,13 @@ public class Window {
      **/
     public void setPixel(BufferedImage bufferedImage, RgbColor color, Vec2 screenPosition){
 
-        if(screenPosition.equals(new Vec2(5, 420))) {
-            Log.print(this,"Pixel 5, 420 has color " + color);
-        }
-
-        if(screenPosition.equals(new Vec2(5, 510))) {
-            Log.print(this,"Pixel 5, 510 has color " + color);
-        }
+//        if(screenPosition.equals(new Vec2(5, 420))) {
+//            Log.print(this,"Pixel 5, 420 has color " + color);
+//        }
+//
+//        if(screenPosition.equals(new Vec2(5, 510))) {
+//            Log.print(this,"Pixel 5, 510 has color " + color);
+//        }
 
         bufferedImage.setRGB((int)screenPosition.x, (int)screenPosition.y, color.getRGB());
         mFrame.repaint();
