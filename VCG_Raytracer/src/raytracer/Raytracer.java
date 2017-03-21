@@ -31,7 +31,7 @@ import java.util.ArrayList;
 
 public class Raytracer {
 
-    private RgbColor BackgroundColor = RgbColor.BLACK;
+    private RgbColor BackgroundColor = RgbColor.YELLOW;
     private BufferedImage mBufferedImage;
     private Scene scene;
     private Window mRenderWindow;
@@ -134,9 +134,14 @@ public class Raytracer {
 //            Log.print(this, inter.toString());
 //        }
 
+        RgbColor color = RgbColor.BLACK;
         Material material = inter.shape.material;
 
-        RgbColor color = material.getColor(inter.interSectionPoint, inter.normal, ray.getDirection().multScalar(-1), scene);
+
+        if (material.opacity > 0) {
+            RgbColor materialColor = material.getColor(inter.interSectionPoint, inter.normal, ray.getDirection().multScalar(-1), scene);
+            color = color.add(materialColor.multScalar(material.opacity));
+        }
 
         if (currentRecursion >= mMaxRecursions) return color;
 
@@ -144,7 +149,7 @@ public class Raytracer {
             //calc refraction vector
             Vec3 refractionVector = Material.getRefractionVector(inter.normal, ray.getDirection(), 1, material.refractiveIndex);
 
-            if(!refractionVector.equals(Vec3.ZERO)) {
+            if (!refractionVector.equals(Vec3.ZERO)) {
 
                 //calc refraction ray
                 Ray refrRay = new Ray(inter.interSectionPoint, refractionVector);

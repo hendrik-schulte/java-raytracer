@@ -2,6 +2,7 @@ package raytracer;
 
 import scene.shape.Shape;
 import utils.algebra.Vec3;
+import utils.io.Log;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -55,7 +56,7 @@ public class Ray {
 
         ArrayList<Shape> ignoreList = new ArrayList<>();
 
-        if(ignore != null) ignoreList.add(ignore);
+        if (ignore != null) ignoreList.add(ignore);
 
         return getIntersection(shapeList, ignoreList,/* 0,*/ maxDistance);
     }
@@ -73,15 +74,82 @@ public class Ray {
             if (intersection == null) continue;
             if (intersection.distance > maxDistance/* || intersection.distance < minDistance */) continue;
             if (!intersection.incoming) continue;
-            if(Math.abs(intersection.distance) <= 0.01) continue;
 
             intersections.add(intersection);
         }
 
-        if (intersections.isEmpty()) return null;
+//        Collections.sort(intersections, (i1, i2) -> (int) (i1.distance - i2.distance));
+//
+//        if (intersections.isEmpty()) return null;
+//
+//        if(intersections.get(0).distance <= 0.01) intersections.remove(0);
+//
+//        return intersections.isEmpty() ? null : intersections.get(0);
 
-        Collections.sort(intersections, (i1, i2) -> (int) (i1.distance - i2.distance));
 
-        return intersections.get(0);
+//        Collections.sort(intersections, new Comparator<Intersection>() {
+//            @Override
+//            public int compare(Intersection i1, Intersection i2) {
+//                return i1.isCloser(i2);
+//            }
+//        });
+
+
+//        Intersection closest = null;
+//        Intersection secClosest = null;
+//        float currentDistance = Float.MAX_VALUE;
+//
+//        for (Intersection i : intersections) {
+//            if (i.distance <= currentDistance) {
+//                if (closest != null) secClosest = closest;
+//                closest = i;
+//                currentDistance = (float) i.distance;
+//            }
+//        }
+
+        Intersection closest = popClosest(intersections);
+        Intersection secClosest = popClosest(intersections);
+
+
+        if (closest == null) {
+//            Log.print(this, "closest null");
+            return null;
+        }
+//        Log.print(this, "sorting");
+
+//        Log.print(this, "dis: " + closest.distance);
+
+        if (closest.distance < 0.01f) {
+
+//            Log.print(this, "return sec");
+
+            return secClosest;
+        }
+
+//        Log.print(this, "return first");
+
+
+        return closest;
+    }
+
+    /**
+     * Returns the closest intersection and removes it from the list.
+     * @param intersections
+     * @return
+     */
+    private Intersection popClosest(ArrayList<Intersection> intersections){
+        Intersection closest = null;
+        float currentDistance = Float.MAX_VALUE;
+
+        for (Intersection i : intersections) {
+            if (i.distance <= currentDistance) {
+                closest = i;
+                currentDistance = (float) i.distance;
+            }
+        }
+
+        if(closest != null) intersections.remove(closest);
+
+        return closest;
     }
 }

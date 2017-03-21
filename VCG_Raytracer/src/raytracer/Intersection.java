@@ -35,7 +35,10 @@ public class Intersection {
         return new Ray(new Vec3(), new Vec3());
     }
 
-    @Override
+//    public boolean isCloser(Intersection other){
+//        return distance < other.distance;
+//    }
+
     public String toString() {
         return "point: " + interSectionPoint + " normal: " + normal + " shape: " + shape + " distance: " + distance + " incoming: " + incoming;
     }

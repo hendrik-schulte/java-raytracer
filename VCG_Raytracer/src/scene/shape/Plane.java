@@ -8,8 +8,8 @@ import utils.io.Log;
 
 public class Plane extends Shape {
 
-    private Vec3 normal;
-    private double Q;
+    protected Vec3 normal;
+    protected double Q;
 
     public Plane(Vec3 pos, Vec3 normal, Material material) {
         super(pos, material);
@@ -21,7 +21,7 @@ public class Plane extends Shape {
     @Override
     public Intersection intersect(Ray ray) {
 
-        Vec3 pos = ray.getStartPoint();
+        Vec3 pos = ray.getStartPoint().sub(mPosition);
         Vec3 D = ray.getDirection();
 
         float denominator = normal.scalar(D);
@@ -32,7 +32,8 @@ public class Plane extends Shape {
 
         if (denominator < 0) {
             //intersection from front
-            t = -(normal.scalar(pos) + Q) / denominator;
+            t = -(normal.scalar(pos)) / denominator;
+//            t = -(normal.scalar(pos) + Q) / denominator;
 
         }
 

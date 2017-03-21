@@ -57,6 +57,7 @@ public abstract class Material {
         if (cosi < 0) {
             cosi = -cosi;
         } else {
+            //internal reflection
             etai = n2;
             etat = n1;
             N = N.multScalar(-1);

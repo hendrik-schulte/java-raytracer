@@ -656,7 +656,7 @@ public class Matrix4x4 {
 			n = A.getColumnDimension();
 			Rdiag = new double[n];
 
-			// Main loop.
+			// Main.Main loop.
 			for (int k = 0; k < n; k++) {
 				// Compute 2-norm of k-th column without under/overflow.
 				double nrm = 0;
