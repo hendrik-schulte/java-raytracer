@@ -143,6 +143,7 @@ public class Main {
                 1.0f,
                 new Phong(RgbColor.BLACK,
                         RgbColor.BLACK,
+                        RgbColor.BLACK,
                         new RgbColor(0.07f, 0.07f, 0.07f),
                         32f,
                         0.5f,
@@ -154,6 +155,7 @@ public class Main {
                 1f,
                 new Phong(RgbColor.RED,
                         RgbColor.RED,
+                        RgbColor.BLACK,
                         new RgbColor(0.05f, 0.05f, 0.05f),
                         26,
                         .2f,
@@ -166,6 +168,7 @@ public class Main {
                 0.7f,
                 new Phong(RgbColor.WHITE,
                         RgbColor.WHITE,
+                        RgbColor.BLACK,
                         new RgbColor(0.08f, 0.08f, 0.08f),
                         26,
                         .0f,
@@ -180,6 +183,7 @@ public class Main {
                 new Vec3(1, 0, 0),     //normal
                 new Phong(RgbColor.MAGENTA,        //ambient
                         RgbColor.MAGENTA,          //diffuse
+                        RgbColor.BLACK,            //emision
                         new RgbColor(0.02f, 0.02f, 0.02f),       //specular
                         12,
                         .0f,
@@ -192,6 +196,7 @@ public class Main {
                 new Vec3(-1, 0, 0),     //normal
                 new Phong(RgbColor.GREEN,        //ambient
                         RgbColor.GREEN,          //diffuse
+                        RgbColor.BLACK,
                         new RgbColor(0.02f, 0.02f, 0.02f),       //specular
                         12,
                         .0f,
@@ -204,6 +209,7 @@ public class Main {
                 new Vec3(0, 0, 1),     //normal
                 new Phong(RgbColor.SOFT_GRAY,        //ambient
                         RgbColor.SOFT_GRAY,          //diffuse
+                        RgbColor.BLACK,
                         new RgbColor(0.02f, 0.02f, 0.02f),       //specular
                         12,
                         .0f,
@@ -216,6 +222,7 @@ public class Main {
                 new Vec3(0, 0, -1),     //normal
                 new Phong(RgbColor.YELLOW,        //ambient
                         RgbColor.YELLOW,          //diffuse
+                        RgbColor.BLACK,
                         new RgbColor(0.02f, 0.02f, 0.02f),       //specular
                         12,
                         0.0f,
@@ -228,6 +235,7 @@ public class Main {
                 new Vec3(0, 1, 0),     //normal
                 new Phong(RgbColor.BLUE,        //ambient
                         RgbColor.BLUE,          //diffuse
+                        RgbColor.BLACK,
                         new RgbColor(0.02f, 0.02f, 0.02f),       //specular
                         12,
                         .0f,
@@ -240,6 +248,7 @@ public class Main {
                 new Vec3(0, -1, 0),     //normal
                 new Phong(RgbColor.LIGHT_GRAY,        //ambient
                         RgbColor.LIGHT_GRAY,          //diffuse
+                        RgbColor.BLACK,
                         new RgbColor(0.02f, 0.02f, 0.02f),       //specular
                         12,
                         .0f,
@@ -253,6 +262,7 @@ public class Main {
 //                new Vec3(0, .0f, -2),     //b
 //                new Phong(RgbColor.WHITE,        //ambient
 //                        RgbColor.WHITE,          //diffuse
+//                        RgbColor.BLACK,
 //                        new RgbColor(0.1f, 0.1f,0.1f),       //specular
 //                        12,
 //                        0.f,

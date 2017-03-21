@@ -13,41 +13,17 @@ public class Phong extends Material {
     private float specularExp;
     private float specularNormalFactor;
 
-    public Phong(RgbColor ambient, RgbColor diffus, RgbColor specular, float specularExp, float reflection, float opacity, float refractiveIndex) {
-        super(ambient, diffus, reflection, opacity, refractiveIndex);
+    public Phong(RgbColor ambient, RgbColor diffuse, RgbColor emission, RgbColor specular, float specularExp, float reflection, float opacity, float refractiveIndex) {
+        super(ambient, diffuse, emission, reflection, opacity, refractiveIndex);
 
         this.specular = specular;
         this.specularExp = specularExp;
         specularNormalFactor = (float) ((specularExp + 2) / 2 * Math.PI);
     }
 
+
     @Override
-    public RgbColor getColor(Vec3 pos, Vec3 normal, Vec3 view, Scene scene) {
-
-        RgbColor color = calcAmbient(scene);
-
-        for (Light light : scene.lightList) {
-
-            Vec3 lightVector = getLightVector(pos, light);      //getting light vector
-
-            if( Main.USE_SHADOWS){
-                Ray ray = new Ray(pos, lightVector);                               //create ray from intersection to light source
-
-                //check if there is anything in the way to the light source
-                if (ray.getIntersection(scene.shapeList, pos.DistanceTo(light.getPosition())) != null) {
-                    //in shadow -> continue to next light
-                    continue;
-                }
-            }
-
-            color = color.add(calcDiffus(light, normal, lightVector));
-            color = color.add(calcSpecular(light, normal, view, lightVector));
-        }
-
-        return color;
-    }
-
-    private RgbColor calcSpecular(Light light, Vec3 normal, Vec3 view, Vec3 lightVector) {
+    protected RgbColor calcSpecular(Light light, Vec3 normal, Vec3 view, Vec3 lightVector) {
 
         Vec3 reflectionVec = getReflectionVector(normal, lightVector);    //calculate reflection vector
 
