@@ -118,10 +118,15 @@ public class Main {
 
 //        scene.createShape(new Sphere(new Vec3(5, 1, -3.5f), 1.1f, new Phong(RgbColor.GREEN, 0.2f, 0.0f, 4)));
 
+//        scene.createLight(new Light(
+//                new Vec3(3, 0.5f, 6.5f),
+//                RgbColor.WHITE,
+//                0.4f));
+
         scene.createLight(new Light(
-                new Vec3(3, 0.5f, 6.5f),
+                new Vec3(0, 3.7f, 8f),
                 RgbColor.WHITE,
-                0.4f));
+                0.5f));
 
 //        scene.createLight(new Light(
 //                new Vec3(0, 4.5f, 0f),
@@ -256,18 +261,18 @@ public class Main {
                         1)));
 
 //        Ceiling light rect
-//        scene.createShape(new Rectangle(
-//                new Vec3(0, 3.7f, 0),    //pos
-//                new Vec3(-2, .0f, 0),     //a
-//                new Vec3(0, .0f, -2),     //b
-//                new Phong(RgbColor.WHITE,        //ambient
-//                        RgbColor.WHITE,          //diffuse
-//                        RgbColor.BLACK,
-//                        new RgbColor(0.1f, 0.1f,0.1f),       //specular
-//                        12,
-//                        0.f,
-//                        1,
-//                        1)));
+        scene.createShape(new Rectangle(
+                new Vec3(0, 4.1f, 8),    //pos
+                new Vec3(-2, .0f, 0),     //a
+                new Vec3(0, .0f, -2),     //b
+                new Phong(RgbColor.WHITE,        //ambient
+                        RgbColor.WHITE,          //diffuse
+                        RgbColor.WHITE,
+                        RgbColor.BLACK,       //specular
+                        12,
+                        0.f,
+                        1,
+                        1)));
     }
 
     private static int getAntiAliasingLevel() {
