@@ -14,19 +14,24 @@ public class Rectangle extends Plane {
         XY
     }
 
-//    private Vec3 a;
-//    private Vec3 b;
+    public Vec3 a;
+    public Vec3 b;
     private PlaneProjection projectToPlane;
-    Vec2 projA = null, projB = null;
+
+    private Vec2 corner1;
+    private Vec2 corner2;
 
     public Rectangle(Vec3 pos, Vec3 a, Vec3 b, Material material) {
 
         super(pos, a.normalize().cross(b.normalize()), material);
 
-//        this.a = a;
-//        this.b = b;
+        this.a = a;
+        this.b = b;
 
         float x = Math.abs(normal.x), y = Math.abs(normal.y), z = Math.abs(normal.z);
+
+        Vec2 projA = null;
+        Vec2 projB = null;
 
         //project plane to axis-planes
         if (x >= y && x >= z) {
@@ -45,6 +50,9 @@ public class Rectangle extends Plane {
             projA = new Vec2(a.x, a.y);
             projB = new Vec2(b.x, b.y);
         }
+
+        corner1 = new Vec2(projA.x + projB.x, projA.y + projB.y);
+        corner2 = new Vec2(-(projA.x + projB.x), -(projA.y + projB.y));
     }
 
     @Override
@@ -68,17 +76,11 @@ public class Rectangle extends Plane {
                 break;
         }
 
-        if (isWithinProjectedPlane(projIntersecPoint)) return planeIntersection;
+        if (withinValues(corner1.x, corner2.x, projIntersecPoint.x) &&
+                withinValues(corner1.y, corner2.y, projIntersecPoint.y)) return planeIntersection;
+
 
         return null;
-    }
-
-    private boolean isWithinProjectedPlane(Vec2 pI) {
-
-        Vec2 c1 = new Vec2(projA.x + projB.x, projA.y + projB.y);
-        Vec2 c2 = new Vec2(-(projA.x + projB.x), -(projA.y + projB.y));
-
-        return withinValues(c1.x, c2.x, pI.x) && withinValues(c1.y, c2.y, pI.y);
     }
 
     private boolean withinValues(float border1, float border2, float value) {

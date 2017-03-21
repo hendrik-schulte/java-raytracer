@@ -27,12 +27,14 @@ import material.Material;
 import material.Phong;
 import raytracer.Raytracer;
 import scene.camera.PerspCam;
+import scene.light.AreaLight;
 import scene.light.Light;
 import scene.shape.*;
 import scene.shape.Rectangle;
 import ui.Window;
 import scene.Scene;
 import utils.RgbColor;
+import utils.algebra.Vec2;
 import utils.algebra.Vec3;
 
 import java.awt.*;
@@ -51,9 +53,9 @@ public class Main {
      * RAYTRACER
      **/
 
-    static int RECURSIONS = 10;
-    static float AMBIENT = 0.05f;
-    static Raytracer.AntiAliasingLevel ANTIALIASING_LEVEL = Raytracer.AntiAliasingLevel.x4;
+    static int RECURSIONS = 3;
+    static float AMBIENT = 0.04f;
+    static Raytracer.AntiAliasingLevel ANTIALIASING_LEVEL = Raytracer.AntiAliasingLevel.x8;
     public static boolean USE_SHADOWS = true;
 
     /**
@@ -118,25 +120,7 @@ public class Main {
 
 //        scene.createShape(new Sphere(new Vec3(5, 1, -3.5f), 1.1f, new Phong(RgbColor.GREEN, 0.2f, 0.0f, 4)));
 
-//        scene.createLight(new Light(
-//                new Vec3(3, 0.5f, 6.5f),
-//                RgbColor.WHITE,
-//                0.4f));
-
-        scene.createLight(new Light(
-                new Vec3(0, 3.7f, 8f),
-                RgbColor.WHITE,
-                0.5f));
-
-//        scene.createLight(new Light(
-//                new Vec3(0, 4.5f, 0f),
-//                RgbColor.WHITE,
-//                0.4f));
-//
-//        scene.createLight(new Light(
-//                new Vec3(0, 4.5f, 16f),
-//                RgbColor.WHITE,
-//                0.5f));
+        setupLight(scene);
 
         return scene;
     }
@@ -201,7 +185,7 @@ public class Main {
                 new Vec3(-1, 0, 0),     //normal
                 new Phong(RgbColor.GREEN,        //ambient
                         RgbColor.GREEN,          //diffuse
-                        RgbColor.BLACK,
+                        RgbColor.BLACK,        //emission
                         new RgbColor(0.02f, 0.02f, 0.02f),       //specular
                         12,
                         .0f,
@@ -214,7 +198,7 @@ public class Main {
                 new Vec3(0, 0, 1),     //normal
                 new Phong(RgbColor.SOFT_GRAY,        //ambient
                         RgbColor.SOFT_GRAY,          //diffuse
-                        RgbColor.BLACK,
+                        RgbColor.BLACK,        //emission
                         new RgbColor(0.02f, 0.02f, 0.02f),       //specular
                         12,
                         .0f,
@@ -227,7 +211,7 @@ public class Main {
                 new Vec3(0, 0, -1),     //normal
                 new Phong(RgbColor.YELLOW,        //ambient
                         RgbColor.YELLOW,          //diffuse
-                        RgbColor.BLACK,
+                        RgbColor.BLACK,        //emission
                         new RgbColor(0.02f, 0.02f, 0.02f),       //specular
                         12,
                         0.0f,
@@ -240,7 +224,7 @@ public class Main {
                 new Vec3(0, 1, 0),     //normal
                 new Phong(RgbColor.BLUE,        //ambient
                         RgbColor.BLUE,          //diffuse
-                        RgbColor.BLACK,
+                        RgbColor.BLACK,         //emission
                         new RgbColor(0.02f, 0.02f, 0.02f),       //specular
                         12,
                         .0f,
@@ -250,10 +234,10 @@ public class Main {
         //Ceiling
         scene.createShape(new Plane(
                 new Vec3(0, 4.2f, 0),    //pos
-                new Vec3(0, -1, 0),     //normal
-                new Phong(RgbColor.LIGHT_GRAY,        //ambient
-                        RgbColor.LIGHT_GRAY,          //diffuse
-                        RgbColor.BLACK,
+                new Vec3(0, -1, 0),      //normal
+                new Phong(RgbColor.LIGHT_GRAY,      //ambient
+                        RgbColor.LIGHT_GRAY,        //diffuse
+                        RgbColor.BLACK,             //emission
                         new RgbColor(0.02f, 0.02f, 0.02f),       //specular
                         12,
                         .0f,
@@ -261,18 +245,47 @@ public class Main {
                         1)));
 
 //        Ceiling light rect
-        scene.createShape(new Rectangle(
-                new Vec3(0, 4.1f, 8),    //pos
+//        scene.createShape(new Rectangle(
+//                new Vec3(0, 4.15f, 8),    //pos
+//                new Vec3(-2, .0f, 0),     //a
+//                new Vec3(0, .0f, -2),     //b
+//                new Phong(RgbColor.WHITE,        //ambient
+//                        RgbColor.WHITE,          //diffuse
+//                        RgbColor.WHITE,          //emission
+//                        RgbColor.BLACK,       //specular
+//                        12,
+//                        0.f,
+//                        1,
+//                        1)));
+    }
+
+    private static void setupLight(Scene scene) {
+        //        scene.createLight(new Light(
+//                new Vec3(3, 0.5f, 6.5f),
+//                RgbColor.WHITE,
+//                0.4f));
+//
+//        scene.createLight(new Light(
+//                new Vec3(0, 3.7f, 8f),
+//                RgbColor.WHITE,
+//                0.5f));
+
+        scene.createLight(new AreaLight(RgbColor.WHITE, 0.7f, new Rectangle(
+                new Vec3(0, 4.15f, 8),    //pos
                 new Vec3(-2, .0f, 0),     //a
                 new Vec3(0, .0f, -2),     //b
                 new Phong(RgbColor.WHITE,        //ambient
                         RgbColor.WHITE,          //diffuse
-                        RgbColor.WHITE,
+                        RgbColor.WHITE,          //emission
                         RgbColor.BLACK,       //specular
                         12,
                         0.f,
                         1,
-                        1)));
+                        1)),
+                0.2f,
+                new Vec2(10, 10),
+                0.4f),
+                true);
     }
 
     private static int getAntiAliasingLevel() {

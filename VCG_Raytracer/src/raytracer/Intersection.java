@@ -11,14 +11,6 @@ public class Intersection {
     public double distance;
     public boolean incoming;
 
-//    public Intersection(Shape shape){
-//        this.interSectionPoint = null;
-//        this.normal = new Vec3();
-//        this.shape = shape;
-//        this.distance = Double.MAX_VALUE;
-//        this.incoming = false;
-//    }
-
     public Intersection(Vec3 intersectionPoint, Vec3 normal, Shape shape, double distance, boolean incoming){
         this.interSectionPoint = intersectionPoint;
         this.normal = normal;
@@ -34,10 +26,6 @@ public class Intersection {
     public Ray calculateRefractionRay(){
         return new Ray(new Vec3(), new Vec3());
     }
-
-//    public boolean isCloser(Intersection other){
-//        return distance < other.distance;
-//    }
 
     public String toString() {
         return "point: " + interSectionPoint + " normal: " + normal + " shape: " + shape + " distance: " + distance + " incoming: " + incoming;

@@ -121,8 +121,6 @@ public class Raytracer {
 
     private RgbColor traceRay(Ray ray, int currentRecursion) {
 
-//        Log.print(this, "start tracing ray from " + ray.getStartPoint() + " current recursion level: " + currentRecursion);
-
         Intersection inter = ray.getIntersection(scene.shapeList);
 
         if (inter == null) return BackgroundColor;
@@ -139,7 +137,7 @@ public class Raytracer {
 
 
         if (material.opacity > 0) {
-            RgbColor materialColor = material.getColor(inter.interSectionPoint, inter.normal, ray.getDirection().multScalar(-1), scene);
+            RgbColor materialColor = material.getColor(inter.interSectionPoint, inter.normal, ray.getDirection().negate(), scene);
             color = color.add(materialColor.multScalar(material.opacity));
         }
 

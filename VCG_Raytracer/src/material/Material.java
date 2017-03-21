@@ -5,6 +5,7 @@ import raytracer.Ray;
 import scene.Scene;
 import scene.light.Light;
 import scene.shape.Shape;
+import utils.MathEx;
 import utils.RgbColor;
 import utils.algebra.Vec3;
 
@@ -34,7 +35,7 @@ public abstract class Material {
 
         RgbColor color = calcAmbient(scene);
 
-        for (Light light : scene.lightList) {
+        for (Light light : scene.getLights()) {
 
             Vec3 lightVector = getLightVector(pos, light);      //getting light vector
 
@@ -84,7 +85,7 @@ public abstract class Material {
 
     public static Vec3 getRefractionVector(Vec3 normal, Vec3 I, float n1, float n2) {
 
-        float cosi = clamp(normal.scalar(I), -1, 1);
+        float cosi = MathEx.clamp(normal.scalar(I), -1, 1);
         float etai = n1, etat = n2;
         Vec3 N = normal;
 
@@ -124,7 +125,4 @@ public abstract class Material {
 //        return I.multScalar(n).add(normal.multScalar(n * c1 - c2));
 //    }
 
-    public static float clamp(float val, float min, float max) {
-        return Math.max(min, Math.min(max, val));
-    }
 }

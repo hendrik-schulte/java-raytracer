@@ -4,18 +4,15 @@ import material.Material;
 import raytracer.Intersection;
 import raytracer.Ray;
 import utils.algebra.Vec3;
-import utils.io.Log;
 
 public class Plane extends Shape {
 
     protected Vec3 normal;
-    protected double Q;
 
     public Plane(Vec3 pos, Vec3 normal, Material material) {
         super(pos, material);
 
         this.normal = normal.normalize();
-        Q = mPosition.length();
     }
 
     @Override
@@ -33,21 +30,13 @@ public class Plane extends Shape {
         if (denominator < 0) {
             //intersection from front
             t = -(normal.scalar(pos)) / denominator;
-//            t = -(normal.scalar(pos) + Q) / denominator;
 
         }
 
         if (denominator > 0) {
             //intersection from behind
-//            t = -(normal.scalar(pos) + Q) / denominator;
             return null;
         }
-
-
-//        t = -(normal.scalar(pos) + Q) / Math.abs(denominator);
-//        t = (mPosition.sub(pos).scalar(normal)) / denominator;
-
-//        Log.print(this, "d: " + denominator +  " t: " + t);
 
         return new Intersection(ray.calcPoint((float) t), normal, this, Math.abs(t), t > 0);
     }
@@ -55,5 +44,9 @@ public class Plane extends Shape {
     @Override
     public String toString() {
         return "Plane color " + material.ambient;
+    }
+
+    public Vec3 getNormal(){
+        return new Vec3(normal);
     }
 }

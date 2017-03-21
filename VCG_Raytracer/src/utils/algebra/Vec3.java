@@ -26,6 +26,12 @@ public class Vec3 {
         this.z = 0;
     }
 
+    public Vec3(Vec3 copy){
+        this.x = copy.x;
+        this.y = copy.y;
+        this.z = copy.z;
+    }
+
     /**
         Compare two vectors to check if they are equal
      **/

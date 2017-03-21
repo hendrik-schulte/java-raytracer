@@ -21,10 +21,6 @@ public class Light extends SceneObject {
         return color;
     }
 
-//    public float getIntensity(){
-//        return getIntensity(mPosition.sub(point).length());
-//    }
-
     public float getIntensity(){
         return intensity;
     }
