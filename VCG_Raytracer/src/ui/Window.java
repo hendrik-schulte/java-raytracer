@@ -53,12 +53,12 @@ public class Window {
     /**
      Draw debug information
      **/
-    private void setOutputLabel(String text, int recursions, int antiAliasing){
+    private void setOutputLabel(String text, int recursions, int antiAliasing, int multiThreading){
         Graphics graphic = mBufferedImage.getGraphics();
         graphic.setColor(Color.black);
-        graphic.fill3DRect(0,mHeight - 30,350,mHeight,true);
+        graphic.fill3DRect(0,mHeight - 30,410,mHeight,true);
         graphic.setColor(Color.green);
-        graphic.drawString("Elapsed rendering time: " + text + " sec, Recursions: " + recursions + ", AA: x" + antiAliasing, 10, mHeight - 10);
+        graphic.drawString("Elapsed rendering time: " + text + " sec, Recursions: " + recursions + ", AA: x" + antiAliasing + ", Threads: " + multiThreading, 10, mHeight - 10);
 
         mFrame.repaint();
     }
@@ -83,8 +83,8 @@ public class Window {
     /**
         Export the rendering to an PNG image with rendering information
      **/
-    public void exportRendering(String text, int recursions, int antiAliasing){
-        setOutputLabel(text, recursions, antiAliasing);
+    public void exportRendering(String text, int recursions, int antiAliasing, int multiThreading){
+        setOutputLabel(text, recursions, antiAliasing, multiThreading);
         DataExporter.exportImageToPng(mBufferedImage, "raytracing.png");
     }
 

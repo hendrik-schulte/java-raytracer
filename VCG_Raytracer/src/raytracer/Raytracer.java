@@ -36,7 +36,16 @@ public class Raytracer {
     private Scene scene;
     private Window mRenderWindow;
 
+    private Camera cam;
+    private Vec3 windowCenter;
+    private float windowHeight;
+    private float windowWidth;
+
     private int mMaxRecursions;
+    private int multiThreading;
+    private int threadsFinished;
+    private Callback renderCallback;
+
     private AntiAliasingLevel antiAliasingLevel;
     private ArrayList<Vec2> antiAliasingPositions = new ArrayList<>();
 
@@ -47,26 +56,33 @@ public class Raytracer {
         x8
     }
 
-    public Raytracer(Scene scene, Window renderWindow, int recursions, AntiAliasingLevel antiAliasingLevel) {
+    public Raytracer(Scene scene, Window renderWindow, int recursions, AntiAliasingLevel antiAliasingLevel, int multiThreading, Callback callback) {
         Log.print(this, "Init");
         mMaxRecursions = recursions;
+        this.multiThreading = multiThreading;
+        renderCallback = callback;
         this.antiAliasingLevel = antiAliasingLevel;
         mBufferedImage = renderWindow.getBufferedImage();
 
         this.scene = scene;
+        cam = scene.camera;
+
         mRenderWindow = renderWindow;
     }
 
     public void renderScene() {
         Log.print(this, "Start rendering");
 
-        Camera cam = scene.camera;
+        cameraCalculation();
 
+        startRenderThreads();
+    }
+
+    private void cameraCalculation() {
         float ratio = (float) mBufferedImage.getWidth() / (float) mBufferedImage.getHeight();
-        float windowHeight = (float) (2 * cam.focalLength * Math.tan(cam.viewAngle * Math.PI / 360));
-//        float windowHeight = (float) (cam.focalLength * Math.tan(cam.viewAngle * Math.PI / 180));
-        float windowWidth = ratio * windowHeight;
-        Vec3 windowCenter = cam.getPosition().add(cam.view.multScalar(cam.focalLength));
+        windowHeight = (float) (2 * cam.focalLength * Math.tan(cam.viewAngle * Math.PI / 360));
+        windowWidth = ratio * windowHeight;
+        windowCenter = cam.getPosition().add(cam.view.multScalar(cam.focalLength));
 
         generateAADistribution();
 
@@ -75,16 +91,39 @@ public class Raytracer {
 //        Log.print(this, "window height: " + windowHeight);
 //        Log.print(this, "window width: " + windowWidth);
 //        Log.print(this, "window center: " + windowCenter);
+    }
 
-//        Log.print(this, "0,0 = " + pixelPosNormalized(0, 0));
-//        Log.print(this, "799,599 = " + pixelPosNormalized(799, 599));
-//        Log.print(this, "0,599 = " + pixelPosNormalized(0, 599));
-//        Log.print(this, "799,0 = " + pixelPosNormalized(799, 0));
+    private void startRenderThreads() {
+        threadsFinished = 0;
+        int parts = mBufferedImage.getHeight() / multiThreading;
 
+        for (int i = 0; i * 1 < multiThreading; i++) {
+
+            int startRow = i * parts;
+            int endRow = startRow + parts;
+
+            if(i + 1 == multiThreading) endRow = mBufferedImage.getHeight();
+
+            Thread renderThread = new RenderThread(this, 0, mBufferedImage.getWidth(), startRow, endRow, this::threadFinished);
+
+            renderThread.start();
+        }
+    }
+
+    private void threadFinished() {
+        threadsFinished++;
+
+        if (threadsFinished < multiThreading) return;
+
+        Log.print(this, "All render threads finished!");
+        renderCallback.callback();
+    }
+
+    public void renderBlock(int startX, int endX, int startY, int endY) {
         // Rows
-        for (int y = 0; y < mBufferedImage.getHeight(); y++) {
+        for (int y = startY; y < endY; y++) {
             // Columns
-            for (int x = 0; x < mBufferedImage.getWidth(); x++) {
+            for (int x = startX; x < endX; x++) {
 
                 Vec2 normPos = pixelPosNormalized(x, y);
 

@@ -54,28 +54,26 @@ public class Main {
      **/
 
     static int RECURSIONS = 3;
+    static int MULTI_THREADING = 4;
     static float AMBIENT = 0.04f;
-    static Raytracer.AntiAliasingLevel ANTIALIASING_LEVEL = Raytracer.AntiAliasingLevel.x8;
+    static Raytracer.AntiAliasingLevel ANTIALIASING_LEVEL = Raytracer.AntiAliasingLevel.x4;
     public static boolean USE_SHADOWS = true;
+
+
+    private static Window renderWindow;
+    private static long tStart;
+
 
     /**
      * Initial method. This is where the show begins.
      **/
     public static void main(String[] args) {
-        long tStart = System.currentTimeMillis();
+        tStart = System.currentTimeMillis();
 
-        Window renderWindow = new Window(IMAGE_WIDTH, IMAGE_HEIGHT);
+        renderWindow = new Window(IMAGE_WIDTH, IMAGE_HEIGHT);
 
         draw(renderWindow);
 
-        renderWindow.exportRendering(String.valueOf(stopTime(tStart)), RECURSIONS, getAntiAliasingLevel());
-
-//        while(true){
-//            //Thread.sleep(100);
-//            System.out.println("(" + MouseInfo.getPointerInfo().getLocation().x +
-//                    ", " +
-//                    MouseInfo.getPointerInfo().getLocation().y + ")");
-//        }
     }
 
     /**
@@ -91,9 +89,13 @@ public class Main {
      * Raytrace through the scene
      **/
     private static void raytraceScene(Window renderWindow, Scene renderScene) {
-        Raytracer raytracer = new Raytracer(renderScene, renderWindow, RECURSIONS, ANTIALIASING_LEVEL);
+        Raytracer raytracer = new Raytracer(renderScene, renderWindow, RECURSIONS, ANTIALIASING_LEVEL, MULTI_THREADING, () -> renderingFinished());
 
         raytracer.renderScene();
+    }
+
+    private static void renderingFinished() {
+        renderWindow.exportRendering(String.valueOf(stopTime(tStart)), RECURSIONS, getAntiAliasingLevel(), MULTI_THREADING);
     }
 
     /**
@@ -235,28 +237,14 @@ public class Main {
         scene.createShape(new Plane(
                 new Vec3(0, 4.2f, 0),    //pos
                 new Vec3(0, -1, 0),      //normal
-                new Phong(RgbColor.LIGHT_GRAY,      //ambient
-                        RgbColor.LIGHT_GRAY,        //diffuse
+                new Phong(RgbColor.CYAN,      //ambient
+                        RgbColor.CYAN,        //diffuse
                         RgbColor.BLACK,             //emission
                         new RgbColor(0.02f, 0.02f, 0.02f),       //specular
                         12,
                         .0f,
                         1,
                         1)));
-
-//        Ceiling light rect
-//        scene.createShape(new Rectangle(
-//                new Vec3(0, 4.15f, 8),    //pos
-//                new Vec3(-2, .0f, 0),     //a
-//                new Vec3(0, .0f, -2),     //b
-//                new Phong(RgbColor.WHITE,        //ambient
-//                        RgbColor.WHITE,          //diffuse
-//                        RgbColor.WHITE,          //emission
-//                        RgbColor.BLACK,       //specular
-//                        12,
-//                        0.f,
-//                        1,
-//                        1)));
     }
 
     private static void setupLight(Scene scene) {
@@ -271,20 +259,20 @@ public class Main {
 //                0.5f));
 
         scene.createLight(new AreaLight(RgbColor.WHITE, 0.7f, new Rectangle(
-                new Vec3(0, 4.15f, 8),    //pos
-                new Vec3(-2, .0f, 0),     //a
-                new Vec3(0, .0f, -2),     //b
-                new Phong(RgbColor.WHITE,        //ambient
-                        RgbColor.WHITE,          //diffuse
-                        RgbColor.WHITE,          //emission
-                        RgbColor.BLACK,       //specular
-                        12,
-                        0.f,
-                        1,
-                        1)),
-                0.2f,
-                new Vec2(10, 10),
-                0.4f),
+                        new Vec3(0, 4.15f, 8),    //pos
+                        new Vec3(-2, .0f, 0),     //a
+                        new Vec3(0, .0f, -2),     //b
+                        new Phong(RgbColor.WHITE,        //ambient
+                                RgbColor.WHITE,          //diffuse
+                                RgbColor.WHITE,          //emission
+                                RgbColor.BLACK,       //specular
+                                12,
+                                0.f,
+                                1,
+                                1)),
+                        0.5f,
+                        new Vec2(10, 10),
+                        0.2f),
                 true);
     }
 

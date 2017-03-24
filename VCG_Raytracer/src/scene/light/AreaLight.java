@@ -7,6 +7,7 @@ import utils.algebra.Vec2;
 import utils.algebra.Vec3;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class AreaLight {
@@ -55,13 +56,15 @@ public class AreaLight {
 
         if(sampleAmount == 0) return new ArrayList<>();
 
-        Random random = new Random();
+//        Random random = new Random();
+//
+//        while(lights.size() > sampleAmount){
+//            lights.remove(random.nextInt(lights.size()));
+//        }
 
-        while(lights.size() > sampleAmount){
-            lights.remove(random.nextInt(lights.size()));
-        }
+        Collections.shuffle(lights);
 
-        return lights;
+        return new ArrayList<>(lights.subList(0, sampleAmount));
     }
 
     public Rectangle getRectangle() {
