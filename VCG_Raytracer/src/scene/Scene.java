@@ -26,10 +26,10 @@ public class Scene {
         shapeList.add(shape);
     }
 
-    public void createLight(AreaLight light, boolean drawRect) {
+    public void createLight(AreaLight light, boolean drawShape) {
         areaLights.add(light);
 
-        if(drawRect) createShape(light.getRectangle());
+        if(drawShape) createShape(light.getShape());
     }
 
     public void createLight(Light light) {

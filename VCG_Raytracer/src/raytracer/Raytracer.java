@@ -166,7 +166,7 @@ public class Raytracer {
             colorVec = colorVec.add(new Vec3(color.red(), color.green(), color.blue()));
         }
 
-        if(!rays.isEmpty()) colorVec = colorVec.divideScalar(rays.size());
+        if (!rays.isEmpty()) colorVec = colorVec.divideScalar(rays.size());
 
         return new RgbColor(colorVec.x, colorVec.y, colorVec.z);
     }
@@ -197,25 +197,24 @@ public class Raytracer {
 
         if (material.opacity < 1) {
             //calc refraction vector
-            Vec3 refractionVector = Material.getRefractionVector(inter.normal, ray.getDirection(), 1, material.refractiveIndex);
+//            Vec3 refractionVector = Material.getRefractionVector(inter.normal, ray.getDirection(), 1, material.refractiveIndex);
+            Vec3 refractionVector = material.getRefractionVector(inter.normal, ray.getDirection());
 
-            if (!refractionVector.equals(Vec3.ZERO)) {
+//            if (!refractionVector.equals(Vec3.ZERO)) {
 
-                //calc refraction ray
-                Ray refrRay = new Ray(inter.interSectionPoint, refractionVector);
-                //recursively trace refraction ray
-//                RgbColor reflectionColor = traceRay(refrRay, currentRecursion + 1);
-                RgbColor refractionColor = averageColor(material.getDistributedRays(refrRay, rayDistributionSamples), currentRecursion + 1);
+            //calc refraction ray
+            Ray refrRay = new Ray(inter.interSectionPoint, refractionVector);
+            //recursively trace refraction ray
+            RgbColor refractionColor = averageColor(material.getDistributedRays(refrRay, rayDistributionSamples), currentRecursion + 1);
 
-                color = color.add(refractionColor.multScalar(1 - material.opacity));
-            }
+            color = color.add(refractionColor.multScalar(1 - material.opacity));
+//            }
         }
 
         if (material.reflection > 0) {
             //calc reflection ray
             Ray reflRay = new Ray(inter.interSectionPoint, Material.getReflectionVector(inter.normal, ray.getDirection().multScalar(-1)));
             //recursively trace reflection ray
-//            RgbColor reflectionColor = traceRay(reflRay, currentRecursion + 1);
             RgbColor reflectionColor = averageColor(material.getDistributedRays(reflRay, rayDistributionSamples), currentRecursion + 1);
 
 
