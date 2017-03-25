@@ -8,26 +8,40 @@ import scene.shape.Shape;
 import utils.MathEx;
 import utils.RgbColor;
 import utils.algebra.Vec3;
+import utils.io.Log;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public abstract class Material {
 
+    //material attributes
     public RgbColor ambient;
     public RgbColor diffuse;
     public RgbColor emission;
     public float reflection;
     public float opacity;
     public float refractiveIndex;
+    public float smoothness;
 
-    public Material(RgbColor ambient, RgbColor diffuse, RgbColor emission, float reflection, float opacity, float refractiveIndex) {
+    //calculated
+    private float distributionConeAngle;
+    private float roughness;
+
+
+    public Material(RgbColor ambient, RgbColor diffuse, RgbColor emission, float reflection, float smoothness, float opacity, float refractiveIndex) {
 
         this.ambient = ambient;
         this.diffuse = diffuse;
         this.reflection = reflection;
+        this.smoothness = smoothness;
         this.opacity = opacity;
         this.refractiveIndex = refractiveIndex;
         this.emission = emission;
+
+        distributionConeAngle = (float) Math.acos(smoothness);
+        roughness = 1 - smoothness;
     }
 
     //    public abstract RgbColor getColor(Vec3 pos, Vec3 normal, Vec3 view, Scene scene);
@@ -124,5 +138,46 @@ public abstract class Material {
 //
 //        return I.multScalar(n).add(normal.multScalar(n * c1 - c2));
 //    }
+
+
+    public List<Ray> getDistributedRays(Ray idealRay, int amount) {
+
+        ArrayList<Ray> rays = new ArrayList<>();
+
+        if (smoothness == 1) {
+            rays.add(idealRay);
+            return rays;
+        }
+
+        Vec3 dir = idealRay.getDirection();
+
+        Vec3 orthogonalVec1 = new Vec3(0, dir.z, -dir.y).normalize();
+        Vec3 orthogonalVec2 = orthogonalVec1.cross(dir);
+
+
+//        Log.print(this, "dot is " + orthogonalVec1.scalar(dir));
+
+        Random r = new Random();
+
+        for (int i = 0; i < amount; i++) {
+            Vec3 deviation = (orthogonalVec1.multScalar(normalDistributedFloat(r)).add(
+                    orthogonalVec2.multScalar(normalDistributedFloat(r))));
+
+
+            Vec3 direction = dir.multScalar(smoothness).add(deviation);
+
+            Vec3 newDirection = direction.add(deviation).normalize();
+
+
+            rays.add(new Ray(idealRay.getStartPoint(), newDirection));
+        }
+
+
+        return rays;
+    }
+
+    private float normalDistributedFloat(Random r){
+        return (float) Math.pow(((r.nextFloat() * 2) - 1), 2) * roughness;
+    }
 
 }

@@ -28,6 +28,7 @@ import utils.io.Log;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Raytracer {
 
@@ -42,6 +43,7 @@ public class Raytracer {
     private float windowWidth;
 
     private int mMaxRecursions;
+    private int rayDistributionSamples;
     private int multiThreading;
     private int threadsFinished;
     private Callback renderCallback;
@@ -56,9 +58,10 @@ public class Raytracer {
         x8
     }
 
-    public Raytracer(Scene scene, Window renderWindow, int recursions, AntiAliasingLevel antiAliasingLevel, int multiThreading, Callback callback) {
+    public Raytracer(Scene scene, Window renderWindow, int recursions, int rayDistributionSamples, AntiAliasingLevel antiAliasingLevel, int multiThreading, Callback callback) {
         Log.print(this, "Init");
         mMaxRecursions = recursions;
+        this.rayDistributionSamples = rayDistributionSamples;
         this.multiThreading = multiThreading;
         renderCallback = callback;
         this.antiAliasingLevel = antiAliasingLevel;
@@ -102,7 +105,7 @@ public class Raytracer {
             int startRow = i * parts;
             int endRow = startRow + parts;
 
-            if(i + 1 == multiThreading) endRow = mBufferedImage.getHeight();
+            if (i + 1 == multiThreading) endRow = mBufferedImage.getHeight();
 
             Thread renderThread = new RenderThread(this, 0, mBufferedImage.getWidth(), startRow, endRow, this::threadFinished);
 
@@ -127,8 +130,6 @@ public class Raytracer {
 
                 Vec2 normPos = pixelPosNormalized(x, y);
 
-                Vec3 colorVec = new Vec3(0, 0, 0);
-
                 if (antiAliasingLevel == AntiAliasingLevel.disabled) {
                     Vec3 worldPos = screen2World(windowCenter, normPos, windowWidth, windowHeight);
 
@@ -137,25 +138,37 @@ public class Raytracer {
                     mRenderWindow.setPixel(mBufferedImage, traceRay(ray, 0), new Vec2(x, y));
 
                 } else {
+                    ArrayList<Ray> rays = new ArrayList<>();
+
                     for (Vec2 pos : antiAliasingPositions) {
 
                         Vec3 worldPos = screen2World(windowCenter, normPos.add(pos), windowWidth, windowHeight);
 
                         Ray ray = new Ray(cam.getPosition(), worldPos.sub(cam.getPosition()));
 
-                        RgbColor color = traceRay(ray, 0);
-
-                        colorVec = colorVec.add(new Vec3(color.red(), color.green(), color.blue()));
+                        rays.add(ray);
                     }
 
-                    colorVec = colorVec.divideScalar(antiAliasingPositions.size());
-
-                    mRenderWindow.setPixel(mBufferedImage, new RgbColor(colorVec.x, colorVec.y, colorVec.z), new Vec2(x, y));
+                    mRenderWindow.setPixel(mBufferedImage, averageColor(rays, 0), new Vec2(x, y));
                 }
             }
-
 //                if(y % 10 == 0 && x % 10 == 0) Log.print(this, "pixel: " + x + "," + y + "\nnormPos:  " + normPos + "\nworldPos: " + worldPos);
         }
+    }
+
+    private RgbColor averageColor(List<Ray> rays, int currentRecursion) {
+
+        Vec3 colorVec = new Vec3(0, 0, 0);
+
+        for (Ray ray : rays) {
+            RgbColor color = traceRay(ray, currentRecursion);
+
+            colorVec = colorVec.add(new Vec3(color.red(), color.green(), color.blue()));
+        }
+
+        if(!rays.isEmpty()) colorVec = colorVec.divideScalar(rays.size());
+
+        return new RgbColor(colorVec.x, colorVec.y, colorVec.z);
     }
 
     private RgbColor traceRay(Ray ray, int currentRecursion) {
@@ -191,9 +204,10 @@ public class Raytracer {
                 //calc refraction ray
                 Ray refrRay = new Ray(inter.interSectionPoint, refractionVector);
                 //recursively trace refraction ray
-                RgbColor reflectionColor = traceRay(refrRay, currentRecursion + 1);
+//                RgbColor reflectionColor = traceRay(refrRay, currentRecursion + 1);
+                RgbColor refractionColor = averageColor(material.getDistributedRays(refrRay, rayDistributionSamples), currentRecursion + 1);
 
-                color = color.add(reflectionColor.multScalar(1 - material.opacity));
+                color = color.add(refractionColor.multScalar(1 - material.opacity));
             }
         }
 
@@ -201,7 +215,9 @@ public class Raytracer {
             //calc reflection ray
             Ray reflRay = new Ray(inter.interSectionPoint, Material.getReflectionVector(inter.normal, ray.getDirection().multScalar(-1)));
             //recursively trace reflection ray
-            RgbColor reflectionColor = traceRay(reflRay, currentRecursion + 1);
+//            RgbColor reflectionColor = traceRay(reflRay, currentRecursion + 1);
+            RgbColor reflectionColor = averageColor(material.getDistributedRays(reflRay, rayDistributionSamples), currentRecursion + 1);
+
 
             color = color.add(reflectionColor.multScalar(material.reflection));
         }

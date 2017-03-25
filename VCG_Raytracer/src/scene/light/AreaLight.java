@@ -8,7 +8,6 @@ import utils.algebra.Vec3;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
 
 public class AreaLight {
 
@@ -16,15 +15,15 @@ public class AreaLight {
     private Rectangle rect;
     private ArrayList<Light> sampleLights = new ArrayList<>();
 
-    public AreaLight(RgbColor color, float intensity, Rectangle rect, float planeOffset, Vec2 resolution, float sample) {
+    public AreaLight(RgbColor color, float intensity, Rectangle rect, float planeOffset, float scale, Vec2 resolution, float sample) {
 
         this.rect = rect;
         this.sample = MathEx.clamp(sample, 0, 1);
 
         float individualIntensity = intensity / (resolution.x * resolution.y * sample);
         Vec3 center = rect.getPosition().add(rect.getNormal().multScalar(planeOffset));
-        float width = rect.a.length() * 2;
-        float height = rect.b.length() * 2;
+        float width = rect.a.length() * 2 * scale;
+        float height = rect.b.length() * 2 * scale;
 
         for (int x = 0; x < resolution.x; x++) {
             for (int y = 0; y < resolution.y; y++) {

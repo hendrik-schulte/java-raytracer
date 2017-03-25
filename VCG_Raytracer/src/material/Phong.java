@@ -13,8 +13,8 @@ public class Phong extends Material {
     private float specularExp;
     private float specularNormalFactor;
 
-    public Phong(RgbColor ambient, RgbColor diffuse, RgbColor emission, RgbColor specular, float specularExp, float reflection, float opacity, float refractiveIndex) {
-        super(ambient, diffuse, emission, reflection, opacity, refractiveIndex);
+    public Phong(RgbColor ambient, RgbColor diffuse, RgbColor emission, RgbColor specular, float specularExp, float reflection, float smoothness, float opacity, float refractiveIndex) {
+        super(ambient, diffuse, emission, reflection, smoothness, opacity, refractiveIndex);
 
         this.specular = specular;
         this.specularExp = specularExp;

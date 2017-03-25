@@ -23,11 +23,11 @@ public class RenderThread extends Thread {
     }
 
     public void run() {
-        Log.print(this, "Render thread (" + startX + "/" + endX + ") (" + startY + "/" + endY + ") started");
+        Log.print(this, "Render thread x: (" + startX + "-" + endX + ") y: (" + startY + "-" + endY + ") started");
 
         raytracer.renderBlock(startX, endX, startY, endY);
 
-        Log.print(this, "Render thread (" + startX + "/" + endX + ") (" + startY + "/" + endY + ") finished");
+        Log.print(this, "Render thread x: (" + startX + "-" + endX + ") y: (" + startY + "-" + endY + ") finished");
 
         callback.callback();
     }
