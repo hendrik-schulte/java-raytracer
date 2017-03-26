@@ -379,7 +379,7 @@ public class Main {
                         new Circle(
                                 new Vec3(0, 4.10f, 8),    //pos
                                 new Vec3(0, -1, 0),     //normal
-                                2f,
+                                1.5f,
                                 new Lambert(RgbColor.WHITE,        //ambient
                                         RgbColor.WHITE,          //diffuse
                                         RgbColor.WHITE,          //emission
@@ -389,9 +389,9 @@ public class Main {
                                         1)),
                         0.5f,
                         0.9f,
-                        new Vec2(6, 3),
-                        0.7f),
-                false);
+                        new Vec2(8, 8),
+                        .8f),
+                true);
     }
 
     private static int getAntiAliasingLevel() {

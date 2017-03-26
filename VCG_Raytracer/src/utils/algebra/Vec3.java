@@ -128,24 +128,26 @@ public class Vec3 {
      */
     public Vec3 getOrthogonal() {
 
-        float xN = Math.abs(x), yN = Math.abs(y), zN = Math.abs(z);
+//        float xN = Math.abs(x), yN = Math.abs(y), zN = Math.abs(z);
+//
+//        //project plane to axis-planes
+//        if (xN >= yN && xN >= zN) {
+//            //x is biggest normal component
+//            return new Vec3(0, z, -y).normalize();
+//
+//        } else if (yN >= xN && yN >= zN) {
+//            //y is biggest normal component
+//            return new Vec3(z, 0, -x).normalize();
+//
+//        } else if (zN >= xN && zN >= yN) {
+//            //z is biggest normal component
+//            return new Vec3(y, -x, 0).normalize();
+//
+//        }
+//        return null;
 
-        //project plane to axis-planes
-        if (xN >= yN && xN >= zN) {
-            //x is biggest normal component
-            return new Vec3(0, z, -y).normalize();
+        return cross(new Vec3(3 + x* 0.5f, -1 + y * -1.5f,  5 + z * 0.3f)).normalize();
 
-        } else if (yN >= xN && yN >= zN) {
-            //y is biggest normal component
-            return new Vec3(z, 0, -x).normalize();
-
-        } else if (zN >= xN && zN >= yN) {
-            //z is biggest normal component
-            return new Vec3(y, -x, 0).normalize();
-
-        }
-
-        return null;
     }
 
     /**

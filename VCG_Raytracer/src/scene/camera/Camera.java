@@ -19,16 +19,16 @@ public class Camera extends SceneObject {
         super(pos);
 
         this.lookAt = lookAt;
-        this.upVector = upVector;
+        this.upVector = upVector.normalize();
         this.viewAngle = viewAngle;
         this.focalLength = focalLength;
 
         calcCoordinates();
     }
 
-    public Vec3 calculateDestinationPoint(){
-        return new Vec3();
-    }
+//    public Vec3 calculateDestinationPoint(){
+//        return new Vec3();
+//    }
 
     private void calcCoordinates(){
         view = calcView();

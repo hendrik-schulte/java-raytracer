@@ -55,21 +55,29 @@ public class AreaLight {
         Log.print(this, "indIntens: " + individualIntensity);
 
         Vec3 ortho1 = circle.getNormal().getOrthogonal();
-        Vec3 ortho2 = circle.getNormal().cross(ortho1);
+        Vec3 ortho2 = circle.getNormal().cross(ortho1).normalize();
 
-        //angle
-        for (int x = 0; x < resolution.x; x++) {
+        Log.print(this, "normal: " + circle.getNormal());
+        Log.print(this, "ortho1: " + ortho1);
+        Log.print(this, "ortho2: " + ortho2);
 
-            float angle = (float) (x * Math.PI * 2 / resolution.x);
 
-            //radius
-            for (int y = 0; y < resolution.y; y++) {
-                float radius = (float) Math.sqrt(y / resolution.y) * 2;
+        //radius
+        for (int y = 0; y < resolution.y; y++) {
 
-                Vec2 normPos = getNormalizedPosition(resolution, radius * (float) Math.cos(angle), radius * (float) Math.sin(angle));
+            float radius = (float) Math.sqrt((y + 1) / resolution.y);
 
-                Log.print(this, "light norm pos: " + normPos);
+            //angle
+            for (int x = 0; x < resolution.x; x++) {
 
+                float angle = (float) (x * Math.PI * 2 / resolution.x);
+//                Vec2 normPos = getNormalizedPosition(resolution, radius * (float) Math.cos(angle), radius * (float) Math.sin(angle));
+
+
+                Vec2 normPos = new Vec2(radius * (float) Math.cos(angle), radius * (float) Math.sin(angle));
+
+//                Log.print(this, "radius: " + radius);
+//                Log.print(this, "light norm pos: " + normPos);
 
                 Vec3 position = norm2WorldRect(center, ortho1, ortho2, normPos, diameter, diameter);
 
@@ -77,13 +85,8 @@ public class AreaLight {
             }
         }
 
-
         sampleAmount = (int) (sampleLights.size() * sample);
-
-        Log.print(this, "samples: " + sampleAmount);
-
     }
-
 
     private float getIndividualIntensity(Vec2 resolution, float intensity) {
         return intensity / (resolution.x * resolution.y * sample);

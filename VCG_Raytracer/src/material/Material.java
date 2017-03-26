@@ -197,7 +197,7 @@ public abstract class Material {
 
 //        Vec3 orthogonalVec1 = new Vec3(0, dir.z, -dir.y).normalize();
         Vec3 orthogonalVec1 = dir.getOrthogonal();
-        Vec3 orthogonalVec2 = orthogonalVec1.cross(dir);
+        Vec3 orthogonalVec2 = orthogonalVec1.cross(dir).normalize();
 
         Random r = new Random();
 
