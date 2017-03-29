@@ -1,19 +1,16 @@
 package material;
 
-import Main.Main;
-import raytracer.Ray;
-import scene.Scene;
 import scene.light.Light;
 import utils.RgbColor;
 import utils.algebra.Vec3;
 
-public class Phong extends Material {
+public class Blinn extends Material {
 
     private RgbColor specular;
     private float specularExp;
     private float specularNormalFactor;
 
-    public Phong(RgbColor ambient, RgbColor diffuse, RgbColor emission, RgbColor specular, float specularExp, float reflection, float smoothness, float opacity, float refractiveIndex) {
+    public Blinn(RgbColor ambient, RgbColor diffuse, RgbColor emission, RgbColor specular, float specularExp, float reflection, float smoothness, float opacity, float refractiveIndex) {
         super(ambient, diffuse, emission, reflection, smoothness, opacity, refractiveIndex);
 
         this.specular = specular;
@@ -21,13 +18,12 @@ public class Phong extends Material {
         specularNormalFactor = (float) ((specularExp + 2) / 2 * Math.PI);
     }
 
-
     @Override
     protected RgbColor calcSpecular(Light light, Vec3 normal, Vec3 view, Vec3 lightVector) {
 
-        Vec3 reflectionVec = getReflectionVector(normal, lightVector);    //calculate reflection vector
+        Vec3 halfwayVector = view.add(lightVector).normalize();    //calculate halfway vector
 
-        float tempSpec = Math.max(view.scalar(reflectionVec), 0f);
+        float tempSpec = Math.max(normal.scalar(halfwayVector), 0f);
 
         if (tempSpec == 0) return RgbColor.BLACK;
 

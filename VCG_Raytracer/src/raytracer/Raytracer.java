@@ -100,7 +100,7 @@ public class Raytracer {
         threadsFinished = 0;
         int parts = mBufferedImage.getHeight() / multiThreading;
 
-        for (int i = 0; i * 1 < multiThreading; i++) {
+        for (int i = 0; i < multiThreading; i++) {
 
             int startRow = i * parts;
             int endRow = startRow + parts;

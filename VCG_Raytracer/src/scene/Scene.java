@@ -36,9 +36,9 @@ public class Scene {
         if (drawShape) createShape(light.getShape());
 
 //        Material mat = new Lambert(
-//                RgbColor.RED,
-//                RgbColor.RED,
 //                RgbColor.BLACK,
+//                RgbColor.BLACK,
+//                RgbColor.GREEN,
 //                0.0f,
 //                1.0f,
 //                1,

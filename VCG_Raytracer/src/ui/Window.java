@@ -58,7 +58,7 @@ public class Window {
         graphic.setColor(Color.black);
         graphic.fill3DRect(0, mHeight - 30, 410, mHeight, true);
         graphic.setColor(Color.green);
-        graphic.drawString("Elapsed rendering time: " + text + " sec, Recursions: " + recursions + ", AA: x" + antiAliasing + ", Threads: " + multiThreading, 10, mHeight - 10);
+        graphic.drawString("Elapsed rendering time: " + text + " min, Recursions: " + recursions + ", AA: x" + antiAliasing + ", Threads: " + multiThreading, 10, mHeight - 10);
 
         mFrame.repaint();
     }
@@ -93,7 +93,6 @@ public class Window {
         int seconds = (int) (timeInSeconds - minutes * 60);
         int milliseconds = (int) (((timeInSeconds - minutes * 60) - seconds) * 100);
 
-//        return String.format("%02d", minutes )
         return minutes + ":" +
                 String.format("%02d", seconds) + ":" +
                 String.format("%02d", milliseconds);

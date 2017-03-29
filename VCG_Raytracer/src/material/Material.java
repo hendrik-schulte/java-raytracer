@@ -8,6 +8,7 @@ import scene.shape.Shape;
 import utils.MathEx;
 import utils.RgbColor;
 import utils.algebra.Vec3;
+import utils.io.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -201,6 +202,11 @@ public abstract class Material {
 
         Random r = new Random();
 
+//        Log.print(this, "");
+//        Log.print(this, "smoothness: " + smoothness);
+//        Log.print(this, "roughness: " + roughness);
+//        Log.print(this, "norm roughness: " + normalDistributedRoughness(r));
+
         for (int i = 0; i < amount; i++) {
             Vec3 deviation = (orthogonalVec1.multScalar(normalDistributedRoughness(r)).add(
                     orthogonalVec2.multScalar(normalDistributedRoughness(r))));
@@ -209,6 +215,7 @@ public abstract class Material {
 
             Vec3 newDirection = direction.add(deviation).normalize();
 
+//            Log.print(this, "scalar: " + (newDirection.scalar(dir)));
 
             rays.add(new Ray(idealRay.getStartPoint(), newDirection));
         }
@@ -218,7 +225,7 @@ public abstract class Material {
     }
 
     private float normalDistributedRoughness(Random r) {
-        return (float) Math.pow(((r.nextFloat() * 2) - 1), 2) * roughness;
+        return (float) (Math.pow(r.nextFloat(), 2) * 2 - 1) * roughness;
     }
 
 }

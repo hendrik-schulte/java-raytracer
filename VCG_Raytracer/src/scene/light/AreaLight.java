@@ -7,7 +7,6 @@ import utils.MathEx;
 import utils.RgbColor;
 import utils.algebra.Vec2;
 import utils.algebra.Vec3;
-import utils.io.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
