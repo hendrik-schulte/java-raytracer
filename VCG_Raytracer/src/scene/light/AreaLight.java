@@ -52,27 +52,27 @@ public class AreaLight {
         Vec3 center = circle.getPosition().add(circle.getNormal().multScalar(planeOffset));
         float diameter = circle.radius * 2 * scale;
 
-        Log.print(this, "indIntens: " + individualIntensity);
+//        Log.print(this, "indIntens: " + individualIntensity);
 
         Vec3 ortho1 = circle.getNormal().getOrthogonal();
         Vec3 ortho2 = circle.getNormal().cross(ortho1).normalize();
 
-        Log.print(this, "normal: " + circle.getNormal());
-        Log.print(this, "ortho1: " + ortho1);
-        Log.print(this, "ortho2: " + ortho2);
+//        Log.print(this, "normal: " + circle.getNormal());
+//        Log.print(this, "ortho1: " + ortho1);
+//        Log.print(this, "ortho2: " + ortho2);
 
 
         //radius
-        for (int y = 0; y < resolution.y; y++) {
+        for (int y = 1; y <= resolution.y; y++) {
 
-            float radius = (float) Math.sqrt((y + 1) / resolution.y);
+            float radius = (float) Math.sqrt(y / resolution.y);
 
             //angle
             for (int x = 0; x < resolution.x; x++) {
 
                 float angle = (float) (x * Math.PI * 2 / resolution.x);
-//                Vec2 normPos = getNormalizedPosition(resolution, radius * (float) Math.cos(angle), radius * (float) Math.sin(angle));
 
+//                if (y == 1) Log.print(this, "angle: " + angle);
 
                 Vec2 normPos = new Vec2(radius * (float) Math.cos(angle), radius * (float) Math.sin(angle));
 
@@ -85,11 +85,13 @@ public class AreaLight {
             }
         }
 
+        sampleLights.add(new Light(center, color, individualIntensity));
+
         sampleAmount = (int) (sampleLights.size() * sample);
     }
 
     private float getIndividualIntensity(Vec2 resolution, float intensity) {
-        return intensity / (resolution.x * resolution.y * sample);
+        return intensity / ((resolution.x * resolution.y + 1) * sample);
     }
 
     private Vec2 getNormalizedPosition(Vec2 resolution, float x, float y) {

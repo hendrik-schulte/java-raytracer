@@ -1,9 +1,13 @@
 package scene;
 
+import material.Lambert;
+import material.Material;
 import scene.camera.Camera;
 import scene.light.AreaLight;
 import scene.light.Light;
 import scene.shape.Shape;
+import scene.shape.Sphere;
+import utils.RgbColor;
 import utils.io.Log;
 
 import java.util.*;
@@ -29,7 +33,21 @@ public class Scene {
     public void createLight(AreaLight light, boolean drawShape) {
         areaLights.add(light);
 
-        if(drawShape) createShape(light.getShape());
+        if (drawShape) createShape(light.getShape());
+
+//        Material mat = new Lambert(
+//                RgbColor.RED,
+//                RgbColor.RED,
+//                RgbColor.BLACK,
+//                0.0f,
+//                1.0f,
+//                1,
+//                1f);
+//
+//        for (Light shape : getLights()
+//                ) {
+//            createShape(new Sphere(shape.getPosition(), 0.1f, mat));
+//        }
     }
 
     public void createLight(Light light) {

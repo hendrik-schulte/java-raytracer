@@ -55,15 +55,15 @@ public class Main {
      * RAYTRACER
      **/
 
-    private static int RECURSIONS = 3;
-    private static int RAY_DISTRIBUTION_SAMPLES = 3;
+    private static int RECURSIONS = 2;
+    private static int RAY_DISTRIBUTION_SAMPLES = 1;
     private static int MULTI_THREADING = 4;
     private static float AMBIENT = 0.04f;
-    private static Raytracer.AntiAliasingLevel ANTIALIASING_LEVEL = Raytracer.AntiAliasingLevel.x2;
+    private static Raytracer.AntiAliasingLevel ANTIALIASING_LEVEL = Raytracer.AntiAliasingLevel.disabled;
     public static boolean USE_SHADOWS = true;
 
     private static float ROOM_SMOOTHNESS = 1.0f;
-    private static float ROOM_REFLECTIVITY = 0.0f;
+    private static float ROOM_REFLECTIVITY = 0.2f;
 
     private static Window renderWindow;
     private static long tStart;
@@ -102,7 +102,8 @@ public class Main {
      * This is called after the last render Thread finished
      */
     private static void renderingFinished() {
-        renderWindow.exportRendering(String.valueOf(stopTime(tStart)), RECURSIONS, getAntiAliasingLevel(), MULTI_THREADING);
+//        renderWindow.exportRendering(String.valueOf(stopTime(tStart)), RECURSIONS, getAntiAliasingLevel(), MULTI_THREADING);
+        renderWindow.exportRendering(stopTime(tStart), RECURSIONS, getAntiAliasingLevel(), MULTI_THREADING);
     }
 
     /**
@@ -136,29 +137,29 @@ public class Main {
 
     private static void setupSpheres(Scene scene) {
 
-        scene.createShape(new Sphere(
-                new Vec3(0, 0, 8),
-                1.0f,
-                new Lambert(RgbColor.RED,
-                        RgbColor.RED,
-                        RgbColor.BLACK,
-                        0.0f,
-                        1.0f,
-                        1,
-                        1f)));
-//
 //        scene.createShape(new Sphere(
 //                new Vec3(0, 0, 8),
 //                1.0f,
-//                new Phong(RgbColor.BLACK,
+//                new Lambert(RgbColor.RED,
+//                        RgbColor.RED,
 //                        RgbColor.BLACK,
-//                        RgbColor.BLACK,
-//                        new RgbColor(0.07f, 0.07f, 0.07f),
-//                        32f,
-//                        0.5f,
+//                        0.0f,
 //                        1.0f,
 //                        1,
-//                        1)));
+//                        1f)));
+
+        scene.createShape(new Sphere(
+                new Vec3(0, 0, 8),
+                2.0f,
+                new Phong(RgbColor.BLACK,
+                        RgbColor.BLACK,
+                        RgbColor.BLACK,
+                        new RgbColor(0.00f, 0.00f, 0.00f),
+                        32f,
+                        0.5f,
+                        1.0f,
+                        1,
+                        1)));
 //
 //        scene.createShape(new Sphere(
 //                new Vec3(-2, 1.5f, 7.5f),
@@ -266,7 +267,7 @@ public class Main {
                         RgbColor.BLACK,         //emission
                         new RgbColor(0.02f, 0.02f, 0.02f),       //specular
                         12,
-                        .55f,
+                        .4f,
                         1.0f,
                         1,
                         1)));
@@ -387,10 +388,10 @@ public class Main {
                                         1.0f,
                                         1,
                                         1)),
-                        0.5f,
-                        0.9f,
-                        new Vec2(8, 8),
-                        .8f),
+                        0.11f,
+                        .9f,
+                        new Vec2(10, 3),
+                        1f),
                 true);
     }
 

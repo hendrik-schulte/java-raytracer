@@ -19,9 +19,9 @@ public class Window {
     private JFrame mFrame;
 
     /**
-        Create render window with the given dimensions
+     * Create render window with the given dimensions
      **/
-    public Window(int width, int height){
+    public Window(int width, int height) {
         mWidth = width;
         mHeight = height;
 
@@ -31,14 +31,14 @@ public class Window {
         createFrame();
     }
 
-    public BufferedImage getBufferedImage(){
+    public BufferedImage getBufferedImage() {
         return mBufferedImage;
     }
 
     /**
-        Setup render frame with given parameters
+     * Setup render frame with given parameters
      **/
-    private void createFrame(){
+    private void createFrame() {
         JFrame frame = new JFrame();
 
         frame.getContentPane().add(new JLabel(new ImageIcon(mBufferedImage)));
@@ -51,12 +51,12 @@ public class Window {
     }
 
     /**
-     Draw debug information
+     * Draw debug information
      **/
-    private void setOutputLabel(String text, int recursions, int antiAliasing, int multiThreading){
+    private void setOutputLabel(String text, int recursions, int antiAliasing, int multiThreading) {
         Graphics graphic = mBufferedImage.getGraphics();
         graphic.setColor(Color.black);
-        graphic.fill3DRect(0,mHeight - 30,410,mHeight,true);
+        graphic.fill3DRect(0, mHeight - 30, 410, mHeight, true);
         graphic.setColor(Color.green);
         graphic.drawString("Elapsed rendering time: " + text + " sec, Recursions: " + recursions + ", AA: x" + antiAliasing + ", Threads: " + multiThreading, 10, mHeight - 10);
 
@@ -64,9 +64,9 @@ public class Window {
     }
 
     /**
-        Draw pixel to our render frame
+     * Draw pixel to our render frame
      **/
-    public void setPixel(BufferedImage bufferedImage, RgbColor color, Vec2 screenPosition){
+    public void setPixel(BufferedImage bufferedImage, RgbColor color, Vec2 screenPosition) {
 
 //        if(screenPosition.equals(new Vec2(5, 420))) {
 //            Log.print(this,"Pixel 5, 420 has color " + color);
@@ -76,17 +76,26 @@ public class Window {
 //            Log.print(this,"Pixel 5, 510 has color " + color);
 //        }
 
-        bufferedImage.setRGB((int)screenPosition.x, (int)screenPosition.y, color.getRGB());
+        bufferedImage.setRGB((int) screenPosition.x, (int) screenPosition.y, color.getRGB());
         mFrame.repaint();
     }
 
     /**
-        Export the rendering to an PNG image with rendering information
+     * Export the rendering to an PNG image with rendering information
      **/
-    public void exportRendering(String text, int recursions, int antiAliasing, int multiThreading){
-        setOutputLabel(text, recursions, antiAliasing, multiThreading);
+    public void exportRendering(double time, int recursions, int antiAliasing, int multiThreading) {
+        setOutputLabel(TimeFormater(time), recursions, antiAliasing, multiThreading);
         DataExporter.exportImageToPng(mBufferedImage, "raytracing.png");
     }
 
+    private String TimeFormater(double timeInSeconds) {
+        int minutes = (int) (timeInSeconds / 60);
+        int seconds = (int) (timeInSeconds - minutes * 60);
+        int milliseconds = (int) (((timeInSeconds - minutes * 60) - seconds) * 100);
 
+//        return String.format("%02d", minutes )
+        return minutes + ":" +
+                String.format("%02d", seconds) + ":" +
+                String.format("%02d", milliseconds);
+    }
 }
