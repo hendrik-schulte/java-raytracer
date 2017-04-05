@@ -19,15 +19,15 @@ public class Intersection {
         this.incoming = incoming;
     }
 
-    public Ray calculateReflectionRay(){
-        return new Ray(new Vec3(), new Vec3());
-    }
-
-    public Ray calculateRefractionRay(){
-        return new Ray(new Vec3(), new Vec3());
-    }
+//    public Ray calculateReflectionRay(){
+//        return new Ray(new Vec3(), new Vec3());
+//    }
+//
+//    public Ray calculateRefractionRay(){
+//        return new Ray(new Vec3(), new Vec3());
+//    }
 
     public String toString() {
-        return "point: " + interSectionPoint + " normal: " + normal + " shape: " + shape + " distance: " + distance + " incoming: " + incoming;
+        return "point: " + interSectionPoint + " normal: " + normal + " shape: " + shape + " distance: " + distance;
     }
 }

@@ -92,6 +92,13 @@ public class Vec3 {
     /**
      * Get new vector with the given value multiplied to every component
      **/
+    public Vec3 multScalar(double value) {
+        return new Vec3(this.x * (float) value, this.y * (float) value, this.z * (float) value);
+    }
+
+    /**
+     * Get new vector with the given value multiplied to every component
+     **/
     public Vec3 divideScalar(float value) {
         return new Vec3(this.x / value, this.y / value, this.z / value);
     }
@@ -124,6 +131,7 @@ public class Vec3 {
 
     /**
      * Returns a normalized orthogonal vector to the given one
+     *
      * @return
      */
     public Vec3 getOrthogonal() {
@@ -146,7 +154,7 @@ public class Vec3 {
 //        }
 //        return null;
 
-        return cross(new Vec3(3 + x* 0.5f, -1 + y * -1.5f,  5 + z * 0.3f)).normalize();
+        return cross(new Vec3(3 + x * 0.5f, -1 + y * -1.5f, 5 + z * 0.3f)).normalize();
 
     }
 
@@ -155,6 +163,6 @@ public class Vec3 {
      **/
     @Override
     public String toString() {
-        return "( " + this.x + ", " + this.y + ", " + this.z + " )";
+        return "(" + this.x + ", " + this.y + ", " + this.z + ")";
     }
 }

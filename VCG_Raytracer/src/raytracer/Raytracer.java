@@ -27,6 +27,7 @@ import utils.algebra.Vec3;
 import utils.io.Log;
 
 import java.awt.image.BufferedImage;
+import java.awt.image.RGBImageFilter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class Raytracer {
     }
 
     public Raytracer(Scene scene, Window renderWindow, int recursions, int rayDistributionSamples, AntiAliasingLevel antiAliasingLevel, int multiThreading, Callback callback) {
-        Log.print(this, "Init");
+//        Log.print(this, "Init");
         mMaxRecursions = recursions;
         this.rayDistributionSamples = rayDistributionSamples;
         this.multiThreading = multiThreading;
@@ -78,7 +79,19 @@ public class Raytracer {
 
         cameraCalculation();
 
+//        renderPixel(455, 300);
+//        renderPixel(455, 301);
+//        renderPixel(586, 312);
+//        renderPixel(586, 313);
+
+//        renderBlock(586, 589, 312, 314);
+
         startRenderThreads();
+    }
+
+    private void renderPixel(int x, int y) {
+        Log.print(this, "calc Pixel (" + x + "," +  y + ")");
+        renderBlock(x, x + 1, y, y + 1);
     }
 
     private void cameraCalculation() {
@@ -149,14 +162,14 @@ public class Raytracer {
                         rays.add(ray);
                     }
 
-                    mRenderWindow.setPixel(mBufferedImage, averageColor(rays, 0), new Vec2(x, y));
+                    mRenderWindow.setPixel(mBufferedImage, traceRays(rays, 0), new Vec2(x, y));
                 }
             }
 //                if(y % 10 == 0 && x % 10 == 0) Log.print(this, "pixel: " + x + "," + y + "\nnormPos:  " + normPos + "\nworldPos: " + worldPos);
         }
     }
 
-    private RgbColor averageColor(List<Ray> rays, int currentRecursion) {
+    private RgbColor traceRays(List<Ray> rays, int currentRecursion) {
 
         Vec3 colorVec = new Vec3(0, 0, 0);
 
@@ -173,55 +186,65 @@ public class Raytracer {
 
     private RgbColor traceRay(Ray ray, int currentRecursion) {
 
-        Intersection inter = ray.getIntersection(scene.shapeList);
+//        Log.print(this, "Ray " + ray + " rec: " + currentRecursion);
 
-        if (inter == null) return BackgroundColor;
+        Intersection intersection = ray.getIntersection(scene.shapeList);
 
-//        if(inter.shape instanceof Plane) Log.print(this, "plane intersec");
-
-//        if (debug) {
-//            Log.print(this, "debug ray intersec: ");
-//            Log.print(this, inter.toString());
-//        }
+        if (intersection == null) return BackgroundColor;
 
         RgbColor color = RgbColor.BLACK;
-        Material material = inter.shape.material;
+        Material material = intersection.shape.material;
+        Vec3 viewVector = ray.getDirection().negate().normalize();
 
+//        Log.print(this, intersection.toString());
 
-        if (material.opacity > 0) {
-            RgbColor materialColor = material.getColor(inter.interSectionPoint, inter.normal, ray.getDirection().negate(), scene);
-            color = color.add(materialColor.multScalar(material.opacity));
+        color = color.add(traceIllumination(intersection, viewVector, material));
+
+        if (currentRecursion >= mMaxRecursions) {
+//            Log.print(this, "max recursion reached");
+            return color;
         }
 
-        if (currentRecursion >= mMaxRecursions) return color;
+        if (material.opacity < 1)
+            color = color.add(traceRefraction(intersection, viewVector, material, currentRecursion));
 
-        if (material.opacity < 1) {
-            //calc refraction vector
-//            Vec3 refractionVector = Material.getRefractionVector(inter.normal, ray.getDirection(), 1, material.refractiveIndex);
-            Vec3 refractionVector = material.getRefractionVector(inter.normal, ray.getDirection());
-
-//            if (!refractionVector.equals(Vec3.ZERO)) {
-
-            //calc refraction ray
-            Ray refrRay = new Ray(inter.interSectionPoint, refractionVector);
-            //recursively trace refraction ray
-            RgbColor refractionColor = averageColor(material.getDistributedRays(refrRay, rayDistributionSamples), currentRecursion + 1);
-
-            color = color.add(refractionColor.multScalar(1 - material.opacity));
-//            }
-        }
-
-        if (material.reflection > 0) {
-            //calc reflection ray
-            Ray reflRay = new Ray(inter.interSectionPoint, Material.getReflectionVector(inter.normal, ray.getDirection().multScalar(-1)));
-            //recursively trace reflection ray
-            RgbColor reflectionColor = averageColor(material.getDistributedRays(reflRay, rayDistributionSamples), currentRecursion + 1);
-
-
-            color = color.add(reflectionColor.multScalar(material.reflection));
-        }
+        if (material.reflection > 0)
+            color = color.add(traceReflection(intersection, viewVector, material, currentRecursion));
 
         return color;
+    }
+
+    private RgbColor traceIllumination(Intersection inter, Vec3 viewVector, Material material) {
+
+        return material.getColor(inter.interSectionPoint, inter.normal, viewVector, scene).multScalar(material.opacity);
+    }
+
+    private RgbColor traceRefraction(Intersection inter, Vec3 viewVector, Material material, int currentRecursion) {
+        //calc refraction vector
+        Vec3 refractionVector = material.getRefractionVector(inter.normal, viewVector);
+
+        //calc ideal refraction ray
+        Ray refractionRay = new Ray(inter.interSectionPoint, refractionVector);
+
+        //get distributed rays (in case of diffuse refraction)
+        List<Ray> rays = material.getDistributedRays(refractionRay, rayDistributionSamples);
+
+        //recursively trace refraction rays
+        RgbColor refractionColor = traceRays(rays, currentRecursion + 1);
+
+        return refractionColor.multScalar(material.transparency);
+    }
+
+    private RgbColor traceReflection(Intersection inter, Vec3 viewVector, Material material, int currentRecursion) {
+        //calc reflection ray
+        Ray reflectionRay = new Ray(inter.interSectionPoint, Material.getReflectionVector(inter.normal, viewVector));
+
+        //get distributed rays (in case of diffuse reflection)
+        List<Ray> rays = material.getDistributedRays(reflectionRay, rayDistributionSamples);
+        //recursively trace reflection rays
+        RgbColor reflectionColor = traceRays(rays, currentRecursion + 1);
+
+        return reflectionColor.multScalar(material.reflection);
     }
 
     private Vec3 screen2World(Vec3 windowCenter, Vec2 normPos, float windowWidth, float windowHeight) {

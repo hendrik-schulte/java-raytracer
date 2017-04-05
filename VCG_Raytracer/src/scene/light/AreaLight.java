@@ -25,7 +25,7 @@ public class AreaLight {
         this.rect = rect;
         this.sample = MathEx.clamp(sample, 0, 1);
 
-        float individualIntensity = getIndividualIntensity(resolution, intensity);
+        float individualIntensity = getIndividualIntensity((int) (resolution.x * resolution.y), intensity);
         Vec3 center = rect.getPosition().add(rect.getNormal().multScalar(planeOffset));
         float width = rect.a.length() * 2 * scale;
         float height = rect.b.length() * 2 * scale;
@@ -47,7 +47,7 @@ public class AreaLight {
         this.circle = circle;
         this.sample = MathEx.clamp(sample, 0, 1);
 
-        float individualIntensity = getIndividualIntensity(resolution, intensity);
+        float individualIntensity = getIndividualIntensity((int) (resolution.x * resolution.y + 1), intensity);
         Vec3 center = circle.getPosition().add(circle.getNormal().multScalar(planeOffset));
         float diameter = circle.radius * 2 * scale;
 
@@ -89,8 +89,8 @@ public class AreaLight {
         sampleAmount = (int) (sampleLights.size() * sample);
     }
 
-    private float getIndividualIntensity(Vec2 resolution, float intensity) {
-        return intensity / ((resolution.x * resolution.y + 1) * sample);
+    private float getIndividualIntensity(int amount, float intensity) {
+        return intensity / (amount * sample);
     }
 
     private Vec2 getNormalizedPosition(Vec2 resolution, float x, float y) {

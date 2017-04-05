@@ -56,12 +56,12 @@ public class Rectangle extends Plane {
     }
 
     @Override
-    public Intersection intersect(Ray ray) {
-        Intersection planeIntersection = super.intersect(ray);
+    public Intersection[] intersect(Ray ray) {
+        Intersection[] planeIntersection = super.intersect(ray);
 
         if (planeIntersection == null) return null;
 
-        Vec3 intersecPoint = planeIntersection.interSectionPoint.sub(mPosition);
+        Vec3 intersecPoint = planeIntersection[0].interSectionPoint.sub(mPosition);
         Vec2 projIntersecPoint = null;
 
         switch (projectToPlane) {

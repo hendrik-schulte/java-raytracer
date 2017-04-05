@@ -16,7 +16,7 @@ public class Plane extends Shape {
     }
 
     @Override
-    public Intersection intersect(Ray ray) {
+    public Intersection[] intersect(Ray ray) {
 
         Vec3 pos = ray.getStartPoint().sub(mPosition);
         Vec3 D = ray.getDirection();
@@ -38,7 +38,7 @@ public class Plane extends Shape {
             return null;
         }
 
-        return new Intersection(ray.calcPoint((float) t), normal, this, Math.abs(t), t > 0);
+        return new Intersection[]{new Intersection(ray.calcPoint((float) t), normal, this, Math.abs(t), t > 0)};
     }
 
     @Override

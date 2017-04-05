@@ -11,13 +11,15 @@ import java.util.Collections;
 public class Ray {
 
     private Vec3 startPoint;
-    //    Vec3 endPoint;
     private Vec3 direction;
-//    public float refractionIndex = 1;
+    public Vec3 endPoint;
 
     public Ray(Vec3 origin, Vec3 direction) {
         startPoint = origin;
         this.direction = direction.normalize();
+//        if(this.direction.length() < 0.1f){
+//            Log.print(this, "dir is zero");
+//        }
     }
 
     public Vec3 getStartPoint() {
@@ -32,6 +34,10 @@ public class Ray {
         return startPoint.add(direction.multScalar(distance));
     }
 
+    public Vec3 calcPoint(double distance) {
+        return startPoint.add(direction.multScalar((float) distance));
+    }
+
     public Intersection getIntersection(Collection<Shape> shapeList) {
 
         return getIntersection(shapeList, null);
@@ -39,13 +45,8 @@ public class Ray {
 
     public Intersection getIntersection(Collection<Shape> shapeList, float maxDistance) {
 
-        return getIntersection(shapeList, new ArrayList<>()/*, 0*/, maxDistance);
+        return getIntersection(shapeList, new ArrayList<>(), maxDistance);
     }
-
-//    public Intersection getIntersection(Collection<Shape> shapeList/*, float minDistance*/, float maxDistance) {
-//
-//        return getIntersection(shapeList, new ArrayList<>()/*, minDistance*/, maxDistance);
-//    }
 
     public Intersection getIntersection(Collection<Shape> shapeList, Shape ignore) {
 
@@ -58,10 +59,10 @@ public class Ray {
 
         if (ignore != null) ignoreList.add(ignore);
 
-        return getIntersection(shapeList, ignoreList,/* 0,*/ maxDistance);
+        return getIntersection(shapeList, ignoreList, maxDistance);
     }
 
-    public Intersection getIntersection(Collection<Shape> shapeList, Collection<Shape> ignore/*, float minDistance*/, float maxDistance) {
+    public Intersection getIntersection(Collection<Shape> shapeList, Collection<Shape> ignore, float maxDistance) {
 
         ArrayList<Intersection> intersections = new ArrayList<>();
 
@@ -69,57 +70,33 @@ public class Ray {
 
             if (ignore != null) if (ignore.contains(shape)) continue;
 
-            Intersection intersection = shape.intersect(this);
+            Intersection[] tempIntersections = shape.intersect(this);
 
-            if (intersection == null) continue;
-            if (intersection.distance > maxDistance/* || intersection.distance < minDistance */) continue;
-            if (!intersection.incoming) continue;
+            if (tempIntersections == null) continue;
 
-            intersections.add(intersection);
+            for (Intersection intersection : tempIntersections) {
+
+                if (intersection.distance > maxDistance) continue;
+                if (!intersection.incoming) continue;
+
+//            Log.print(this, "intersec: " + intersection.shape + " dis: " + intersection.distance);
+
+                intersections.add(intersection);
+            }
         }
-
-//        Collections.sort(intersections, (i1, i2) -> (int) (i1.distance - i2.distance));
-//
-//        if (intersections.isEmpty()) return null;
-//
-//        if(intersections.get(0).distance <= 0.01) intersections.remove(0);
-//
-//        return intersections.isEmpty() ? null : intersections.get(0);
-
-
-//        Collections.sort(intersections, new Comparator<Intersection>() {
-//            @Override
-//            public int compare(Intersection i1, Intersection i2) {
-//                return i1.isCloser(i2);
-//            }
-//        });
-
-
-//        Intersection closest = null;
-//        Intersection secClosest = null;
-//        float currentDistance = Float.MAX_VALUE;
-//
-//        for (Intersection i : intersections) {
-//            if (i.distance <= currentDistance) {
-//                if (closest != null) secClosest = closest;
-//                closest = i;
-//                currentDistance = (float) i.distance;
-//            }
-//        }
 
         Intersection closest = popClosest(intersections);
         Intersection secClosest = popClosest(intersections);
+
+//        Log.print(this, "closest: " + closest);
+//        Log.print(this, "sec closest: " + secClosest);
 
 
         if (closest == null) {
 //            Log.print(this, "closest null");
             return null;
         }
-//        Log.print(this, "sorting");
-
-//        Log.print(this, "dis: " + closest.distance);
-
-        if (closest.distance < 0.01f) {
+        if (closest.distance < 0.001f) {
 
 //            Log.print(this, "return sec");
 
@@ -128,16 +105,16 @@ public class Ray {
 
 //        Log.print(this, "return first");
 
-
         return closest;
     }
 
     /**
      * Returns the closest intersection and removes it from the list.
+     *
      * @param intersections
      * @return
      */
-    private Intersection popClosest(ArrayList<Intersection> intersections){
+    private Intersection popClosest(ArrayList<Intersection> intersections) {
         Intersection closest = null;
         float currentDistance = Float.MAX_VALUE;
 
@@ -148,8 +125,13 @@ public class Ray {
             }
         }
 
-        if(closest != null) intersections.remove(closest);
+        if (closest != null) intersections.remove(closest);
 
         return closest;
+    }
+
+    @Override
+    public String toString() {
+        return "origin: " + startPoint + " dir: " + direction;
     }
 }

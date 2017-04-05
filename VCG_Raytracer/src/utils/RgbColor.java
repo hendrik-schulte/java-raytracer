@@ -7,14 +7,22 @@ public class RgbColor {
     public Vec3 colors;
 
     /**
-        Set each component separately
+     * Set each component separately
      **/
-    public float red(){ return colors.x; }
-    public float green(){ return colors.y; }
-    public float blue(){ return colors.z; }
+    public float red() {
+        return colors.x;
+    }
+
+    public float green() {
+        return colors.y;
+    }
+
+    public float blue() {
+        return colors.z;
+    }
 
     /**
-        Generate some standard colors
+     * Generate some standard colors
      **/
     public static RgbColor DARK_CUSTOM = new RgbColor(0.02f, 0.01f, 0.01f);
     public static RgbColor RED = new RgbColor(1, 0, 0);
@@ -36,27 +44,27 @@ public class RgbColor {
     public static RgbColor DARK_GRAY = new RgbColor(0.1f, 0.1f, 0.1f);
 
     /**
-        Standard constructor given 3 single values
+     * Standard constructor given 3 single values
      **/
-    public RgbColor(float r, float g, float b){
+    public RgbColor(float r, float g, float b) {
         colors = new Vec3(r, g, b);
 
         clamp();
     }
 
     /**
-     Standard constructor given a 3D vector
+     * Standard constructor given a 3D vector
      **/
-    public RgbColor(Vec3 color){
+    public RgbColor(Vec3 color) {
         colors = color;
 
         clamp();
     }
 
     /**
-        Add another color
+     * Add another color
      **/
-    public void add(float r, float g, float b){
+    public void add(float r, float g, float b) {
         colors.x += r;
         colors.y += g;
         colors.z += b;
@@ -65,71 +73,71 @@ public class RgbColor {
     }
 
     /**
-        Get another color as the sum of the vector and the given vector
+     * Get another color as the sum of the vector and the given vector
      **/
-    public RgbColor add(RgbColor color){
-        return new RgbColor( colors.add(color.colors) );
+    public RgbColor add(RgbColor color) {
+        return new RgbColor(colors.add(color.colors));
     }
 
     /**
-        Get another color as the sum of the vector and the given vector
+     * Get another color as the sum of the vector and the given vector
      **/
-    public RgbColor multRGB(RgbColor color){
-        return new RgbColor( colors.x * color.red(),
-                             colors.y * color.green(),
-                             colors.z * color.blue() );
+    public RgbColor multRGB(RgbColor color) {
+        return new RgbColor(colors.x * color.red(),
+                colors.y * color.green(),
+                colors.z * color.blue());
     }
 
     /**
-        Get another color as the product of the vector and the given value
+     * Get another color as the product of the vector and the given value
      **/
-    public RgbColor multScalar(float value){
-        return new RgbColor( colors.multScalar(value) );
+    public RgbColor multScalar(float value) {
+        return new RgbColor(colors.multScalar(value));
     }
 
-    public RgbColor divideScalar(float value){
-        return new RgbColor( colors.divideScalar(value) );
+    public RgbColor divideScalar(float value) {
+        return new RgbColor(colors.divideScalar(value));
     }
 
     /**
-        Get single byte value of color
+     * Get single byte value of color
      **/
-    public int getRGB(){
+    public int getRGB() {
         return ((int) (this.red() * 255f) << 16) + ((int) (this.green() * 255f) << 8) + ((int) (this.blue() * 255f));
     }
 
     /**
-        Get a new color by the power of all values
+     * Get a new color by the power of all values
      **/
-    public RgbColor power(){
-        return new RgbColor(this.red() * this.red(), this.green() * this.green(),this.blue() * this.blue());
+    public RgbColor power() {
+        return new RgbColor(this.red() * this.red(), this.green() * this.green(), this.blue() * this.blue());
     }
 
     /**
-        There are no values allowed below 0 and over 1, so clamp them
+     * There are no values allowed below 0 and over 1, so clamp them
      **/
-    private void clamp(){
-        if( this.red() > 1 ) colors.x = 1f;
-        if( this.green() > 1 ) colors.y = 1f;
-        if( this.blue() > 1 ) colors.z = 1f;
+    private void clamp() {
+        if (this.red() > 1) colors.x = 1f;
+        if (this.green() > 1) colors.y = 1f;
+        if (this.blue() > 1) colors.z = 1f;
 
-        if( this.red() < 0 ) colors.x = 0f;
-        if( this.green() < 0 ) colors.y = 0f;
-        if( this.blue() < 0 ) colors.z = 0f;
+        if (this.red() < 0) colors.x = 0f;
+        if (this.green() < 0) colors.y = 0f;
+        if (this.blue() < 0) colors.z = 0f;
     }
 
     /**
-        Print values
+     * Print values
      **/
     @Override
-    public String toString(){
-        return "( " + this.red() + ", " + this.green() + ", " + this.blue() + " )";
+    public String toString() {
+        return "(" + (int) (this.red() * 255) + ", " + (int) (this.green() * 255) + ", " + (int) (this.blue() * 255) + ")";
     }
 
     /**
-        Compare to values and return if they are equal or not
+     * Compare to values and return if they are equal or not
      **/
-    public boolean equals(RgbColor inColor){
+    public boolean equals(RgbColor inColor) {
         return inColor.red() == this.red() && inColor.green() == this.green() && inColor.blue() == this.blue();
     }
 }

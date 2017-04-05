@@ -17,5 +17,5 @@ public abstract class Shape extends SceneObject {
         this.material = material;
     }
 
-    public abstract Intersection intersect(Ray ray);
+    public abstract Intersection[] intersect(Ray ray);
 }

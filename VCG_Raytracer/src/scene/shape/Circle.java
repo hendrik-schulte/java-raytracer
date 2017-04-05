@@ -18,12 +18,12 @@ public class Circle extends Plane
     }
 
     @Override
-    public Intersection intersect(Ray ray) {
-        Intersection intersec = super.intersect(ray);
+    public Intersection[] intersect(Ray ray) {
+        Intersection[] intersec = super.intersect(ray);
 
         if(intersec == null) return null;
 
-        Vec3 intersecPoint = intersec.interSectionPoint.sub(mPosition);
+        Vec3 intersecPoint = intersec[0].interSectionPoint.sub(mPosition);
 
         if(radiusSquared < intersecPoint.distanceSquared(Vec3.ZERO)) return null;
 //        if(radius < intersecPoint.distance(Vec3.ZERO)) return null;

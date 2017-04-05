@@ -16,19 +16,24 @@ import java.util.Random;
 
 public abstract class Material {
 
+    public static final float SNELLIUS_AIR = 1;
+    public static final float SNELLIUS_WATER = 1.333f;
+
     //material attributes
     public RgbColor ambient;
     public RgbColor diffuse;
     public RgbColor emission;
     public float reflection;
     public float opacity;
-    public float refractiveIndex; //materialToAirSnellius as well
+    public float transparency;
+    //    public float refractiveIndex; //materialToAirSnellius as well
     public float smoothness;
 
     //calculated
 //    private float distributionConeAngle;
     private float roughness;
     private float airToMaterialSnellius;
+    private float materialToAirSnellius;
     private float airToMaterialSnelliusPWD; //to the power of two
     private float materialToAirSnelliusPWD; //to the power of two
 
@@ -40,14 +45,25 @@ public abstract class Material {
         this.reflection = reflection;
         this.smoothness = smoothness;
         this.opacity = opacity;
-        this.refractiveIndex = refractiveIndex;
+        transparency = 1 - opacity;
+//        this.refractiveIndex = refractiveIndex;
         this.emission = emission;
 
 //        distributionConeAngle = (float) Math.acos(smoothness);
         roughness = 1 - smoothness;
-        airToMaterialSnellius = 1 / refractiveIndex;
+
+        airToMaterialSnellius = SNELLIUS_AIR / refractiveIndex;
+        materialToAirSnellius = refractiveIndex / SNELLIUS_AIR;
         airToMaterialSnelliusPWD = (float) Math.pow(airToMaterialSnellius, 2);
-        materialToAirSnelliusPWD = (float) Math.pow(refractiveIndex, 2);
+        materialToAirSnelliusPWD = (float) Math.pow(materialToAirSnellius, 2);
+
+//        if (refractiveIndex == 1) return;
+//
+//        Log.print(this, "airToMaterialSnellius: " + airToMaterialSnellius);
+//        Log.print(this, "materialToAirSnellius: " + materialToAirSnellius);
+//        Log.print(this, "airToMaterialSnelliusPWD: " + airToMaterialSnelliusPWD);
+//        Log.print(this, "materialToAirSnelliusPWD: " + materialToAirSnelliusPWD);
+
     }
 
     //    public abstract RgbColor getColor(Vec3 pos, Vec3 normal, Vec3 view, Scene scene);
@@ -69,7 +85,7 @@ public abstract class Material {
     }
 
     protected RgbColor calcAmbient(Scene scene) {
-        return emission.add(ambient.multScalar(scene.AmbientIntensity));
+        return emission.add(ambient.multScalar(scene.AmbientIntensity * opacity));
     }
 
     protected RgbColor calcDiffuse(Light light, Vec3 normal, Vec3 lightVector) {
@@ -77,6 +93,7 @@ public abstract class Material {
         return diffuse.multRGB(                                   //color of light multiplicated with
                 light.getColor()).multScalar(                               //light color
                 light.getIntensity() *                                      //intensity of light
+                        opacity *
                         Math.max(0, normal.scalar(lightVector)));           //dot product of normal and light vector
     }
 
@@ -103,65 +120,170 @@ public abstract class Material {
         return normal.multScalar(2 * lightVector.scalar(normal)).sub(lightVector).normalize();
     }
 
+//    public Vec3 getRefractionVector(Vec3 normal, Vec3 I) {
+//
+//        float dot = normal.scalar(I);
+//        if (dot == 0) {
+//            return I;
+//        }
+//
+//        float snelliusRatio;
+//        float snelliusRatioPWD;
+//        float cosA;                 //cosine alpha
+//
+//        if (dot < 0) {
+//            //from outside to mateiral
+//            snelliusRatio = airToMaterialSnellius;
+//            snelliusRatioPWD = airToMaterialSnelliusPWD;
+//            cosA = -dot;
+////            Log.print(this, "from out to in");
+//
+//        } else {
+//            //from inside of material to air
+//            snelliusRatio = materialToAirSnellius;
+//            snelliusRatioPWD = materialToAirSnelliusPWD;
+//            cosA = dot;
+////            Log.print(this, "from in to out. dot: " + dot);
+//        }
+//
+//
+//        double cosA_PWD = Math.pow(dot, 2);                                                 //dot^2 bzw. cosA^2
+//
+//        float inverseSneliusRatio = 1 - snelliusRatioPWD;
+//        float inverseCosA_PWD = (float) (1 - cosA_PWD);
+//        double cosB_PWD = 1 - snelliusRatioPWD * (1 - cosA_PWD);
+//
+//        if (cosB_PWD < 0) {
+//            //total internal reflection
+//
+//            return getReflectionVector(I, normal.negate());
+////            return Vec3.ZERO;
+//        }
+//
+//
+////        double cosB_PWD = 1 - (snelliusRatioPWD * (1 - cosA_PWD) );
+//        float cosB = (float) Math.sqrt(cosB_PWD);          //cosine beta
+//        Vec3 NcosB = normal.multScalar(cosB);                                               //normal * cosine beta
+//
+//
+////        Vec3 NcosAMinI = normal.multScalar((float) Math.cos(dot)).sub(I);
+//        Vec3 NcosAMinI = normal.multScalar(cosA).sub(I);                    //N * cos(a) - I
+//
+////        Log.print(this, "inverseSneliusRatio: " + inverseSneliusRatio);
+////        Log.print(this, "inverseCosA_PWD: " + inverseCosA_PWD);
+////        Log.print(this, "cosA: " + cosA);
+////        Log.print(this, "cosA^2: " + cosA_PWD);
+////        Log.print(this, "cosB^2: " + cosB_PWD);
+////        Log.print(this, "cosB: " + cosB);
+////        Log.print(this, "NcosB: " + NcosB);
+//
+//        return (NcosAMinI.sub(NcosB)).multScalar(snelliusRatio);
+//    }
+
     public Vec3 getRefractionVector(Vec3 normal, Vec3 I) {
 
         float dot = normal.scalar(I);
-        if (dot == 0) return I;
 
-        float snelliusRatio;
-        float snelliusRatioPWD;
-        float cosA;                 //cosine alpha
+//        Log.print(this, "starting refract calculation");
+//        Log.print(this, "normal: " + normal);
+//        Log.print(this, "I: " + I);
+//        Log.print(this, "dot: " + dot);
+
+        float n = airToMaterialSnellius;
+        float nPWD = airToMaterialSnelliusPWD;
 
         if (dot < 0) {
-            //from outside to mateiral
-            snelliusRatio = airToMaterialSnellius;
-            snelliusRatioPWD = airToMaterialSnelliusPWD;
-            cosA = -dot;
-        } else {
-            //from inside of material to air
-            snelliusRatio = refractiveIndex;
-            snelliusRatioPWD = materialToAirSnelliusPWD;
-            cosA = dot;
+            //in to out
+            n = materialToAirSnellius;
+            nPWD = materialToAirSnelliusPWD;
+
+//            Log.print(this, "in to out");
         }
 
-        float cosB = (float) Math.sqrt(1 - snelliusRatioPWD * (1 - Math.pow(dot, 2)));      //cosine beta
-        Vec3 NcosB = normal.multScalar(cosB);                                               //normal * cosine beta
-
-
-//        Vec3 NcosAMinI = normal.multScalar((float) Math.cos(dot)).sub(I);
-        Vec3 NcosAMinI = normal.multScalar(cosA).sub(I);                    //N * cos(a) - I
-
-        return (NcosAMinI.sub(NcosB)).multScalar(snelliusRatio);
-    }
-
-    /**
-     * Taken from https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/reflection-refraction-fresnel
-     *
-     * @param normal
-     * @param I
-     * @param n1
-     * @param n2
-     * @return
-     */
-    public static Vec3 getRefractionVector(Vec3 normal, Vec3 I, float n1, float n2) {
-        float cosi = MathEx.clamp(normal.scalar(I), -1, 1);
-        float etai = n1, etat = n2;
-        Vec3 N = normal;
-
-
-        if (cosi < 0) {
-            cosi = -cosi;
-        } else {
-            //internal reflection
-            etai = n2;
-            etat = n1;
-            N = N.multScalar(-1);
+        if (1f - nPWD <= 0) {
+            //total internal reflection
+//            Log.print(this, "TIR");
+            return getReflectionVector(I, normal);
+//                return getReflectionVector(I, normal.negate().normalize());
         }
 
-        float eta = etai / etat;
-        float k = 1 - eta * eta * (1 - cosi * cosi);
-        return k < 0 ? Vec3.ZERO : I.multScalar(eta).add(N.multScalar(eta * cosi - (float) Math.sqrt(k)));
+//        Log.print(this, "out to in");
+
+        float cosB = I.scalar(normal);
+        float sinB_PWD = nPWD * (1 - cosB * cosB);
+
+        float a = n * cosB;
+        float b = (float) Math.sqrt(1 - sinB_PWD);
+
+        return I.negate().multScalar(n).add(normal.multScalar(a - b));
     }
+
+//    public Vec3 getRefractionVector(Vec3 normal, Vec3 I) {
+//
+//        float dot = normal.scalar(I);
+//
+//        Log.print(this, "starting refract calculation");
+//        Log.print(this, "normal: " + normal + " I: " + I);
+//        Log.print(this, "dot: " + dot);
+//
+//        float n = airToMaterialSnellius;
+//        float nPWD = airToMaterialSnelliusPWD;
+//
+//        if (dot < 0) {
+//            //in to out
+//            n = materialToAirSnellius;
+//            nPWD = materialToAirSnelliusPWD;
+////            dot = -dot;
+//
+//            Log.print(this, "in to out ");
+//        } else{
+//            Log.print(this, "out to in");
+//        }
+//
+//        float cosBRadiant = 1 - nPWD * (1 - dot * dot);
+//
+//        if (cosBRadiant < 0) {
+//            //total internal reflection
+//            Log.print(this, "TIR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//
+////            return getReflectionVector(I, normal);
+//                return getReflectionVector(I, normal.negate().normalize());
+//        }
+//
+//        float cosB = (float) Math.sqrt(cosBRadiant);
+//
+//        return (normal.multScalar(Math.abs(dot)).sub(I).sub(normal.multScalar(cosB))).multScalar(n);
+//    }
+
+
+//    /**
+//     * Taken from https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/reflection-refraction-fresnel
+//     *
+//     * @param normal
+//     * @param I
+//     * @param n1
+//     * @param n2
+//     * @return
+//     */
+//    public static Vec3 getRefractionVector(Vec3 normal, Vec3 I, float n1, float n2) {
+//        float cosi = MathEx.clamp(normal.scalar(I), -1, 1);
+//        float etai = n1, etat = n2;
+//        Vec3 N = normal.negate();
+//
+//
+//        if (cosi < 0) {
+//            cosi = -cosi;
+//        } else {
+//            //internal reflection
+//            etai = n2;
+//            etat = n1;
+//            N = N.negate();
+//        }
+//
+//        float eta = etai / etat;
+//        float k = 1 - eta * eta * (1 - cosi * cosi);
+//        return k < 0 ? Vec3.ZERO : I.multScalar(eta).add(N.multScalar(eta * cosi - (float) Math.sqrt(k)));
+//    }
 
 //    public static Vec3 getRefractionVector(Vec3 normal, Vec3 I, float n1, float n2) {
 //
@@ -183,6 +305,26 @@ public abstract class Material {
 //
 //        return I.multScalar(n).add(normal.multScalar(n * c1 - c2));
 //    }
+
+    /**
+     * Taken from https://graphics.stanford.edu/courses/cs148-10-summer/docs/2006--degreve--reflection_refraction.pdf
+     *
+     * @param normal
+     * @param I
+     * @param n1
+     * @param n2
+     * @return
+     */
+    public static Vec3 getRefractionVector(Vec3 normal, Vec3 I, float n1, float n2) {
+        double n;
+        double cosI = -normal.scalar(I);
+        if (cosI < 0) n = n1 / n2;   //out to in
+        else n = n2 / n1;           //in to out
+        double sinT2 = n * n * (1.0f - cosI * cosI);
+        if (sinT2 > 1) return Vec3.ZERO;
+        double cosT = Math.sqrt(1.0 - sinT2);
+        return I.multScalar(n).add(normal.multScalar((n * cosI - cosT)));
+    }
 
 
     public List<Ray> getDistributedRays(Ray idealRay, int amount) {
