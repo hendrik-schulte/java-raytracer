@@ -39,8 +39,6 @@ public class Sphere extends Shape {
 
             if (t < 0) return null;
 
-            Log.print(this, "sphere border intersection");
-
             return new Intersection[]{getIntersection(ray, t)};
         }
         if (discriminant > 0) {

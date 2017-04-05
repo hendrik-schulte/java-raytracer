@@ -56,10 +56,10 @@ public class Main {
      * RAYTRACER
      **/
 
-    private static int RECURSIONS = 5;
-    private static int RAY_DISTRIBUTION_SAMPLES = 2;
+    private static int RECURSIONS = 4;
+    private static int RAY_DISTRIBUTION_SAMPLES = 3;
     private static int MULTI_THREADING = 4;
-    private static float AMBIENT = 0.06f;
+    private static float AMBIENT = 0.08f;
     private static Raytracer.AntiAliasingLevel ANTIALIASING_LEVEL = Raytracer.AntiAliasingLevel.x4;
     public static boolean USE_SHADOWS = true;
 
@@ -251,11 +251,11 @@ public class Main {
         scene.createShape(new Sphere(
                 new Vec3(1.5f, -0.5f, 8.5f),
                 1.5f,
-                new Blinn(RgbColor.WHITE,                               //ambient
+                new Phong(RgbColor.WHITE,                               //ambient
                         RgbColor.WHITE,                                 //diffuse
                         RgbColor.BLACK,                                 //emission
-                        new RgbColor(0.08f, 0.08f, 0.08f),    //specular
-                        36,
+                        new RgbColor(0.04f, 0.04f, 0.04f),    //specular
+                        58,
                         .0f,
                         1f,
                         0,

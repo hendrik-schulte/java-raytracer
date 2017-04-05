@@ -216,7 +216,7 @@ public class Raytracer {
 
     private RgbColor traceIllumination(Intersection inter, Vec3 viewVector, Material material) {
 
-        return material.getColor(inter.interSectionPoint, inter.normal, viewVector, scene).multScalar(material.opacity);
+        return material.getColor(inter.interSectionPoint, inter.normal, viewVector, scene);
     }
 
     private RgbColor traceRefraction(Intersection inter, Vec3 viewVector, Material material, int currentRecursion) {

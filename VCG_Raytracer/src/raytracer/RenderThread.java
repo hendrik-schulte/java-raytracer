@@ -1,6 +1,5 @@
 package raytracer;
 
-
 import utils.Callback;
 import utils.io.Log;
 
