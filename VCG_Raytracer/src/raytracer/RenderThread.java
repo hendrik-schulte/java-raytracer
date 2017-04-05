@@ -1,32 +1,71 @@
 package raytracer;
 
+import com.sun.org.apache.regexp.internal.RE;
 import utils.Callback;
 import utils.io.Log;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class RenderThread extends Thread {
 
+    public enum ThreadOption {
+        dynamic,
+        fixed
+    }
+
+    private ThreadOption threadOption;
+
     private Raytracer raytracer;
-    private int startX;
-    private int endX;
-    private int startY;
-    private int endY;
+    private RenderBlock renderBlock;
     private Callback callback;
 
-    public RenderThread(Raytracer raytracer, int startX, int endX, int startY, int endY, Callback callback) {
+    private List<RenderBlock> renderBlocks;
+
+    public RenderThread(Raytracer raytracer, List<RenderBlock> renderBlocks, Callback callback) {
         this.raytracer = raytracer;
-        this.startX = startX;
-        this.endX = endX;
-        this.startY = startY;
-        this.endY = endY;
+        this.renderBlocks = renderBlocks;
         this.callback = callback;
+
+        threadOption = ThreadOption.dynamic;
     }
+
+    public RenderThread(Raytracer raytracer, RenderBlock renderBlock, Callback callback) {
+        this.raytracer = raytracer;
+        this.renderBlock = renderBlock;
+        this.callback = callback;
+
+        threadOption = ThreadOption.fixed;
+    }
+
 
     public void run() {
 //        Log.print(this, "Render thread x: (" + startX + "-" + endX + ") y: (" + startY + "-" + endY + ") started");
 
-        raytracer.renderBlock(startX, endX, startY, endY);
+        switch (threadOption) {
+            case fixed:
+                raytracer.renderBlock(renderBlock);
+                break;
 
-        Log.print(this, "Render thread x: (" + startX + "-" + endX + ") y: (" + startY + "-" + endY + ") finished");
+            case dynamic:
+                while (!renderBlocks.isEmpty()) {
+                    List<RenderBlock> saveList = Collections.synchronizedList(renderBlocks);
+
+                    RenderBlock block;
+
+//                    synchronized (saveList){
+                        block = saveList.remove(0);
+//                    }
+
+                    raytracer.renderBlock(block);
+
+//                    Log.print(this, "finished block " + renderBlocks.size() + " remaining");
+                }
+                break;
+        }
+
+//        Log.print(this, "Render thread x: (" + startX + "-" + endX + ") y: (" + startY + "-" + endY + ") finished");
 
         callback.callback();
     }

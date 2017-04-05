@@ -29,6 +29,7 @@ import utils.io.Log;
 import java.awt.image.BufferedImage;
 import java.awt.image.RGBImageFilter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Raytracer {
@@ -52,6 +53,9 @@ public class Raytracer {
     private AntiAliasingLevel antiAliasingLevel;
     private ArrayList<Vec2> antiAliasingPositions = new ArrayList<>();
 
+    private List<RenderBlock> renderBlocks = Collections.synchronizedList(new ArrayList<RenderBlock>());
+    private final int renderBlockSize = 10;
+
     public enum AntiAliasingLevel {
         disabled,
         x2,
@@ -60,7 +64,7 @@ public class Raytracer {
     }
 
     public Raytracer(Scene scene, Window renderWindow, int recursions, int rayDistributionSamples, AntiAliasingLevel antiAliasingLevel, int multiThreading, Callback callback) {
-//        Log.print(this, "Init");
+        Log.print(this, "Init");
         mMaxRecursions = recursions;
         this.rayDistributionSamples = rayDistributionSamples;
         this.multiThreading = multiThreading;
@@ -75,22 +79,26 @@ public class Raytracer {
     }
 
     public void renderScene() {
-        Log.print(this, "Start rendering");
+
+        Log.print(this, "Preliminary calculation");
 
         cameraCalculation();
+
+        generateRenderBlocks();
 
 //        renderPixel(455, 300);
 //        renderPixel(455, 301);
 //        renderPixel(586, 312);
 //        renderPixel(586, 313);
-
 //        renderBlock(586, 589, 312, 314);
+
+        Log.print(this, "Start rendering");
 
         startRenderThreads();
     }
 
     private void renderPixel(int x, int y) {
-        Log.print(this, "calc Pixel (" + x + "," +  y + ")");
+        Log.print(this, "calc Pixel (" + x + "," + y + ")");
         renderBlock(x, x + 1, y, y + 1);
     }
 
@@ -109,18 +117,53 @@ public class Raytracer {
 //        Log.print(this, "window center: " + windowCenter);
     }
 
+    private void generateRenderBlocks() {
+
+        int rows = mBufferedImage.getHeight() / renderBlockSize;
+        int columns = mBufferedImage.getWidth() / renderBlockSize;
+
+        //columns
+        for (int x = 0; x < columns; x++) {
+
+            int startX = x * renderBlockSize;
+            int endX = startX + renderBlockSize;
+            if (x + 1 == columns) endX = mBufferedImage.getWidth();
+
+            //rows
+            for (int y = 0; y < rows; y++) {
+
+                int startY = y * renderBlockSize;
+                int endY = startY + renderBlockSize;
+                if (y + 1 == rows) endY = mBufferedImage.getHeight();
+
+                renderBlocks.add(new RenderBlock(startX, endX, startY, endY));
+            }
+        }
+
+        Collections.shuffle(renderBlocks);
+    }
+
     private void startRenderThreads() {
         threadsFinished = 0;
-        int parts = mBufferedImage.getHeight() / multiThreading;
+//        int parts = mBufferedImage.getHeight() / multiThreading;
+//
+//        for (int i = 0; i < multiThreading; i++) {
+//
+//            int startRow = i * parts;
+//            int endRow = startRow + parts;
+//
+//            if (i + 1 == multiThreading) endRow = mBufferedImage.getHeight();
+//
+//            RenderBlock block = new RenderBlock(0, mBufferedImage.getWidth(), startRow, endRow);
+//
+//            Thread renderThread = new RenderThread(this, block, this::threadFinished);
+//
+//            renderThread.start();
+//        }
 
         for (int i = 0; i < multiThreading; i++) {
 
-            int startRow = i * parts;
-            int endRow = startRow + parts;
-
-            if (i + 1 == multiThreading) endRow = mBufferedImage.getHeight();
-
-            Thread renderThread = new RenderThread(this, 0, mBufferedImage.getWidth(), startRow, endRow, this::threadFinished);
+            Thread renderThread = new RenderThread(this, renderBlocks, this::threadFinished);
 
             renderThread.start();
         }
@@ -133,6 +176,10 @@ public class Raytracer {
 
         Log.print(this, "All render threads finished!");
         renderCallback.callback();
+    }
+
+    public void renderBlock(RenderBlock rect) {
+        renderBlock(rect.startX, rect.endX, rect.startY, rect.endY);
     }
 
     public void renderBlock(int startX, int endX, int startY, int endY) {
@@ -272,6 +319,7 @@ public class Raytracer {
                     antiAliasingPositions.add(new Vec2(q4, -q4));
                     antiAliasingPositions.add(new Vec2(q4, q4));
                     break;
+
                 case x4:
                     float q8 = pixelSizeNormPos / 8;
 

@@ -49,19 +49,20 @@ public class Main {
      * BOX_DIMENSION
      **/
 
-    static int IMAGE_WIDTH = 800;
-    static int IMAGE_HEIGHT = 600;
+    static int IMAGE_WIDTH = 1600;
+    static int IMAGE_HEIGHT = 900;
 
     /**
      * RAYTRACER
      **/
 
-    private static int RECURSIONS = 4;
-    private static int RAY_DISTRIBUTION_SAMPLES = 3;
+    private static int RECURSIONS = 2;
+    private static int RAY_DISTRIBUTION_SAMPLES = 1;
     private static int MULTI_THREADING = 4;
-    private static float AMBIENT = 0.08f;
-    private static Raytracer.AntiAliasingLevel ANTIALIASING_LEVEL = Raytracer.AntiAliasingLevel.x4;
+    private static float AMBIENT = 0.04f;
+    private static Raytracer.AntiAliasingLevel ANTIALIASING_LEVEL = Raytracer.AntiAliasingLevel.x2;
     public static boolean USE_SHADOWS = true;
+    private static float LIGHT_SAMPLING = 0.7f;
 
     private static float ROOM_SMOOTHNESS = 1.00f;
     private static float ROOM_REFLECTIVITY = 0.0f;
@@ -249,7 +250,7 @@ public class Main {
 
 //        refractive
         scene.createShape(new Sphere(
-                new Vec3(1.5f, -0.5f, 8.5f),
+                new Vec3(1.5f, -0.5f, 9.5f),
                 1.5f,
                 new Phong(RgbColor.WHITE,                               //ambient
                         RgbColor.WHITE,                                 //diffuse
@@ -403,7 +404,7 @@ public class Main {
                         0.15f,
                         0.8f,
                         new Vec2(7, 7 ),
-                        1.0f),
+                        LIGHT_SAMPLING),
                 true);
 
 
@@ -424,7 +425,7 @@ public class Main {
 //                        0.11f,
 //                        .9f,
 //                        new Vec2(10, 3),
-//                        1f),
+//                        LIGHT_SAMPLING),
 //                true);
     }
 

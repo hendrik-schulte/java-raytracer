@@ -26,11 +26,9 @@ public abstract class Material {
     public float reflection;
     public float opacity;
     public float transparency;
-    //    public float refractiveIndex; //materialToAirSnellius as well
     public float smoothness;
 
     //calculated
-//    private float distributionConeAngle;
     private float roughness;
     private float airToMaterialSnellius;
     private float materialToAirSnellius;
@@ -45,12 +43,10 @@ public abstract class Material {
         this.reflection = reflection;
         this.smoothness = smoothness;
         this.opacity = opacity;
-        transparency = 1 - opacity;
-//        this.refractiveIndex = refractiveIndex;
         this.emission = emission;
 
-//        distributionConeAngle = (float) Math.acos(smoothness);
         roughness = 1 - smoothness;
+        transparency = 1 - opacity;
 
         airToMaterialSnellius = SNELLIUS_AIR / refractiveIndex;
         materialToAirSnellius = refractiveIndex / SNELLIUS_AIR;
@@ -63,7 +59,6 @@ public abstract class Material {
 //        Log.print(this, "materialToAirSnellius: " + materialToAirSnellius);
 //        Log.print(this, "airToMaterialSnelliusPWD: " + airToMaterialSnelliusPWD);
 //        Log.print(this, "materialToAirSnelliusPWD: " + materialToAirSnelliusPWD);
-
     }
 
     //    public abstract RgbColor getColor(Vec3 pos, Vec3 normal, Vec3 view, Scene scene);
