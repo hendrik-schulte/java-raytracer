@@ -49,14 +49,14 @@ public class Main {
      * BOX_DIMENSION
      **/
 
-    static int IMAGE_WIDTH = 1600;
-    static int IMAGE_HEIGHT = 900;
+    static int IMAGE_WIDTH = 800;
+    static int IMAGE_HEIGHT = 600;
 
     /**
      * RAYTRACER
      **/
 
-    private static int RECURSIONS = 2;
+    private static int RECURSIONS = 3;
     private static int RAY_DISTRIBUTION_SAMPLES = 1;
     private static int MULTI_THREADING = 4;
     private static float AMBIENT = 0.04f;
@@ -66,7 +66,7 @@ public class Main {
 
     private static float ROOM_SMOOTHNESS = 1.00f;
     private static float ROOM_REFLECTIVITY = 0.0f;
-    private static RgbColor ROOM_SPECULAR = new RgbColor(0f,0f,0f);
+    private static RgbColor ROOM_SPECULAR = new RgbColor(0f, 0f, 0f);
     private static float ROOM_SPECULAREXP = 12f;
 
     private static Window renderWindow;
@@ -106,7 +106,6 @@ public class Main {
      * This is called after the last render Thread finished
      */
     private static void renderingFinished() {
-//        renderWindow.exportRendering(String.valueOf(stopTime(tStart)), RECURSIONS, getAntiAliasingLevel(), MULTI_THREADING);
         renderWindow.exportRendering(stopTime(tStart), RECURSIONS, getAntiAliasingLevel(), MULTI_THREADING);
     }
 
@@ -130,27 +129,14 @@ public class Main {
                 3));
 
         setupSpheres(scene);
+        setupObjects(scene);
         setupBox(scene);
-
-//        scene.createShape(new Sphere(new Vec3(5, 1, -3.5f), 1.1f, new Phong(RgbColor.GREEN, 0.2f, 0.0f, 4)));
-
         setupLight(scene);
 
         return scene;
     }
 
     private static void setupSpheres(Scene scene) {
-
-//        scene.createShape(new Sphere(
-//                new Vec3(0, 0, 8),
-//                1.0f,
-//                new Lambert(RgbColor.RED,
-//                        RgbColor.RED,
-//                        RgbColor.BLACK,
-//                        0.0f,
-//                        1.0f,
-//                        1,
-//                        1f)));
 
         //reflective
         scene.createShape(new Sphere(
@@ -167,18 +153,16 @@ public class Main {
                         1)));
 
         //reflective blurry
-        scene.createShape(new Sphere(
-                new Vec3(-2.5f, -1, 10),
-                1.0f,
-                new Phong(RgbColor.SOFT_GRAY,   //ambient
-                        RgbColor.SOFT_GRAY,     //diffuse
-                        RgbColor.BLACK,         //emission
-                        new RgbColor(0.00f, 0.00f, 0.00f),
-                        18f,
-                        0.5f,
-                        0.92f,
-                        1,
-                        1)));
+//        scene.createShape(new Sphere(
+//                new Vec3(-2.5f, -1, 10),
+//                1.0f,
+//                new Lambert(RgbColor.SOFT_GRAY,   //ambient
+//                        RgbColor.SOFT_GRAY,     //diffuse
+//                        RgbColor.BLACK,         //emission
+//                        0.5f,
+//                        0.92f,
+//                        1,
+//                        1)));
 
         //red phong sphere
 //        scene.createShape(new Sphere(
@@ -189,20 +173,6 @@ public class Main {
 //                        RgbColor.BLACK,
 //                        new RgbColor(0.08f, 0.08f, 0.08f),
 //                        26,
-//                        .0f,
-//                        1.0f,
-//                        1,
-//                        1)));
-
-        //blue blinn sphere
-//        scene.createShape(new Sphere(
-//                new Vec3(-2, 1.5f, 7.5f),
-//                1f,
-//                new Blinn(RgbColor.BLUE,
-//                        RgbColor.BLUE,
-//                        RgbColor.BLACK,
-//                        new RgbColor(0.05f, 0.05f, 0.05f),
-//                        46,
 //                        .0f,
 //                        1.0f,
 //                        1,
@@ -241,7 +211,7 @@ public class Main {
 //                new Phong(RgbColor.GRAY,
 //                        RgbColor.GRAY,
 //                        RgbColor.BLACK,
-//                        new RgbColor(0.05f, 0.05f, 0.05f),
+//                        new Rg/bColor(0.05f, 0.05f, 0.05f),
 //                        6,
 //                        .3f ,
 //                        0.1f,
@@ -249,18 +219,18 @@ public class Main {
 //                        1)));
 
 //        refractive
-        scene.createShape(new Sphere(
-                new Vec3(1.5f, -0.5f, 9.5f),
-                1.5f,
-                new Phong(RgbColor.WHITE,                               //ambient
-                        RgbColor.WHITE,                                 //diffuse
-                        RgbColor.BLACK,                                 //emission
-                        new RgbColor(0.04f, 0.04f, 0.04f),    //specular
-                        58,
-                        .0f,
-                        1f,
-                        0,
-                        1.5f)));
+//        scene.createShape(new Sphere(
+//                new Vec3(1.5f, -0.5f, 9.5f),
+//                1.5f,
+//                new Phong(RgbColor.WHITE,                               //ambient
+//                        RgbColor.WHITE,                                 //diffuse
+//                        RgbColor.BLACK,                                 //emission
+//                        new RgbColor(0.04f, 0.04f, 0.04f),    //specular
+//                        58,
+//                        .0f,
+//                        1f,
+//                        0,
+//                        1.8f)));
 
 //        //refractive blurry
 //        scene.createShape(new Sphere(
@@ -277,12 +247,60 @@ public class Main {
 //                        1.5f)));
     }
 
+    private static void setupObjects(Scene scene) {
+        //plane
+//        scene.createShape(new Plane(
+//                new Vec3(0,0,5),
+//                new Vec3(0,0,1),
+//                true,
+//                new Lambert(RgbColor.SOFT_GRAY,        //ambient
+//                        RgbColor.SOFT_GRAY,          //diffuse
+//                        RgbColor.RED,        //emission
+//                        0,
+//                        1,
+//                        1,
+//                        1)));
+
+        //circle
+//        scene.createShape(new Circle(
+//                new Vec3(1, 1, 9),    //pos
+//                new Vec3(0, 0, -1),     //normal
+//                0.5f,
+//                true,
+//                new Phong(RgbColor.SOFT_GRAY,        //ambient
+//                        RgbColor.SOFT_GRAY,          //diffuse
+//                        RgbColor.GREEN,        //emission
+//                        RgbColor.BLACK,       //specular
+//                        0,
+//                        .0f,
+//                        1,
+//                        1,
+//                        1)));
+
+        //triangle
+        scene.createShape(new Triangle(
+                new Vec3(2, -1, 9),      //A
+                new Vec3(3, 3, 6),     //B
+                new Vec3(0, 0, 7),     //C
+                true,
+                new Phong(RgbColor.DARK_MAGENTA,        //ambient
+                        RgbColor.DARK_MAGENTA,          //diffuse
+                        RgbColor.BLACK,                 //emission
+                        new RgbColor(0.02f, 0.02f, 0.02f),       //specular
+                        32,
+                        .4f,
+                        1,
+                        1,
+                        1)));
+    }
+
     private static void setupBox(Scene scene) {
 
         //Floor
         scene.createShape(new Plane(
                 new Vec3(0, -2, 0),    //pos
                 new Vec3(0, 1, 0),     //normal
+                false,
                 new Blinn(RgbColor.DARK_GRAY,        //ambient
                         RgbColor.GRAY,          //diffuse
                         RgbColor.BLACK,         //emission
@@ -297,6 +315,7 @@ public class Main {
         scene.createShape(new Plane(
                 new Vec3(-5, 0, 0),    //pos
                 new Vec3(1, 0, 0),     //normal
+                false,
                 new Blinn(RgbColor.DARK_MAGENTA,        //ambient
                         RgbColor.DARK_MAGENTA,          //diffuse
                         RgbColor.BLACK,             //emision
@@ -311,6 +330,7 @@ public class Main {
         scene.createShape(new Plane(
                 new Vec3(5, 0, 0),    //pos
                 new Vec3(-1, 0, 0),     //normal
+                false,
                 new Blinn(RgbColor.DARK_GREEN,        //ambient
                         RgbColor.DARK_GREEN,          //diffuse
                         RgbColor.BLACK,        //emission
@@ -325,6 +345,7 @@ public class Main {
         scene.createShape(new Plane(
                 new Vec3(0, 0, 3),    //pos
                 new Vec3(0, 0, 1),     //normal
+                false,
                 new Blinn(RgbColor.SOFT_GRAY,        //ambient
                         RgbColor.SOFT_GRAY,          //diffuse
                         RgbColor.BLACK,        //emission
@@ -339,6 +360,7 @@ public class Main {
         scene.createShape(new Plane(
                 new Vec3(0, 4.2f, 0),    //pos
                 new Vec3(0, -1, 0),      //normal
+                false,
                 new Blinn(RgbColor.DARK_CYAN,      //ambient
                         RgbColor.DARK_CYAN,        //diffuse
                         RgbColor.BLACK,             //emission
@@ -353,6 +375,7 @@ public class Main {
         scene.createShape(new Plane(
                 new Vec3(0, 0, 14),    //pos
                 new Vec3(0, 0, -1),     //normal
+                false,
                 new Blinn(RgbColor.BLACK,        //ambient
                         RgbColor.BLACK,          //diffuse
                         RgbColor.BLACK,        //emission
@@ -362,22 +385,6 @@ public class Main {
                         1.0f,
                         1,
                         1)));
-
-
-//        //circle
-//        scene.createShape(new Circle(
-//                new Vec3(1, 1, 6),    //pos
-//                new Vec3(0, 0, 1),     //normal
-//                1f,
-//                new Phong(RgbColor.SOFT_GRAY,        //ambient
-//                        RgbColor.SOFT_GRAY,          //diffuse
-//                        RgbColor.GREEN,        //emission
-//                        RgbColor.BLACK,       //specular
-//                        0,
-//                        .0f,
-//                        1,
-//                        1,
-//                        1)));
     }
 
     private static void setupLight(Scene scene) {
@@ -394,6 +401,7 @@ public class Main {
                                 new Vec3(0, 4.10f, 8),    //pos
                                 new Vec3(-1.0f, .0f, 0),     //a
                                 new Vec3(0, .0f, -1.0f),     //b
+                                false,
                                 new Lambert(RgbColor.WHITE,        //ambient
                                         RgbColor.WHITE,          //diffuse
                                         RgbColor.WHITE,          //emission
@@ -403,7 +411,7 @@ public class Main {
                                         1)),
                         0.15f,
                         0.8f,
-                        new Vec2(7, 7 ),
+                        new Vec2(5, 5),
                         LIGHT_SAMPLING),
                 true);
 
@@ -415,6 +423,7 @@ public class Main {
 //                                new Vec3(0, 4.10f, 8),    //pos
 //                                new Vec3(0, -1, 0),     //normal
 //                                1.5f,
+//        false,
 //                                new Lambert(RgbColor.WHITE,        //ambient
 //                                        RgbColor.WHITE,          //diffuse
 //                                        RgbColor.WHITE,          //emission

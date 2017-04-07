@@ -5,6 +5,9 @@ public class Vec2 {
     public float x;
     public float y;
 
+    public static Vec2 ZERO = new Vec2(0, 0);
+    public static Vec2 ONE = new Vec2(1, 1);
+
     /**
         Standard 2D constructor taking all values given
      **/

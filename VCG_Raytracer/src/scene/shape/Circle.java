@@ -10,8 +10,8 @@ public class Circle extends Plane
     public float radius;
     private float radiusSquared;
 
-    public Circle(Vec3 pos, Vec3 normal, float radius, Material material) {
-        super(pos, normal, material);
+    public Circle(Vec3 pos, Vec3 normal, float radius, boolean drawBack, Material material) {
+        super(pos, normal, drawBack, material);
 
         this.radius = radius;
         radiusSquared = (float) Math.pow(radius, 2);
@@ -26,7 +26,6 @@ public class Circle extends Plane
         Vec3 intersecPoint = intersec[0].interSectionPoint.sub(mPosition);
 
         if(radiusSquared < intersecPoint.distanceSquared(Vec3.ZERO)) return null;
-//        if(radius < intersecPoint.distance(Vec3.ZERO)) return null;
 
         return intersec;
     }

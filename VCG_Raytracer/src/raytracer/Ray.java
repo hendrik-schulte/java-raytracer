@@ -77,7 +77,7 @@ public class Ray {
             for (Intersection intersection : tempIntersections) {
 
                 if (intersection.distance > maxDistance) continue;
-                if (!intersection.incoming) continue;
+//                if (!intersection.incoming) continue;
 
 //            Log.print(this, "intersec: " + intersection.shape + " dis: " + intersection.distance);
 

@@ -169,7 +169,7 @@ public class Raytracer {
         }
     }
 
-    private void threadFinished() {
+    private synchronized void threadFinished() {
         threadsFinished++;
 
         if (threadsFinished < multiThreading) return;
