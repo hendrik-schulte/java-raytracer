@@ -9,9 +9,8 @@ import utils.io.Log;
 
 public class Triangle extends Plane {
 
+    private boolean initializationFailed = false;
     private Vec2 projA;
-    private Vec2 projB;
-    private Vec2 projC;
     private Vec2 projAB;
     private Vec2 projAC;
 
@@ -20,11 +19,17 @@ public class Triangle extends Plane {
     public Triangle(Vec3 a, Vec3 b, Vec3 c, boolean drawBack, Material material) {
         super(a, b.sub(a).cross(c.sub(a)), drawBack, material);
 
+        if(Float.isNaN(normal.x) || Float.isNaN(normal.y) || Float.isNaN(normal.z)){
+            Log.error(this, "Triangle is invalid!");
+            initializationFailed = true;
+            return;
+        }
+
         projectToPlane = getPlaneProjection(normal);
 
         projA = projectToAxisPlane(projectToPlane, a);
-        projB = projectToAxisPlane(projectToPlane, b);
-        projC = projectToAxisPlane(projectToPlane, c);
+        Vec2 projB = projectToAxisPlane(projectToPlane, b);
+        Vec2 projC = projectToAxisPlane(projectToPlane, c);
         projAB = projB.sub(projA);
         projAC = projC.sub(projA);
     }
@@ -49,10 +54,14 @@ public class Triangle extends Plane {
         float v = (dot00 * dot12 - dot01 * dot02) * invDenom;
 
         if ((u >= 0) && (v >= 0) && (u + v < 1)) {
-//            Log.print(this, "triangle intersec");
             return planeIntersection;
         }
 
         return null;
+    }
+
+    public boolean isValidTriangle(){
+        return !initializationFailed;
+//        return !Float.isNaN(normal.x) && !Float.isNaN(normal.y) && !Float.isNaN(normal.z);
     }
 }

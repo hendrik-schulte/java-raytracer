@@ -1,36 +1,52 @@
 package scene.camera;
 
+import raytracer.Ray;
 import scene.SceneObject;
+import utils.algebra.Vec2;
 import utils.algebra.Vec3;
-import utils.io.Log;
 
-public class Camera extends SceneObject {
+public abstract class Camera extends SceneObject {
 
     public Vec3 lookAt;
     public Vec3 upVector;
-    public float viewAngle;
-    public float focalLength;
 
     public Vec3 view;
     public Vec3 side;
     public Vec3 camUp;
 
-    public Camera(Vec3 pos, Vec3 lookAt, Vec3 upVector, float viewAngle, float focalLength) {
+    public float ratio;
+    public float windowHeight;
+    public float windowWidth;
+    public Vec3 windowCenter;
+
+
+    public Camera(Vec3 pos, Vec3 lookAt, Vec3 upVector, int imageWidth, int imageHeight) {
         super(pos);
 
         this.lookAt = lookAt;
         this.upVector = upVector.normalize();
-        this.viewAngle = viewAngle;
-        this.focalLength = focalLength;
 
-        calcCoordinates();
+
+        calcCoordinateAxis();
+
+        ratio = (float) imageWidth / (float) imageHeight;
     }
 
-//    public Vec3 calculateDestinationPoint(){
-//        return new Vec3();
-//    }
+    /***
+     * Converts the given normalised pixel position (from [-1,-1] to [1,1]) to World space position.
+     *
+     * @param normPos
+     * @return
+     */
+    protected Vec3 norm2World(Vec2 normPos) {
+        return windowCenter
+                .add(camUp.multScalar(normPos.y * windowHeight / -2f))
+                .add(side.multScalar(normPos.x * windowWidth / 2f));
+    }
 
-    private void calcCoordinates(){
+    public abstract Ray calcPixelRay(Vec2 normPos);
+
+    private void calcCoordinateAxis(){
         view = calcView();
         side = calcSide();
         camUp = calcCamUp();

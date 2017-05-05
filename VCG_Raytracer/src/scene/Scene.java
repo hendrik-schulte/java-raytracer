@@ -54,7 +54,7 @@ public class Scene {
         pointLights.add(light);
     }
 
-    public void createCamera(Camera cam) {
+    public void setCamera(Camera cam) {
         camera = cam;
     }
 

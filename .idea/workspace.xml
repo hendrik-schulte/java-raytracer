@@ -1,20 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="VCG_Raytracer_Henne:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="de9d4792-f021-4133-9629-0711ed4e2c58" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Cube.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Triangle.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/VCG_Raytracer_Henne_jar.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/VCG_Raytracer/src/META-INF/MANIFEST.MF" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Mesh.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/raytracing.png" afterPath="$PROJECT_DIR$/raytracing.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VCG_Raytracer/src/Main/Main.java" afterPath="$PROJECT_DIR$/VCG_Raytracer/src/Main/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VCG_Raytracer/src/raytracer/Ray.java" afterPath="$PROJECT_DIR$/VCG_Raytracer/src/raytracer/Ray.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VCG_Raytracer/src/material/Material.java" afterPath="$PROJECT_DIR$/VCG_Raytracer/src/material/Material.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VCG_Raytracer/src/raytracer/Raytracer.java" afterPath="$PROJECT_DIR$/VCG_Raytracer/src/raytracer/Raytracer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Circle.java" afterPath="$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Circle.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VCG_Raytracer/src/scene/Scene.java" afterPath="$PROJECT_DIR$/VCG_Raytracer/src/scene/Scene.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VCG_Raytracer/src/scene/camera/Camera.java" afterPath="$PROJECT_DIR$/VCG_Raytracer/src/scene/camera/Camera.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VCG_Raytracer/src/scene/camera/OrthoCam.java" afterPath="$PROJECT_DIR$/VCG_Raytracer/src/scene/camera/OrthoCam.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VCG_Raytracer/src/scene/camera/PerspCam.java" afterPath="$PROJECT_DIR$/VCG_Raytracer/src/scene/camera/PerspCam.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Cube.java" afterPath="$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Cube.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Plane.java" afterPath="$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Plane.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Rectangle.java" afterPath="$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Rectangle.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Sphere.java" afterPath="$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Sphere.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VCG_Raytracer/src/utils/MathEx.java" afterPath="$PROJECT_DIR$/VCG_Raytracer/src/utils/MathEx.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VCG_Raytracer/src/utils/algebra/Vec2.java" afterPath="$PROJECT_DIR$/VCG_Raytracer/src/utils/algebra/Vec2.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Shape.java" afterPath="$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Shape.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Triangle.java" afterPath="$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Triangle.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VCG_Raytracer/src/utils/algebra/Vec3.java" afterPath="$PROJECT_DIR$/VCG_Raytracer/src/utils/algebra/Vec3.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VCG_Raytracer/src/utils/io/DataImporter.java" afterPath="$PROJECT_DIR$/VCG_Raytracer/src/utils/io/DataImporter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/VCG_Raytracer/src/utils/io/Log.java" afterPath="$PROJECT_DIR$/VCG_Raytracer/src/utils/io/Log.java" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -43,8 +54,8 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/Main/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="287" column="55" lean-forward="false" selection-start-line="287" selection-start-column="55" selection-end-line="287" selection-end-column="55" />
+            <state relative-caret-position="23">
+              <caret line="437" column="36" lean-forward="false" selection-start-line="437" selection-start-column="36" selection-end-line="437" selection-end-column="36" />
               <folding>
                 <element signature="docComment;method#main#0;class#Main#0" expanded="false" />
                 <element signature="method#main#0;class#Main#0" expanded="false" />
@@ -56,7 +67,7 @@
                 <element signature="method#renderingFinished#0;class#Main#0" expanded="false" />
                 <element signature="docComment;method#stopTime#0;class#Main#0" expanded="false" />
                 <element signature="method#stopTime#0;class#Main#0" expanded="false" />
-                <element signature="method#setupSpheres#0;class#Main#0" expanded="false" />
+                <element signature="method#setupObjects#0;class#Main#0" expanded="false" />
                 <element signature="method#setupBox#0;class#Main#0" expanded="false" />
                 <element signature="method#getAntiAliasingLevel#0;class#Main#0" expanded="false" />
               </folding>
@@ -64,76 +75,40 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="raytracing.png" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/raytracing.png">
-          <provider selected="true" editor-type-id="images">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RgbColor.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/utils/RgbColor.java">
+      <file leaf-file-name="Camera.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/camera/Camera.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="41" column="27" lean-forward="false" selection-start-line="41" selection-start-column="27" selection-end-line="41" selection-end-column="27" />
-              <folding />
+            <state relative-caret-position="-221">
+              <caret line="5" column="26" lean-forward="false" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="docComment;method#norm2World#0;class#Camera#0" expanded="false" />
+                <element signature="method#calcCoordinateAxis#0;class#Camera#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AreaLight.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/light/AreaLight.java">
+      <file leaf-file-name="PerspCam.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/camera/PerspCam.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="22" column="64" lean-forward="false" selection-start-line="22" selection-start-column="64" selection-end-line="22" selection-end-column="64" />
-              <folding />
+            <state relative-caret-position="327">
+              <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Cube.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Cube.java">
+      <file leaf-file-name="OrthoCam.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/camera/OrthoCam.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="272">
-              <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+              <caret line="16" column="57" lean-forward="true" selection-start-line="16" selection-start-column="57" selection-end-line="16" selection-end-column="57" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Triangle.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Triangle.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="444">
-              <caret line="52" column="37" lean-forward="true" selection-start-line="52" selection-start-column="37" selection-end-line="52" selection-end-column="37" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Plane.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Plane.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="45" column="30" lean-forward="true" selection-start-line="45" selection-start-column="30" selection-end-line="45" selection-end-column="30" />
-              <folding>
-                <element signature="method#getPlaneProjection#0;class#Plane#0" expanded="false" />
-                <element signature="method#projectToAxisPlane#0;class#Plane#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Ray.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/raytracer/Ray.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="80" column="0" lean-forward="true" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -141,25 +116,18 @@
       <file leaf-file-name="Raytracer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/raytracer/Raytracer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="392">
-              <caret line="174" column="25" lean-forward="true" selection-start-line="174" selection-start-column="25" selection-end-line="174" selection-end-column="25" />
+            <state relative-caret-position="277">
+              <caret line="203" column="60" lean-forward="true" selection-start-line="203" selection-start-column="60" selection-end-line="203" selection-end-column="60" />
               <folding>
-                <element signature="class#AntiAliasingLevel#0;class#Raytracer#0" expanded="false" />
-                <element signature="method#Raytracer#0;class#Raytracer#0" expanded="false" />
-                <element signature="method#renderScene#0;class#Raytracer#0" expanded="false" />
-                <element signature="e#2444#2476#0" expanded="false" />
-                <element signature="method#renderPixel#0;class#Raytracer#0" expanded="false" />
-                <element signature="method#cameraCalculation#0;class#Raytracer#0" expanded="false" />
                 <element signature="method#generateRenderBlocks#0;class#Raytracer#0" expanded="false" />
                 <element signature="method#startRenderThreads#0;class#Raytracer#0" expanded="false" />
-                <element signature="method#renderBlock#1;class#Raytracer#0" expanded="false" />
+                <element signature="method#threadFinished#0;class#Raytracer#0" expanded="false" />
                 <element signature="method#traceRays#0;class#Raytracer#0" expanded="false" />
                 <element signature="method#traceRay#0;class#Raytracer#0" expanded="false" />
                 <element signature="method#traceIllumination#0;class#Raytracer#0" expanded="false" />
                 <element signature="method#traceRefraction#0;class#Raytracer#0" expanded="false" />
-                <element signature="method#screen2World#0;class#Raytracer#0" expanded="false" />
+                <element signature="method#traceReflection#0;class#Raytracer#0" expanded="false" />
                 <element signature="method#pixelPosNormalized#0;class#Raytracer#0" expanded="false" />
-                <element signature="method#generateAADistribution#0;class#Raytracer#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -174,6 +142,11 @@
         <option value="Class" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>old</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -192,35 +165,39 @@
         <option value="$PROJECT_DIR$/VCG_Raytracer/src/camera/PerspCam.java" />
         <option value="$PROJECT_DIR$/VCG_Raytracer/src/camera/Camera.java" />
         <option value="$PROJECT_DIR$/VCG_Raytracer/src/scene/SceneObject.java" />
-        <option value="$PROJECT_DIR$/VCG_Raytracer/src/scene/camera/OrthoCam.java" />
-        <option value="$PROJECT_DIR$/VCG_Raytracer/src/scene/camera/PerspCam.java" />
         <option value="$PROJECT_DIR$/VCG_Raytracer/src/Main.java" />
         <option value="$PROJECT_DIR$/VCG_Raytracer/src/scene/light/Light.java" />
         <option value="$PROJECT_DIR$/VCG_Raytracer/src/utils/Callback.java" />
         <option value="$PROJECT_DIR$/VCG_Raytracer/src/material/Lambert.java" />
-        <option value="$PROJECT_DIR$/VCG_Raytracer/src/scene/camera/Camera.java" />
         <option value="$PROJECT_DIR$/VCG_Raytracer/src/material/Phong.java" />
         <option value="$PROJECT_DIR$/VCG_Raytracer/src/material/Blinn.java" />
-        <option value="$PROJECT_DIR$/VCG_Raytracer/src/scene/Scene.java" />
         <option value="$PROJECT_DIR$/VCG_Raytracer/src/scene/light/AreaLight.java" />
-        <option value="$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Shape.java" />
-        <option value="$PROJECT_DIR$/VCG_Raytracer/src/utils/algebra/Vec3.java" />
         <option value="$PROJECT_DIR$/VCG_Raytracer/src/raytracer/Intersection.java" />
         <option value="$PROJECT_DIR$/VCG_Raytracer/src/utils/RgbColor.java" />
         <option value="$PROJECT_DIR$/VCG_Raytracer/src/ui/Window.java" />
         <option value="$PROJECT_DIR$/VCG_Raytracer/src/raytracer/RenderBlock.java" />
-        <option value="$PROJECT_DIR$/VCG_Raytracer/src/material/Material.java" />
         <option value="$PROJECT_DIR$/VCG_Raytracer/src/raytracer/RenderThread.java" />
         <option value="$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Circle.java" />
         <option value="$PROJECT_DIR$/VCG_Raytracer/src/utils/algebra/Vec2.java" />
         <option value="$PROJECT_DIR$/VCG_Raytracer/src/utils/MathEx.java" />
-        <option value="$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Cube.java" />
         <option value="$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Sphere.java" />
         <option value="$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Rectangle.java" />
-        <option value="$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Triangle.java" />
         <option value="$PROJECT_DIR$/VCG_Raytracer/src/raytracer/Ray.java" />
-        <option value="$PROJECT_DIR$/VCG_Raytracer/src/raytracer/Raytracer.java" />
+        <option value="$PROJECT_DIR$/VCG_Raytracer/src/utils/io/Log.java" />
+        <option value="$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Cube.java" />
+        <option value="$PROJECT_DIR$/VCG_Raytracer/libs/JFX3DModelImporters_EA_2014-02-09/jimObjModelImporterJFX.jar!/com/interactivemesh/jfx/importer/obj/ObjModelImporter.class" />
+        <option value="$PROJECT_DIR$/VCG_Raytracer/src/utils/io/DataImporter.java" />
+        <option value="$PROJECT_DIR$/VCG_Raytracer/src/utils/algebra/Vec3.java" />
         <option value="$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Plane.java" />
+        <option value="$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Mesh.java" />
+        <option value="$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Triangle.java" />
+        <option value="$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Shape.java" />
+        <option value="$PROJECT_DIR$/VCG_Raytracer/src/material/Material.java" />
+        <option value="$PROJECT_DIR$/VCG_Raytracer/src/scene/camera/Camera.java" />
+        <option value="$PROJECT_DIR$/VCG_Raytracer/src/raytracer/Raytracer.java" />
+        <option value="$PROJECT_DIR$/VCG_Raytracer/src/scene/Scene.java" />
+        <option value="$PROJECT_DIR$/VCG_Raytracer/src/scene/camera/PerspCam.java" />
+        <option value="$PROJECT_DIR$/VCG_Raytracer/src/scene/camera/OrthoCam.java" />
         <option value="$PROJECT_DIR$/VCG_Raytracer/src/Main/Main.java" />
       </list>
     </option>
@@ -232,9 +209,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-7" />
-    <option name="width" value="1932" />
-    <option name="height" value="1057" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1066" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -270,7 +248,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
@@ -326,58 +303,6 @@
               <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="utils" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="VCG_Raytracer_Henne" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="VCG_Raytracer_Henne" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="VCG_Raytracer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="utils" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="algebra" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="VCG_Raytracer_Henne" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="VCG_Raytracer_Henne" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="VCG_Raytracer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -423,111 +348,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="shape" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="VCG_Raytracer_Henne" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="VCG_Raytracer_Henne" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="VCG_Raytracer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="raytracer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="VCG_Raytracer_Henne" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="VCG_Raytracer_Henne" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="VCG_Raytracer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="material" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="VCG_Raytracer_Henne" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="VCG_Raytracer_Henne" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="VCG_Raytracer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="VCG_Raytracer_Henne" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="VCG_Raytracer_Henne" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="VCG_Raytracer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="libs" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="JFX3DModelImporters_EA_2014-02-09" />
+              <option name="myItemId" value="camera" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/VCG_Raytracer/libs/JFX3DModelImporters_EA_2014-02-09/jimObjModelImporterJFX.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Serious Gaming" />
     <property name="js.eslint.eslintPackage" value="" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="fileTemplates" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.build" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -1014,12 +852,24 @@
       <workItem from="1491395363908" duration="16327000" />
       <workItem from="1491466333637" duration="3061000" />
       <workItem from="1491473539731" duration="3115000" />
-      <workItem from="1491577593655" duration="6041000" />
+      <workItem from="1491577593655" duration="11588000" />
+      <workItem from="1491898665481" duration="2886000" />
+      <workItem from="1492093958255" duration="87000" />
+      <workItem from="1492094129165" duration="11238000" />
+      <workItem from="1492269209941" duration="1713000" />
+      <workItem from="1492335963906" duration="2234000" />
+      <workItem from="1492433308390" duration="1976000" />
+      <workItem from="1492768449574" duration="24000" />
+      <workItem from="1493108167019" duration="2378000" />
+      <workItem from="1493709257434" duration="1233000" />
+      <workItem from="1493713678092" duration="130000" />
+      <workItem from="1493714538139" duration="599000" />
+      <workItem from="1493982901931" duration="3182000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="251982000" />
+    <option name="totallyTimeSpent" value="285209000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1031,70 +881,40 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="0" width="1932" height="1057" extended-state="1" />
+    <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294979" sideWeight="0.49791667" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20238096" sideWeight="0.45416668" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20150054" sideWeight="0.45416668" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30543932" sideWeight="0.50469726" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.301179" sideWeight="0.1652452" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294979" sideWeight="0.49791667" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33982685" sideWeight="0.4953027" order="2" side_tool="false" content_ui="tabs" x="252" y="679" width="1071" height="548" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3397642" sideWeight="0.49093816" order="2" side_tool="false" content_ui="tabs" x="252" y="679" width="1071" height="548" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294979" sideWeight="0.49375" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17948718" sideWeight="0.6970588" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20255864" sideWeight="0.6970588" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.3296875" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1886388" sideWeight="0.4936034" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.14739583" sideWeight="0.30294117" order="6" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26259378" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30546623" sideWeight="0.8347548" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="DSM" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" x="90" y="91" width="1736" height="866" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18971062" sideWeight="0.49583334" order="1" side_tool="false" content_ui="tabs" />
     </layout>
-    <layout-to-restore>
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30543932" sideWeight="0.50469726" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.3296875" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39958158" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294979" sideWeight="0.49791667" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20292887" sideWeight="0.45416668" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294979" sideWeight="0.49791667" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31045407" sideWeight="0.4953027" order="2" side_tool="false" content_ui="tabs" x="252" y="679" width="1071" height="548" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3294979" sideWeight="0.49375" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1466597" sideWeight="0.6970588" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19007392" sideWeight="0.49583334" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.14739583" sideWeight="0.30294117" order="6" side_tool="true" content_ui="tabs" />
-    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="processedProjectFiles" value="true" />
@@ -1104,7 +924,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="15" />
+      <option name="time" value="21" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1113,276 +933,10 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/raytracer/Intersection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="13" column="0" lean-forward="true" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/raytracer/Raytracer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1258">
-          <caret line="104" column="77" lean-forward="false" selection-start-line="104" selection-start-column="43" selection-end-line="104" selection-end-column="77" />
-          <folding>
-            <element signature="class#AntiAliasingLevel#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#Raytracer#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#renderScene#0;class#Raytracer#0" expanded="false" />
-            <element signature="e#2444#2476#0" expanded="false" />
-            <element signature="method#renderPixel#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#cameraCalculation#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#generateRenderBlocks#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#startRenderThreads#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#renderBlock#1;class#Raytracer#0" expanded="false" />
-            <element signature="method#traceRays#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#traceRay#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#traceIllumination#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#traceRefraction#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#screen2World#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#pixelPosNormalized#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#generateAADistribution#0;class#Raytracer#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/Main/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2091">
-          <caret line="123" column="29" lean-forward="true" selection-start-line="123" selection-start-column="29" selection-end-line="123" selection-end-column="29" />
-          <folding>
-            <element signature="docComment;method#main#0;class#Main#0" expanded="false" />
-            <element signature="method#main#0;class#Main#0" expanded="false" />
-            <element signature="docComment;method#draw#0;class#Main#0" expanded="false" />
-            <element signature="method#draw#0;class#Main#0" expanded="false" />
-            <element signature="docComment;method#raytraceScene#0;class#Main#0" expanded="false" />
-            <element signature="method#raytraceScene#0;class#Main#0" expanded="false" />
-            <element signature="docComment;method#renderingFinished#0;class#Main#0" expanded="false" />
-            <element signature="method#renderingFinished#0;class#Main#0" expanded="false" />
-            <element signature="docComment;method#stopTime#0;class#Main#0" expanded="false" />
-            <element signature="method#stopTime#0;class#Main#0" expanded="false" />
-            <element signature="method#setupSpheres#0;class#Main#0" expanded="false" />
-            <element signature="method#setupBox#0;class#Main#0" expanded="false" />
-            <element signature="method#getAntiAliasingLevel#0;class#Main#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Plane.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/raytracer/Raytracer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1173">
-          <caret line="98" column="66" lean-forward="true" selection-start-line="98" selection-start-column="66" selection-end-line="98" selection-end-column="66" />
-          <folding>
-            <element signature="class#AntiAliasingLevel#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#Raytracer#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#renderScene#0;class#Raytracer#0" expanded="false" />
-            <element signature="e#2444#2476#0" expanded="false" />
-            <element signature="method#renderPixel#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#cameraCalculation#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#generateRenderBlocks#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#startRenderThreads#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#renderBlock#1;class#Raytracer#0" expanded="false" />
-            <element signature="method#traceRays#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#traceRay#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#traceIllumination#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#traceRefraction#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#screen2World#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#pixelPosNormalized#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#generateAADistribution#0;class#Raytracer#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/raytracer/Ray.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="44" column="0" lean-forward="false" selection-start-line="44" selection-start-column="2" selection-end-line="47" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/material/Material.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="731">
-          <caret line="51" column="67" lean-forward="false" selection-start-line="51" selection-start-column="28" selection-end-line="51" selection-end-column="67" />
-          <folding>
-            <element signature="method#isInShadow#0;class#Material#0" expanded="false" />
-            <element signature="method#getLightVector#0;class#Material#0" expanded="false" />
-            <element signature="method#getReflectionVector#0;class#Material#0" expanded="false" />
-            <element signature="docComment;method#getRefractionVector#1;class#Material#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/material/Phong.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="850">
-          <caret line="57" column="63" lean-forward="false" selection-start-line="57" selection-start-column="63" selection-end-line="57" selection-end-column="63" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/Scene.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/Main/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="docComment;method#main#0;class#Main#0" expanded="false" />
-            <element signature="method#main#0;class#Main#0" expanded="false" />
-            <element signature="docComment;method#draw#0;class#Main#0" expanded="false" />
-            <element signature="method#draw#0;class#Main#0" expanded="false" />
-            <element signature="docComment;method#raytraceScene#0;class#Main#0" expanded="false" />
-            <element signature="method#raytraceScene#0;class#Main#0" expanded="false" />
-            <element signature="docComment;method#renderingFinished#0;class#Main#0" expanded="false" />
-            <element signature="method#renderingFinished#0;class#Main#0" expanded="false" />
-            <element signature="docComment;method#stopTime#0;class#Main#0" expanded="false" />
-            <element signature="method#stopTime#0;class#Main#0" expanded="false" />
-            <element signature="method#setupSpheres#0;class#Main#0" expanded="false" />
-            <element signature="method#setupBox#0;class#Main#0" expanded="false" />
-            <element signature="method#getAntiAliasingLevel#0;class#Main#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/Main/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="docComment;method#main#0;class#Main#0" expanded="false" />
-            <element signature="method#main#0;class#Main#0" expanded="false" />
-            <element signature="docComment;method#draw#0;class#Main#0" expanded="false" />
-            <element signature="method#draw#0;class#Main#0" expanded="false" />
-            <element signature="docComment;method#raytraceScene#0;class#Main#0" expanded="false" />
-            <element signature="method#raytraceScene#0;class#Main#0" expanded="false" />
-            <element signature="docComment;method#renderingFinished#0;class#Main#0" expanded="false" />
-            <element signature="method#renderingFinished#0;class#Main#0" expanded="false" />
-            <element signature="docComment;method#stopTime#0;class#Main#0" expanded="false" />
-            <element signature="method#stopTime#0;class#Main#0" expanded="false" />
-            <element signature="method#setupSpheres#0;class#Main#0" expanded="false" />
-            <element signature="method#setupBox#0;class#Main#0" expanded="false" />
-            <element signature="method#getAntiAliasingLevel#0;class#Main#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/Main/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="867">
-          <caret line="51" column="28" lean-forward="false" selection-start-line="51" selection-start-column="28" selection-end-line="51" selection-end-column="28" />
-          <folding>
-            <element signature="docComment;method#main#0;class#Main#0" expanded="false" />
-            <element signature="method#main#0;class#Main#0" expanded="false" />
-            <element signature="docComment;method#draw#0;class#Main#0" expanded="false" />
-            <element signature="method#draw#0;class#Main#0" expanded="false" />
-            <element signature="docComment;method#raytraceScene#0;class#Main#0" expanded="false" />
-            <element signature="method#raytraceScene#0;class#Main#0" expanded="false" />
-            <element signature="docComment;method#renderingFinished#0;class#Main#0" expanded="false" />
-            <element signature="method#renderingFinished#0;class#Main#0" expanded="false" />
-            <element signature="docComment;method#stopTime#0;class#Main#0" expanded="false" />
-            <element signature="method#stopTime#0;class#Main#0" expanded="false" />
-            <element signature="method#setupSpheres#0;class#Main#0" expanded="false" />
-            <element signature="method#setupBox#0;class#Main#0" expanded="false" />
-            <element signature="method#getAntiAliasingLevel#0;class#Main#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/Main/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="docComment;method#main#0;class#Main#0" expanded="false" />
-            <element signature="method#main#0;class#Main#0" expanded="false" />
-            <element signature="docComment;method#draw#0;class#Main#0" expanded="false" />
-            <element signature="method#draw#0;class#Main#0" expanded="false" />
-            <element signature="docComment;method#raytraceScene#0;class#Main#0" expanded="false" />
-            <element signature="method#raytraceScene#0;class#Main#0" expanded="false" />
-            <element signature="docComment;method#renderingFinished#0;class#Main#0" expanded="false" />
-            <element signature="method#renderingFinished#0;class#Main#0" expanded="false" />
-            <element signature="docComment;method#stopTime#0;class#Main#0" expanded="false" />
-            <element signature="method#stopTime#0;class#Main#0" expanded="false" />
-            <element signature="method#setupSpheres#0;class#Main#0" expanded="false" />
-            <element signature="method#setupBox#0;class#Main#0" expanded="false" />
-            <element signature="method#getAntiAliasingLevel#0;class#Main#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/libs/JFX3DModelImporters_EA_2014-02-09/apidoc/script.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/src.zip!/java/lang/Class.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-6664">
-          <caret line="263" column="0" lean-forward="false" selection-start-line="263" selection-start-column="0" selection-end-line="263" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/libs/JFX3DModelImporters_EA_2014-02-09/apidoc/package-list">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/utils/io/Log.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="23" lean-forward="false" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/utils/io/DataImporter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/camera/OrthoCam.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="0" lean-forward="true" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/camera/PerspCam.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/src.zip!/java/awt/PointerInfo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="410">
           <caret line="77" column="17" lean-forward="false" selection-start-line="77" selection-start-column="17" selection-end-line="77" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/SceneObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="23" lean-forward="false" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="23" />
         </state>
       </provider>
     </entry>
@@ -1400,21 +954,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/camera/Camera.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/material/Blinn.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="528">
           <caret line="36" column="5" lean-forward="false" selection-start-line="36" selection-start-column="5" selection-end-line="36" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1422,7 +965,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="442">
           <caret line="31" column="49" lean-forward="false" selection-start-line="31" selection-start-column="49" selection-end-line="31" selection-end-column="49" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1430,22 +972,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/Scene.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="16" column="58" lean-forward="true" selection-start-line="16" selection-start-column="58" selection-end-line="16" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Shape.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="13" column="0" lean-forward="true" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1460,7 +986,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="918">
           <caret line="63" column="5" lean-forward="false" selection-start-line="63" selection-start-column="5" selection-end-line="63" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1475,14 +1000,234 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
           <caret line="24" column="2" lean-forward="false" selection-start-line="24" selection-start-column="2" selection-end-line="24" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Circle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/utils/algebra/Vec2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="16" lean-forward="true" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Sphere.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="40">
+          <caret line="38" column="0" lean-forward="true" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/utils/MathEx.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/light/AreaLight.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="22" column="64" lean-forward="false" selection-start-line="22" selection-start-column="64" selection-end-line="22" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/raytracer/Ray.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="80" column="0" lean-forward="true" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/raytracer/RenderThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="321">
+          <caret line="63" column="0" lean-forward="false" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/utils/RgbColor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="41" column="27" lean-forward="false" selection-start-line="41" selection-start-column="27" selection-end-line="41" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/raytracing.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/utils/io/DataExporter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/libs/JFX3DModelImporters_EA_2014-02-09/apidoc/com/interactivemesh/jfx/importer/obj/ObjImportOption.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/utils/io/Log.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="64" lean-forward="true" selection-start-line="5" selection-start-column="64" selection-end-line="5" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Cube.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="13" column="0" lean-forward="true" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/src.zip!/java/lang/Class.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="244">
+          <caret line="2259" column="24" lean-forward="false" selection-start-line="2259" selection-start-column="24" selection-end-line="2259" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/src.zip!/java/net/URL.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="244">
+          <caret line="824" column="18" lean-forward="false" selection-start-line="824" selection-start-column="18" selection-end-line="824" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/models/IronMan.obj">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-408">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/src.zip!/java/nio/file/Path.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="197">
+          <caret line="97" column="17" lean-forward="false" selection-start-line="97" selection-start-column="17" selection-end-line="97" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/VCG_Raytracer/libs/JFX3DModelImporters_EA_2014-02-09/jimObjModelImporterJFX.jar!/com/interactivemesh/jfx/importer/obj/ObjModelImporter.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="74" column="22" lean-forward="false" selection-start-line="74" selection-start-column="22" selection-end-line="74" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Rectangle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/javafx-src.zip!/javafx/scene/shape/Shape3D.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="64" column="41" lean-forward="false" selection-start-line="64" selection-start-column="41" selection-end-line="64" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/javafx-src.zip!/javafx/scene/Node.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="6401" column="24" lean-forward="false" selection-start-line="6401" selection-start-column="24" selection-end-line="6401" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/javafx-src.zip!/javafx/beans/property/ObjectProperty.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-151">
+          <caret line="60" column="22" lean-forward="false" selection-start-line="60" selection-start-column="22" selection-end-line="60" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/javafx-src.zip!/javafx/scene/shape/Mesh.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="47" column="23" lean-forward="true" selection-start-line="47" selection-start-column="23" selection-end-line="47" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/utils/io/DataImporter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="23" column="0" lean-forward="false" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/javafx-src.zip!/javafx/collections/ObservableFloatArray.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2098">
+          <caret line="35" column="17" lean-forward="false" selection-start-line="35" selection-start-column="17" selection-end-line="35" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/SceneObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="16" lean-forward="false" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/utils/algebra/Vec3.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="123">
+          <caret line="125" column="0" lean-forward="false" selection-start-line="125" selection-start-column="0" selection-end-line="125" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Plane.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="9" column="29" lean-forward="false" selection-start-line="9" selection-start-column="29" selection-end-line="9" selection-end-column="29" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/javafx-src.zip!/javafx/beans/value/WritableObjectValue.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="48" column="6" lean-forward="false" selection-start-line="48" selection-start-column="6" selection-end-line="48" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Mesh.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1088">
+          <caret line="72" column="0" lean-forward="false" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/javafx-src.zip!/javafx/scene/shape/MeshView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="73" column="20" lean-forward="false" selection-start-line="73" selection-start-column="20" selection-end-line="73" selection-end-column="20" />
+          <folding>
+            <element signature="e#1486#1487#0" expanded="false" />
+            <element signature="e#1541#1542#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/material/Material.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5763">
-          <caret line="362" column="0" lean-forward="false" selection-start-line="362" selection-start-column="0" selection-end-line="362" selection-end-column="0" />
+        <state relative-caret-position="531">
+          <caret line="372" column="19" lean-forward="false" selection-start-line="372" selection-start-column="19" selection-end-line="372" selection-end-column="19" />
           <folding>
             <element signature="method#isInShadow#0;class#Material#0" expanded="false" />
             <element signature="method#getLightVector#0;class#Material#0" expanded="false" />
@@ -1492,151 +1237,98 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Circle.java">
+    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Shape.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/utils/algebra/Vec3.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="8" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/utils/algebra/Vec2.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="16" lean-forward="true" selection-start-line="14" selection-start-column="16" selection-end-line="14" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Sphere.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
-          <caret line="38" column="0" lean-forward="true" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Cube.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Rectangle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="19" column="0" lean-forward="true" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/utils/MathEx.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/light/AreaLight.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="22" column="64" lean-forward="false" selection-start-line="22" selection-start-column="64" selection-end-line="22" selection-end-column="64" />
+        <state relative-caret-position="293">
+          <caret line="30" column="55" lean-forward="false" selection-start-line="30" selection-start-column="55" selection-end-line="30" selection-end-column="55" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Triangle.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="444">
-          <caret line="52" column="37" lean-forward="true" selection-start-line="52" selection-start-column="37" selection-end-line="52" selection-end-column="37" />
+        <state relative-caret-position="952">
+          <caret line="61" column="0" lean-forward="false" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_121/javafx-src.zip!/javafx/scene/shape/TriangleMesh.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="257" column="30" lean-forward="false" selection-start-line="257" selection-start-column="30" selection-end-line="257" selection-end-column="30" />
+          <folding>
+            <element signature="e#9447#9448#0" expanded="false" />
+            <element signature="e#9476#9477#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/raytracer/Raytracer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="277">
+          <caret line="203" column="60" lean-forward="true" selection-start-line="203" selection-start-column="60" selection-end-line="203" selection-end-column="60" />
+          <folding>
+            <element signature="method#generateRenderBlocks#0;class#Raytracer#0" expanded="false" />
+            <element signature="method#startRenderThreads#0;class#Raytracer#0" expanded="false" />
+            <element signature="method#threadFinished#0;class#Raytracer#0" expanded="false" />
+            <element signature="method#traceRays#0;class#Raytracer#0" expanded="false" />
+            <element signature="method#traceRay#0;class#Raytracer#0" expanded="false" />
+            <element signature="method#traceIllumination#0;class#Raytracer#0" expanded="false" />
+            <element signature="method#traceRefraction#0;class#Raytracer#0" expanded="false" />
+            <element signature="method#traceReflection#0;class#Raytracer#0" expanded="false" />
+            <element signature="method#pixelPosNormalized#0;class#Raytracer#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/Scene.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="287">
+          <caret line="39" column="33" lean-forward="true" selection-start-line="39" selection-start-column="33" selection-end-line="39" selection-end-column="33" />
+          <folding>
+            <element signature="e#1415#1416#0" expanded="true" />
+            <element signature="e#1443#1444#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/camera/Camera.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-221">
+          <caret line="5" column="26" lean-forward="false" selection-start-line="5" selection-start-column="26" selection-end-line="5" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="docComment;method#norm2World#0;class#Camera#0" expanded="false" />
+            <element signature="method#calcCoordinateAxis#0;class#Camera#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/camera/PerspCam.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="327">
+          <caret line="26" column="0" lean-forward="false" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/raytracer/Ray.java">
+    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/camera/OrthoCam.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="80" column="0" lean-forward="true" selection-start-line="80" selection-start-column="0" selection-end-line="80" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/raytracer/RenderThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="321">
-          <caret line="63" column="0" lean-forward="false" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/raytracer/Raytracer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="392">
-          <caret line="174" column="25" lean-forward="true" selection-start-line="174" selection-start-column="25" selection-end-line="174" selection-end-column="25" />
+        <state relative-caret-position="272">
+          <caret line="16" column="57" lean-forward="true" selection-start-line="16" selection-start-column="57" selection-end-line="16" selection-end-column="57" />
           <folding>
-            <element signature="class#AntiAliasingLevel#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#Raytracer#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#renderScene#0;class#Raytracer#0" expanded="false" />
-            <element signature="e#2444#2476#0" expanded="false" />
-            <element signature="method#renderPixel#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#cameraCalculation#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#generateRenderBlocks#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#startRenderThreads#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#renderBlock#1;class#Raytracer#0" expanded="false" />
-            <element signature="method#traceRays#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#traceRay#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#traceIllumination#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#traceRefraction#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#screen2World#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#pixelPosNormalized#0;class#Raytracer#0" expanded="false" />
-            <element signature="method#generateAADistribution#0;class#Raytracer#0" expanded="false" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/utils/RgbColor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="41" column="27" lean-forward="false" selection-start-line="41" selection-start-column="27" selection-end-line="41" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/scene/shape/Plane.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="45" column="30" lean-forward="true" selection-start-line="45" selection-start-column="30" selection-end-line="45" selection-end-column="30" />
-          <folding>
-            <element signature="method#getPlaneProjection#0;class#Plane#0" expanded="false" />
-            <element signature="method#projectToAxisPlane#0;class#Plane#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/raytracing.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/VCG_Raytracer/src/Main/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="287" column="55" lean-forward="false" selection-start-line="287" selection-start-column="55" selection-end-line="287" selection-end-column="55" />
+        <state relative-caret-position="23">
+          <caret line="437" column="36" lean-forward="false" selection-start-line="437" selection-start-column="36" selection-end-line="437" selection-end-column="36" />
           <folding>
             <element signature="docComment;method#main#0;class#Main#0" expanded="false" />
             <element signature="method#main#0;class#Main#0" expanded="false" />
@@ -1648,7 +1340,7 @@
             <element signature="method#renderingFinished#0;class#Main#0" expanded="false" />
             <element signature="docComment;method#stopTime#0;class#Main#0" expanded="false" />
             <element signature="method#stopTime#0;class#Main#0" expanded="false" />
-            <element signature="method#setupSpheres#0;class#Main#0" expanded="false" />
+            <element signature="method#setupObjects#0;class#Main#0" expanded="false" />
             <element signature="method#setupBox#0;class#Main#0" expanded="false" />
             <element signature="method#getAntiAliasingLevel#0;class#Main#0" expanded="false" />
           </folding>
@@ -1661,10 +1353,12 @@
       <state key="ArtifactsStructureConfigurable.UI">
         <settings>
           <artifact-editor />
+          <last-edited>VCG_Raytracer_Henne:jar</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.2" />
+                <option value="0.22873563" />
+                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>

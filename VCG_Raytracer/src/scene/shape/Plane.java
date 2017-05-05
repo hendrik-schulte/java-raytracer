@@ -79,6 +79,9 @@ public class Plane extends Shape {
             //z is biggest normal component -> project to XY-plane
             return PlaneProjection.XY;
         }
+
+        Log.error(Plane.class, "Plane projection failed! normal: " + normal);
+
         return null;
     }
 

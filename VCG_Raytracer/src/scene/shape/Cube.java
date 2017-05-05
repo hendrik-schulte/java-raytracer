@@ -6,19 +6,21 @@ import raytracer.Ray;
 import utils.algebra.Vec3;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Cube extends Shape {
 
-    ArrayList<Rectangle> rectangles = new ArrayList<>();
+    ArrayList<Shape> rectangles = new ArrayList<>();
 
-    public Cube(Vec3 center, Vec3 dimension, Material material) {
+    public Cube(Vec3 center, Vec3 side, Vec3 up, Vec3 forward, Material material) {
         super(center, material);
 
-
+//        triangles.add(new Rectangle());
     }
 
     @Override
     public Intersection[] intersect(Ray ray) {
-        return new Intersection[0];
+
+        return getIntersection(ray, rectangles);
     }
 }

@@ -129,6 +129,10 @@ public class Vec3 {
                 (float) Math.pow(sub.z, 2);
     }
 
+    public Vec3 multComponentWise(Vec3 mult){
+        return new Vec3(x * mult.x, y * mult.y, z * mult.z);
+    }
+
     /**
      * Returns a normalized orthogonal vector to the given one
      *
@@ -154,7 +158,7 @@ public class Vec3 {
 //        }
 //        return null;
 
-        return cross(new Vec3(3 + x * 0.5f, -1 + y * -1.5f, 5 + z * 0.3f)).normalize();
+        return cross(new Vec3(3 + x * 0.53433435f, -1 + y * -1.53123215f, 5 + z * 0.34656868646f)).normalize();
 
     }
 

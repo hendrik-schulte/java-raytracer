@@ -25,22 +25,19 @@ package Main;// ************************************************************ //
 
 import material.Blinn;
 import material.Lambert;
-import material.Material;
 import material.Phong;
 import raytracer.Raytracer;
+import scene.camera.OrthoCam;
 import scene.camera.PerspCam;
 import scene.light.AreaLight;
 import scene.light.Light;
 import scene.shape.*;
-import scene.shape.Rectangle;
 import ui.Window;
 import scene.Scene;
 import utils.RgbColor;
 import utils.algebra.Vec2;
 import utils.algebra.Vec3;
-import utils.io.Log;
-
-import java.awt.*;
+import utils.io.DataImporter;
 
 // Main.Main application class. This is the routine called by the JVM to run the program.
 public class Main {
@@ -49,8 +46,8 @@ public class Main {
      * BOX_DIMENSION
      **/
 
-    static int IMAGE_WIDTH = 800;
-    static int IMAGE_HEIGHT = 600;
+    static int IMAGE_WIDTH = 1000;
+    static int IMAGE_HEIGHT = 800;
 
     /**
      * RAYTRACER
@@ -121,15 +118,25 @@ public class Main {
     private static Scene setupScene() {
         Scene scene = new Scene(AMBIENT);
 
-        scene.createCamera(new PerspCam(
-                new Vec3(0, 0, 17),    //pos
-                new Vec3(0, 0, 0),    //center of view
+//        scene.setCamera(new PerspCam(
+//                new Vec3(0, 0, 17),    //pos
+//                new Vec3(0, 0, 0),    //center of view
+//                new Vec3(0, 1, 0),    //user-up
+//                70,
+//                3,
+//                IMAGE_WIDTH,
+//                IMAGE_HEIGHT));
+
+        scene.setCamera(new OrthoCam(
+                new Vec3(17, 17, 50),    //pos
+                new Vec3(0, 0, 7),    //center of view
                 new Vec3(0, 1, 0),    //user-up
-                70,
-                3));
+                12.6f,
+                IMAGE_WIDTH,
+                IMAGE_HEIGHT));
 
         setupSpheres(scene);
-        setupObjects(scene);
+//        setupObjects(scene);
         setupBox(scene);
         setupLight(scene);
 
@@ -278,20 +285,54 @@ public class Main {
 //                        1)));
 
         //triangle
-        scene.createShape(new Triangle(
-                new Vec3(2, -1, 9),      //A
-                new Vec3(3, 3, 6),     //B
-                new Vec3(0, 0, 7),     //C
-                true,
-                new Phong(RgbColor.DARK_MAGENTA,        //ambient
-                        RgbColor.DARK_MAGENTA,          //diffuse
-                        RgbColor.BLACK,                 //emission
-                        new RgbColor(0.02f, 0.02f, 0.02f),       //specular
-                        32,
-                        .4f,
-                        1,
-                        1,
-                        1)));
+//        scene.createShape(new Triangle(
+//                new Vec3(2, -1, 9),      //A
+//                new Vec3(3, 3, 6),     //B
+//                new Vec3(0, 0, 7),     //C
+//                true,
+//                new Phong(RgbColor.DARK_MAGENTA,        //ambient
+//                        RgbColor.DARK_MAGENTA,          //diffuse
+//                        RgbColor.BLACK,                 //emission
+//                        new RgbColor(0.02f, 0.02f, 0.02f),       //specular
+//                        32,
+//                        .4f,
+//                        1,
+//                        1,
+//                        1)));
+
+        //box
+//        scene.createShape(new Cube(
+//                new Vec3(0, -1, 5),
+//                new Vec3(1,1,1),
+//                new Vec3(1,1,1),
+//                new Vec3(1,1,1),
+//                new Phong(RgbColor.DARK_CYAN,
+//                        RgbColor.DARK_CYAN,
+//                        RgbColor.BLACK,
+//                        new RgbColor(0.00f, 0.00f, 0.00f),
+//                        32f,
+//                        0.5f,
+//                        1.0f,
+//                        1,
+//                        1)
+//        ));
+
+        //mesh
+        scene.createShape(new Mesh(
+                new Vec3(0, 0f, 8),
+                Vec3.ONE.multScalar(5),
+//                DataImporter.loadOBJ("VCG_Raytracer\\models\\IronMan.obj"),
+                DataImporter.loadOBJ("VCG_Raytracer\\models\\Scooter-smgrps.obj")
+                //                new Phong(RgbColor.BLACK,
+//                        RgbColor.BLACK,
+//                        RgbColor.BLACK,
+//                        new RgbColor(0.00f, 0.00f, 0.00f),
+//                        32f,
+//                        0.5f,
+//                        1.0f,
+//                        1,
+//                        1),
+        ));
     }
 
     private static void setupBox(Scene scene) {
@@ -399,8 +440,8 @@ public class Main {
                         0.5f,
                         new Rectangle(
                                 new Vec3(0, 4.10f, 8),    //pos
-                                new Vec3(-1.0f, .0f, 0),     //a
-                                new Vec3(0, .0f, -1.0f),     //b
+                                new Vec3(-1.0f, .0f, 0.5f),     //a
+                                new Vec3(0.5f, .0f, -1.0f),     //b
                                 false,
                                 new Lambert(RgbColor.WHITE,        //ambient
                                         RgbColor.WHITE,          //diffuse
@@ -411,7 +452,7 @@ public class Main {
                                         1)),
                         0.15f,
                         0.8f,
-                        new Vec2(5, 5),
+                        new Vec2(7, 7),
                         LIGHT_SAMPLING),
                 true);
 

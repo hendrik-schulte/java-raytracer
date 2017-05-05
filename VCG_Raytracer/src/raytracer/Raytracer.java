@@ -40,9 +40,9 @@ public class Raytracer {
     private Window mRenderWindow;
 
     private Camera cam;
-    private Vec3 windowCenter;
-    private float windowHeight;
-    private float windowWidth;
+//    private Vec3 windowCenter;
+//    private float windowHeight;
+//    private float windowWidth;
 
     private int mMaxRecursions;
     private int rayDistributionSamples;
@@ -83,6 +83,7 @@ public class Raytracer {
         Log.print(this, "Preliminary calculation");
 
         cameraCalculation();
+        generateAADistribution(antiAliasingLevel);
 
         generateRenderBlocks();
 
@@ -102,13 +103,13 @@ public class Raytracer {
         renderBlock(x, x + 1, y, y + 1);
     }
 
-    private void cameraCalculation() {
-        float ratio = (float) mBufferedImage.getWidth() / (float) mBufferedImage.getHeight();
-        windowHeight = (float) (2 * cam.focalLength * Math.tan(cam.viewAngle * Math.PI / 360));
-        windowWidth = ratio * windowHeight;
-        windowCenter = cam.getPosition().add(cam.view.multScalar(cam.focalLength));
+    private void cameraCalculation() { //todo move to camera class
+//        float ratio = (float) mBufferedImage.getWidth() / (float) mBufferedImage.getHeight();
+//        windowHeight = (float) (2 * cam.focalLength * Math.tan(cam.viewAngle * Math.PI / 360));
+//        windowWidth = ratio * windowHeight;
+//        windowCenter = cam.getPosition().add(cam.view.multScalar(cam.focalLength));
 
-        generateAADistribution();
+
 
 //        Log.print(this, "resolution: " + mBufferedImage.getWidth() + " x " + mBufferedImage.getHeight());
 //        Log.print(this, "ratio: " + ratio);
@@ -191,9 +192,11 @@ public class Raytracer {
                 Vec2 normPos = pixelPosNormalized(x, y);
 
                 if (antiAliasingLevel == AntiAliasingLevel.disabled) {
-                    Vec3 worldPos = screen2World(windowCenter, normPos, windowWidth, windowHeight);
+//                    Vec3 worldPos = cam.norm2World(normPos);
+//
+//                    Ray ray = new Ray(cam.getPosition(), worldPos.sub(cam.getPosition()));
 
-                    Ray ray = new Ray(cam.getPosition(), worldPos.sub(cam.getPosition()));
+                    Ray ray = cam.calcPixelRay(normPos);
 
                     mRenderWindow.setPixel(mBufferedImage, traceRay(ray, 0), new Vec2(x, y));
 
@@ -202,11 +205,10 @@ public class Raytracer {
 
                     for (Vec2 pos : antiAliasingPositions) {
 
-                        Vec3 worldPos = screen2World(windowCenter, normPos.add(pos), windowWidth, windowHeight);
+//                        Vec3 worldPos = cam.norm2World(normPos.add(pos));
+//                        Ray ray = new Ray(cam.getPosition(), worldPos.sub(cam.getPosition()));
 
-                        Ray ray = new Ray(cam.getPosition(), worldPos.sub(cam.getPosition()));
-
-                        rays.add(ray);
+                        rays.add(cam.calcPixelRay(normPos.add(pos)));
                     }
 
                     mRenderWindow.setPixel(mBufferedImage, traceRays(rays, 0), new Vec2(x, y));
@@ -294,19 +296,13 @@ public class Raytracer {
         return reflectionColor.multScalar(material.reflection);
     }
 
-    private Vec3 screen2World(Vec3 windowCenter, Vec2 normPos, float windowWidth, float windowHeight) {
-
-        return windowCenter
-                .add(scene.camera.camUp.multScalar(normPos.y * windowHeight / -2f))
-                .add(scene.camera.side.multScalar(normPos.x * windowWidth / 2f));
-    }
-
     private Vec2 pixelPosNormalized(float x, float y) {
+        //Todo in camera verscvhieben
         return new Vec2(2 * ((x + 0.5f) / mBufferedImage.getWidth()) - 1,
                 2 * ((y + 0.5f) / mBufferedImage.getHeight()) - 1);
     }
 
-    private void generateAADistribution() {
+    private void generateAADistribution(AntiAliasingLevel antiAliasingLevel) {
         if (antiAliasingLevel != AntiAliasingLevel.disabled) {
             float pixelSizeNormPos = 2 / (float) mBufferedImage.getWidth(); //relative pixel size relative to resolution
 
