@@ -1,17 +1,23 @@
 
-#                      Hochschule Duesseldorf                  
+#                   Java Raytracer                
                                                               
-##                     Vertiefung Computergrafik                
+##           		Featuring                
 
+    - Multi-Threading
+    - Anti Aliasing
+    - Reflection
+    - Refraction
+    - Perspective / Orthographic Camera
+    - Blurry Refr./Refl.
+    - Planes, Triangles, Rectangles, Circles, Spheres
+    - Area Lights (Rect. / Circle)
 
-    1. Documentation:    Did you comment your code shortly but clearly?
-    2. Structure:        Did you clean up your code and put everything into the right bucket?
-    3. Performance:      Are all loops and everything inside really necessary?
-    4. Theory:           Are you going the right way?
+##					Roadmap
 
-<<< YOUR TEAM NAME >>>
+	- Obj. Mesh rendering
+	- GUI
+	- Caustics
+	- Radiosity
+	- ...
 
-     Master of Documentation:
-     Master of Structure:
-     Master of Performance:
-     Master of Theory:
+     Master of Everything: Hendrik Schulte
