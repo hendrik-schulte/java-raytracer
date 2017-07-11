@@ -27,7 +27,6 @@ import utils.algebra.Vec3;
 import utils.io.Log;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.RGBImageFilter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -58,9 +57,9 @@ public class Raytracer {
 
     public enum AntiAliasingLevel {
         disabled,
-        x2,
         x4,
-        x8
+        x8,
+        x16
     }
 
     public Raytracer(Scene scene, Window renderWindow, int recursions, int rayDistributionSamples, AntiAliasingLevel antiAliasingLevel, int multiThreading, Callback callback) {
@@ -82,7 +81,6 @@ public class Raytracer {
 
         Log.print(this, "Preliminary calculation");
 
-        cameraCalculation();
         generateAADistribution(antiAliasingLevel);
 
         generateRenderBlocks();
@@ -99,23 +97,8 @@ public class Raytracer {
     }
 
     private void renderPixel(int x, int y) {
-        Log.print(this, "calc Pixel (" + x + "," + y + ")");
+//        Log.print(this, "calc Pixel (" + x + "," + y + ")");
         renderBlock(x, x + 1, y, y + 1);
-    }
-
-    private void cameraCalculation() { //todo move to camera class
-//        float ratio = (float) mBufferedImage.getWidth() / (float) mBufferedImage.getHeight();
-//        windowHeight = (float) (2 * cam.focalLength * Math.tan(cam.viewAngle * Math.PI / 360));
-//        windowWidth = ratio * windowHeight;
-//        windowCenter = cam.getPosition().add(cam.view.multScalar(cam.focalLength));
-
-
-
-//        Log.print(this, "resolution: " + mBufferedImage.getWidth() + " x " + mBufferedImage.getHeight());
-//        Log.print(this, "ratio: " + ratio);
-//        Log.print(this, "window height: " + windowHeight);
-//        Log.print(this, "window width: " + windowWidth);
-//        Log.print(this, "window center: " + windowCenter);
     }
 
     private void generateRenderBlocks() {
@@ -146,21 +129,6 @@ public class Raytracer {
 
     private void startRenderThreads() {
         threadsFinished = 0;
-//        int parts = mBufferedImage.getHeight() / multiThreading;
-//
-//        for (int i = 0; i < multiThreading; i++) {
-//
-//            int startRow = i * parts;
-//            int endRow = startRow + parts;
-//
-//            if (i + 1 == multiThreading) endRow = mBufferedImage.getHeight();
-//
-//            RenderBlock block = new RenderBlock(0, mBufferedImage.getWidth(), startRow, endRow);
-//
-//            Thread renderThread = new RenderThread(this, block, this::threadFinished);
-//
-//            renderThread.start();
-//        }
 
         for (int i = 0; i < multiThreading; i++) {
 
@@ -235,8 +203,6 @@ public class Raytracer {
 
     private RgbColor traceRay(Ray ray, int currentRecursion) {
 
-//        Log.print(this, "Ray " + ray + " rec: " + currentRecursion);
-
         Intersection intersection = ray.getIntersection(scene.shapeList);
 
         if (intersection == null) return BackgroundColor;
@@ -245,14 +211,10 @@ public class Raytracer {
         Material material = intersection.shape.material;
         Vec3 viewVector = ray.getDirection().negate().normalize();
 
-//        Log.print(this, intersection.toString());
-
         color = color.add(traceIllumination(intersection, viewVector, material));
 
-        if (currentRecursion >= mMaxRecursions) {
-//            Log.print(this, "max recursion reached");
+        if (currentRecursion >= mMaxRecursions)
             return color;
-        }
 
         if (material.opacity < 1)
             color = color.add(traceRefraction(intersection, viewVector, material, currentRecursion));
@@ -307,7 +269,7 @@ public class Raytracer {
             float pixelSizeNormPos = 2 / (float) mBufferedImage.getWidth(); //relative pixel size relative to resolution
 
             switch (antiAliasingLevel) {
-                case x2:
+                case x4:
                     float q4 = pixelSizeNormPos / 4;
 
                     antiAliasingPositions.add(new Vec2(-q4, -q4));
@@ -316,7 +278,7 @@ public class Raytracer {
                     antiAliasingPositions.add(new Vec2(q4, q4));
                     break;
 
-                case x4:
+                case x8:
                     float q8 = pixelSizeNormPos / 8;
 
                     //upper left corner
@@ -333,7 +295,7 @@ public class Raytracer {
                     antiAliasingPositions.add(new Vec2(q8, -3 * q8));
                     break;
 
-                case x8:
+                case x16:
                     q8 = pixelSizeNormPos / 8;
 
                     //upper left corner

@@ -20,20 +20,20 @@ public abstract class Material {
     public static final float SNELLIUS_WATER = 1.333f;
 
     //material attributes
-    public RgbColor ambient;
-    public RgbColor diffuse;
-    public RgbColor emission;
-    public float reflection;
-    public float opacity;
-    public float transparency;
-    public float smoothness;
+    public final RgbColor ambient;
+    public final RgbColor diffuse;
+    public final RgbColor emission;
+    public final float reflection;
+    public final float opacity;
+    public final float transparency;
+    public final float smoothness;
 
     //calculated
-    private float roughness;
-    private float airToMaterialSnellius;
-    private float materialToAirSnellius;
-    private float airToMaterialSnelliusPWD; //to the power of two
-    private float materialToAirSnelliusPWD; //to the power of two
+    public final float roughness;
+    private final float airToMaterialSnellius;
+    private final float materialToAirSnellius;
+    private final float airToMaterialSnelliusPWD; //to the power of two
+    private final float materialToAirSnelliusPWD; //to the power of two
 
 
     public Material(RgbColor ambient, RgbColor diffuse, RgbColor emission, float reflection, float smoothness, float opacity, float refractiveIndex) {
@@ -52,13 +52,6 @@ public abstract class Material {
         materialToAirSnellius = refractiveIndex / SNELLIUS_AIR;
         airToMaterialSnelliusPWD = (float) Math.pow(airToMaterialSnellius, 2);
         materialToAirSnelliusPWD = (float) Math.pow(materialToAirSnellius, 2);
-
-//        if (refractiveIndex == 1) return;
-//
-//        Log.print(this, "airToMaterialSnellius: " + airToMaterialSnellius);
-//        Log.print(this, "materialToAirSnellius: " + materialToAirSnellius);
-//        Log.print(this, "airToMaterialSnelliusPWD: " + airToMaterialSnelliusPWD);
-//        Log.print(this, "materialToAirSnelliusPWD: " + materialToAirSnelliusPWD);
     }
 
     //    public abstract RgbColor getColor(Vec3 pos, Vec3 normal, Vec3 view, Scene scene);
@@ -85,7 +78,7 @@ public abstract class Material {
 
     protected RgbColor calcDiffuse(Light light, Vec3 normal, Vec3 lightVector) {
 
-        return diffuse.multRGB(                                   //color of light multiplicated with
+        return diffuse.multRGB(                                   //color of material multiplicated with
                 light.getColor()).multScalar(                               //light color
                 light.getIntensity() *                                      //intensity of light
                         opacity *
@@ -179,11 +172,7 @@ public abstract class Material {
 
         float dot = normal.scalar(I);
 
-//        Log.print(this, "starting refract calculation");
-//        Log.print(this, "normal: " + normal);
-//        Log.print(this, "I: " + I);
-//        Log.print(this, "dot: " + dot);
-
+        //default: out to in
         float n = airToMaterialSnellius;
         float nPWD = airToMaterialSnelliusPWD;
 
@@ -191,18 +180,12 @@ public abstract class Material {
             //in to out
             n = materialToAirSnellius;
             nPWD = materialToAirSnelliusPWD;
-
-//            Log.print(this, "in to out");
         }
 
         if (1f - nPWD <= 0) {
             //total internal reflection
-//            Log.print(this, "TIR");
             return getReflectionVector(I, normal);
-//                return getReflectionVector(I, normal.negate().normalize());
         }
-
-//        Log.print(this, "out to in");
 
         float cosB = I.scalar(normal);
         float sinB_PWD = nPWD * (1 - cosB * cosB);
@@ -357,14 +340,12 @@ public abstract class Material {
             rays.add(new Ray(idealRay.getStartPoint(), newDirection));
         }
 
-
         return rays;
     }
 
     private float normalDistributedRoughness(Random r) {
         return (float) (Math.pow(r.nextFloat(), 2) * 2 - 1) * roughness;
     }
-
 
     public static Material parseMaterial(javafx.scene.paint.Material mat){
         return new Lambert(RgbColor.RED,

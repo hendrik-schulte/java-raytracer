@@ -27,10 +27,8 @@ import material.Blinn;
 import material.Lambert;
 import material.Phong;
 import raytracer.Raytracer;
-import scene.camera.OrthoCam;
 import scene.camera.PerspCam;
 import scene.light.AreaLight;
-import scene.light.Light;
 import scene.shape.*;
 import ui.Window;
 import scene.Scene;
@@ -57,9 +55,10 @@ public class Main {
     private static int RAY_DISTRIBUTION_SAMPLES = 1;
     private static int MULTI_THREADING = 4;
     private static float AMBIENT = 0.04f;
-    private static Raytracer.AntiAliasingLevel ANTIALIASING_LEVEL = Raytracer.AntiAliasingLevel.x2;
+    private static Raytracer.AntiAliasingLevel ANTIALIASING_LEVEL = Raytracer.AntiAliasingLevel.x4;
     public static boolean USE_SHADOWS = true;
     private static float LIGHT_SAMPLING = 0.7f;
+    private static int NUM_LIGHTS = 5;
 
     private static float ROOM_SMOOTHNESS = 1.00f;
     private static float ROOM_REFLECTIVITY = 0.0f;
@@ -118,22 +117,22 @@ public class Main {
     private static Scene setupScene() {
         Scene scene = new Scene(AMBIENT);
 
-//        scene.setCamera(new PerspCam(
-//                new Vec3(0, 0, 17),    //pos
-//                new Vec3(0, 0, 0),    //center of view
-//                new Vec3(0, 1, 0),    //user-up
-//                70,
-//                3,
-//                IMAGE_WIDTH,
-//                IMAGE_HEIGHT));
-
-        scene.setCamera(new OrthoCam(
-                new Vec3(17, 17, 50),    //pos
-                new Vec3(0, 0, 7),    //center of view
+        scene.setCamera(new PerspCam(
+                new Vec3(0, 0, 17),    //pos
+                new Vec3(0, 0, 0),    //center of view
                 new Vec3(0, 1, 0),    //user-up
-                12.6f,
+                70,
+                1,
                 IMAGE_WIDTH,
                 IMAGE_HEIGHT));
+
+//        scene.setCamera(new OrthoCam(
+//                new Vec3(17, 17, 50),    //pos
+//                new Vec3(0, 0, 7),    //center of view
+//                new Vec3(0, 1, 0),    //user-up
+//                12.6f,
+//                IMAGE_WIDTH,
+//                IMAGE_HEIGHT));
 
         setupSpheres(scene);
 //        setupObjects(scene);
@@ -146,22 +145,22 @@ public class Main {
     private static void setupSpheres(Scene scene) {
 
         //reflective
-        scene.createShape(new Sphere(
-                new Vec3(-2, 0, 6),
-                2.0f,
-                new Phong(RgbColor.BLACK,
-                        RgbColor.BLACK,
-                        RgbColor.BLACK,
-                        new RgbColor(0.00f, 0.00f, 0.00f),
-                        32f,
-                        0.5f,
-                        1.0f,
-                        1,
-                        1)));
-
-        //reflective blurry
 //        scene.createShape(new Sphere(
-//                new Vec3(-2.5f, -1, 10),
+//                new Vec3(-2, -1.0f, 12),
+//                1.0f,
+//                new Phong(RgbColor.BLACK,
+//                        RgbColor.BLACK,
+//                        RgbColor.BLACK,
+//                        new RgbColor(0.05f, 0.05f, 0.05f),
+//                        32f,
+//                        0.5f,
+//                        1.0f,
+//                        1,
+//                        1)));
+
+//        //reflective blurry
+//        scene.createShape(new Sphere(
+//                new Vec3(2.f, -3.7f, 7),
 //                1.0f,
 //                new Lambert(RgbColor.SOFT_GRAY,   //ambient
 //                        RgbColor.SOFT_GRAY,     //diffuse
@@ -172,35 +171,35 @@ public class Main {
 //                        1)));
 
         //red phong sphere
-//        scene.createShape(new Sphere(
-//                new Vec3(-2, 1.5f, 7.5f),
-//                1f,
-//                new Phong(RgbColor.RED,
-//                        RgbColor.RED,
-//                        RgbColor.BLACK,
-//                        new RgbColor(0.08f, 0.08f, 0.08f),
-//                        26,
-//                        .0f,
-//                        1.0f,
-//                        1,
-//                        1)));
+        scene.createShape(new Sphere(
+                new Vec3(2, -1f, 10f),
+                1f,
+                new Phong(RgbColor.RED,
+                        RgbColor.RED,
+                        RgbColor.BLACK,
+                        new RgbColor(0.08f, 0.08f, 0.08f),
+                        26,
+                        .0f,
+                        1.0f,
+                        1,
+                        1)));
 
         //mat material
-//        scene.createShape(new Sphere(
-//                new Vec3(0, 0.5f, 12.0f),
-//                1f,
-//                new Phong(RgbColor.GRAY,
-//                        RgbColor.GRAY,
-//                        RgbColor.BLACK,
-//                        new RgbColor(0.05f, 0.05f, 0.05f),
-//                        6,
-//                        .4f ,
-//                        0.97f,
-//                        1,
-//                        1)));
+        scene.createShape(new Sphere(
+                new Vec3(-2, -1, 8.0f),
+                1f,
+                new Phong(RgbColor.GRAY,
+                        RgbColor.GRAY,
+                        RgbColor.BLACK,
+                        new RgbColor(0.05f, 0.05f, 0.05f),
+                        6,
+                        .4f ,
+                        0.98f,
+                        1,
+                        1)));
 
 //        scene.createShape(new Sphere(
-//                new Vec3(2, 1.5f, 10.0f),
+//                new Vec3(5, -2f, 3.0f),
 //                1f,
 //                new Phong(RgbColor.GRAY,
 //                        RgbColor.GRAY,
@@ -399,7 +398,7 @@ public class Main {
 
         //Ceiling
         scene.createShape(new Plane(
-                new Vec3(0, 4.2f, 0),    //pos
+                new Vec3(0, 4.f, 0),    //pos
                 new Vec3(0, -1, 0),      //normal
                 false,
                 new Blinn(RgbColor.DARK_CYAN,      //ambient
@@ -439,7 +438,7 @@ public class Main {
                         RgbColor.WHITE,
                         0.5f,
                         new Rectangle(
-                                new Vec3(0, 4.10f, 8),    //pos
+                                new Vec3(0, 3.90f, 8),    //pos
                                 new Vec3(-1.0f, .0f, 0.5f),     //a
                                 new Vec3(0.5f, .0f, -1.0f),     //b
                                 false,
@@ -452,7 +451,7 @@ public class Main {
                                         1)),
                         0.15f,
                         0.8f,
-                        new Vec2(7, 7),
+                        new Vec2(NUM_LIGHTS, NUM_LIGHTS),
                         LIGHT_SAMPLING),
                 true);
 
@@ -474,7 +473,7 @@ public class Main {
 //                                        1)),
 //                        0.11f,
 //                        .9f,
-//                        new Vec2(10, 3),
+//                        new Vec2(NUM_LIGHTS * 2, NUM_LIGHTS / 2),
 //                        LIGHT_SAMPLING),
 //                true);
     }
@@ -484,11 +483,11 @@ public class Main {
         switch (ANTIALIASING_LEVEL) {
             case disabled:
                 return 0;
-            case x2:
-                return 2;
             case x4:
-                return 4;
+                return 2;
             case x8:
+                return 4;
+            case x16:
                 return 8;
         }
         return -1;
