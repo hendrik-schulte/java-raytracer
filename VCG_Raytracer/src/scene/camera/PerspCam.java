@@ -7,8 +7,8 @@ import utils.io.Log;
 
 public class PerspCam extends Camera {
 
-    public float viewAngle;
-    public float focalLength;
+    public final float viewAngle;
+    public final float focalLength;
 
     public PerspCam(Vec3 pos, Vec3 lookAt, Vec3 upVector, float viewAngle, float focalLength, int imageWidth, int imageHeight) {
         super(pos, lookAt, upVector, imageWidth, imageHeight);

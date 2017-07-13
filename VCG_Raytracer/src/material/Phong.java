@@ -9,9 +9,9 @@ import utils.algebra.Vec3;
 
 public class Phong extends Material {
 
-    private RgbColor specular;
-    private float specularExp;
-    private float specularNormalFactor;
+    private final RgbColor specular;
+    private final float specularExp;
+    private final float specularNormalFactor;
 
     public Phong(RgbColor ambient, RgbColor diffuse, RgbColor emission, RgbColor specular, float specularExp, float reflection, float smoothness, float opacity, float refractiveIndex) {
         super(ambient, diffuse, emission, reflection, smoothness, opacity, refractiveIndex);

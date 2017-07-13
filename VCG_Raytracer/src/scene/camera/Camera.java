@@ -7,8 +7,8 @@ import utils.algebra.Vec3;
 
 public abstract class Camera extends SceneObject {
 
-    public Vec3 lookAt;
-    public Vec3 upVector;
+    public final Vec3 lookAt;
+    public final Vec3 upVector;
 
     public Vec3 view;
     public Vec3 side;

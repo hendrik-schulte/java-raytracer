@@ -233,6 +233,7 @@ public class Raytracer {
     private RgbColor traceRefraction(Intersection inter, Vec3 viewVector, Material material, int currentRecursion) {
         //calc refraction vector
         Vec3 refractionVector = material.getRefractionVector(inter.normal, viewVector);
+//        Vec3 refractionVector = material.getRefractionVectorDeGreve(inter.normal, viewVector);
 
         //calc ideal refraction ray
         Ray refractionRay = new Ray(inter.interSectionPoint, refractionVector);

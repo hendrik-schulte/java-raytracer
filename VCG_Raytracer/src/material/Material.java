@@ -5,10 +5,8 @@ import raytracer.Ray;
 import scene.Scene;
 import scene.light.Light;
 import scene.shape.Shape;
-import utils.MathEx;
 import utils.RgbColor;
 import utils.algebra.Vec3;
-import utils.io.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +14,10 @@ import java.util.Random;
 
 public abstract class Material {
 
-    public static final float SNELLIUS_AIR = 1;
+    public static final float SNELLIUS_VACUUM = 1f;
+    public static final float SNELLIUS_AIR = 1.0003f;
     public static final float SNELLIUS_WATER = 1.333f;
+    public static final float SNELLIUS_GLAS = 1.54f;
 
     //material attributes
     public final RgbColor ambient;
@@ -27,6 +27,7 @@ public abstract class Material {
     public final float opacity;
     public final float transparency;
     public final float smoothness;
+    public final float refractionIndex;
 
     //calculated
     public final float roughness;
@@ -36,7 +37,7 @@ public abstract class Material {
     private final float materialToAirSnelliusPWD; //to the power of two
 
 
-    public Material(RgbColor ambient, RgbColor diffuse, RgbColor emission, float reflection, float smoothness, float opacity, float refractiveIndex) {
+    public Material(RgbColor ambient, RgbColor diffuse, RgbColor emission, float reflection, float smoothness, float opacity, float refractionIndex) {
 
         this.ambient = ambient;
         this.diffuse = diffuse;
@@ -44,12 +45,13 @@ public abstract class Material {
         this.smoothness = smoothness;
         this.opacity = opacity;
         this.emission = emission;
+        this.refractionIndex = refractionIndex;
 
         roughness = 1 - smoothness;
         transparency = 1 - opacity;
 
-        airToMaterialSnellius = SNELLIUS_AIR / refractiveIndex;
-        materialToAirSnellius = refractiveIndex / SNELLIUS_AIR;
+        airToMaterialSnellius = SNELLIUS_AIR / refractionIndex;
+        materialToAirSnellius = refractionIndex / SNELLIUS_AIR;
         airToMaterialSnelliusPWD = (float) Math.pow(airToMaterialSnellius, 2);
         materialToAirSnelliusPWD = (float) Math.pow(materialToAirSnellius, 2);
     }
@@ -73,7 +75,7 @@ public abstract class Material {
     }
 
     protected RgbColor calcAmbient(Scene scene) {
-        return emission.add(ambient.multScalar(scene.AmbientIntensity * opacity));
+        return emission.add(ambient.multScalar(scene.ambientIntensity * opacity));
     }
 
     protected RgbColor calcDiffuse(Light light, Vec3 normal, Vec3 lightVector) {
@@ -103,9 +105,15 @@ public abstract class Material {
         return light.getPosition().sub(pos).normalize();
     }
 
-    public static Vec3 getReflectionVector(Vec3 normal, Vec3 lightVector) {
+    /**
+     * Returns the reflection vector based on the given normal and incoming vectors.
+     * @param normal
+     * @param incoming
+     * @return
+     */
+    public static Vec3 getReflectionVector(Vec3 normal, Vec3 incoming) {
 
-        return normal.multScalar(2 * lightVector.scalar(normal)).sub(lightVector).normalize();
+        return normal.multScalar(2 * incoming.scalar(normal)).sub(incoming).normalize();
     }
 
 //    public Vec3 getRefractionVector(Vec3 normal, Vec3 I) {
@@ -167,7 +175,12 @@ public abstract class Material {
 //
 //        return (NcosAMinI.sub(NcosB)).multScalar(snelliusRatio);
 //    }
-
+    /**
+     * Returns the refraction vector based on the given normal and incoming vectors.
+     * @param normal
+     * @param I
+     * @return
+     */
     public Vec3 getRefractionVector(Vec3 normal, Vec3 I) {
 
         float dot = normal.scalar(I);
@@ -284,6 +297,11 @@ public abstract class Material {
 //        return I.multScalar(n).add(normal.multScalar(n * c1 - c2));
 //    }
 
+    public Vec3 getRefractionVectorDeGreve(Vec3 normal, Vec3 I){
+
+        return getRefractionVector(normal, I, SNELLIUS_AIR, refractionIndex);
+    }
+
     /**
      * Taken from https://graphics.stanford.edu/courses/cs148-10-summer/docs/2006--degreve--reflection_refraction.pdf
      *
@@ -295,11 +313,11 @@ public abstract class Material {
      */
     public static Vec3 getRefractionVector(Vec3 normal, Vec3 I, float n1, float n2) {
         double n;
-        double cosI = -normal.scalar(I);
+        double cosI = normal.scalar(I);
         if (cosI < 0) n = n1 / n2;   //out to in
         else n = n2 / n1;           //in to out
         double sinT2 = n * n * (1.0f - cosI * cosI);
-        if (sinT2 > 1) return Vec3.ZERO;
+        if (sinT2 > 1) return getReflectionVector(I, normal);
         double cosT = Math.sqrt(1.0 - sinT2);
         return I.multScalar(n).add(normal.multScalar((n * cosI - cosT)));
     }

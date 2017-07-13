@@ -1,13 +1,10 @@
 package scene;
 
-import material.Lambert;
 import material.Material;
 import scene.camera.Camera;
 import scene.light.AreaLight;
 import scene.light.Light;
 import scene.shape.Shape;
-import scene.shape.Sphere;
-import utils.RgbColor;
 import utils.io.Log;
 
 import java.util.*;
@@ -18,12 +15,14 @@ public class Scene {
     private ArrayList<Light> pointLights = new ArrayList<>();
     private ArrayList<AreaLight> areaLights = new ArrayList<>();
     public Camera camera;
-    public float AmbientIntensity;
+    public final float ambientIntensity;
+//    public final float soroundingRefractionIndex;
 
-    public Scene(float AmbientIntensity) {
+    public Scene(float ambientIntensity/*, float soroundingRefractionIndex*/) {
 
         Log.print(this, "Init");
-        this.AmbientIntensity = AmbientIntensity;
+        this.ambientIntensity = ambientIntensity;
+//        this.soroundingRefractionIndex = soroundingRefractionIndex;
     }
 
     public void createShape(Shape shape) {
@@ -58,6 +57,10 @@ public class Scene {
         camera = cam;
     }
 
+    /**
+     * Returns all point lights and all sampled area lights.
+     * @return
+     */
     public ArrayList<Light> getLights() {
         ArrayList<Light> lights = new ArrayList<Light>(pointLights);
 
