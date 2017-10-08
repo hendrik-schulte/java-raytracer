@@ -22,4 +22,4 @@
 - Radiosity
 - ...
 
-    Hendrik Schulte
+Hendrik Schulte
