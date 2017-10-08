@@ -1,23 +1,25 @@
 
-#                   Java Raytracer                
-                                                              
-##           		Featuring                
+# Java Raytracer
 
-    - Multi-Threading
-    - Anti Aliasing
-    - Reflection
-    - Refraction
-    - Perspective / Orthographic Camera
-    - Blurry Refr./Refl.
-    - Planes, Triangles, Rectangles, Circles, Spheres
-    - Area Lights (Rect. / Circle)
+![](https://github.com/hendrik-schulte/java-raytracer/blob/master/raytracing.png)
+		   
+## Featuring                
 
-##					Roadmap
+- Multi-Threading
+- Anti Aliasing (Adaptive)
+- Reflection
+- Refraction
+- Perspective / Orthographic Camera
+- Blurry Refr./Refl.
+- Planes, Triangles, Rectangles, Circles, Spheres
+- Area Lights (Rect. / Circle)
 
-	- Obj. Mesh rendering
-	- GUI
-	- Caustics
-	- Radiosity
-	- ...
+## Roadmap
 
-     Master of Everything: Hendrik Schulte
+- Obj. Mesh rendering
+- GUI
+- Caustics
+- Radiosity
+- ...
+
+    Hendrik Schulte
