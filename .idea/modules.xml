@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/VCG_Raytracer_Henne.iml" filepath="$PROJECT_DIR$/.idea/VCG_Raytracer_Henne.iml" />
+      <module fileurl="file://$PROJECT_DIR$/VCG_Raytracer/VCG_Raytracer.iml" filepath="$PROJECT_DIR$/VCG_Raytracer/VCG_Raytracer.iml" />
     </modules>
   </component>
 </project>

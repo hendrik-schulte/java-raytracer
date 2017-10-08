@@ -1,13 +1,12 @@
 package scene;
 
-import material.Material;
 import scene.camera.Camera;
 import scene.light.AreaLight;
 import scene.light.Light;
 import scene.shape.Shape;
 import utils.io.Log;
 
-import java.util.*;
+import java.util.ArrayList;
 
 public class Scene {
 

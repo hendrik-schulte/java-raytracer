@@ -3,7 +3,6 @@ package scene.camera;
 import raytracer.Ray;
 import utils.algebra.Vec2;
 import utils.algebra.Vec3;
-import utils.io.Log;
 
 public class PerspCam extends Camera {
 

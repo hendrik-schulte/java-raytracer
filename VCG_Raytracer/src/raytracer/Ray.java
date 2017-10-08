@@ -2,11 +2,9 @@ package raytracer;
 
 import scene.shape.Shape;
 import utils.algebra.Vec3;
-import utils.io.Log;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 
 public class Ray {
 

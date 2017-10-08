@@ -6,7 +6,6 @@ import raytracer.Ray;
 import utils.algebra.Vec3;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Cube extends Shape {
 

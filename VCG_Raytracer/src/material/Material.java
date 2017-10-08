@@ -365,13 +365,13 @@ public abstract class Material {
         return (float) (Math.pow(r.nextFloat(), 2) * 2 - 1) * roughness;
     }
 
-    public static Material parseMaterial(javafx.scene.paint.Material mat){
-        return new Lambert(RgbColor.RED,
-                RgbColor.RED,
-                RgbColor.BLACK,
-                0.0f,
-                1.0f,
-                1,
-                1);
-    }
+//    public static Material parseMaterial(javafx.scene.paint.Material mat){
+//        return new Lambert(RgbColor.RED,
+//                RgbColor.RED,
+//                RgbColor.BLACK,
+//                0.0f,
+//                1.0f,
+//                1,
+//                1);
+//    }
 }

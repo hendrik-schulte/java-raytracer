@@ -1,10 +1,7 @@
 package raytracer;
 
-import com.sun.org.apache.regexp.internal.RE;
 import utils.Callback;
-import utils.io.Log;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 

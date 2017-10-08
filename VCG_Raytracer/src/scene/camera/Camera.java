@@ -1,6 +1,7 @@
 package scene.camera;
 
 import raytracer.Ray;
+import raytracer.Raytracer;
 import scene.SceneObject;
 import utils.algebra.Vec2;
 import utils.algebra.Vec3;
@@ -19,13 +20,17 @@ public abstract class Camera extends SceneObject {
     public float windowWidth;
     public Vec3 windowCenter;
 
+    private int imageWidth;
+    private int imageHeight;
+
 
     public Camera(Vec3 pos, Vec3 lookAt, Vec3 upVector, int imageWidth, int imageHeight) {
         super(pos);
 
         this.lookAt = lookAt;
         this.upVector = upVector.normalize();
-
+        this.imageWidth = imageWidth;
+        this.imageHeight = imageHeight;
 
         calcCoordinateAxis();
 
@@ -64,5 +69,10 @@ public abstract class Camera extends SceneObject {
 
     private Vec3 calcCamUp(){
         return side.cross(view).normalize();
+    }
+
+    public Vec2 pixelPosNormalized(float x, float y) {
+        return new Vec2(2 * ((x + 0.5f) / imageWidth) - 1,
+                2 * ((y + 0.5f) / imageHeight) - 1);
     }
 }

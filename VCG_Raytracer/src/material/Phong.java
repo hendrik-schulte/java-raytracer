@@ -1,8 +1,5 @@
 package material;
 
-import Main.Main;
-import raytracer.Ray;
-import scene.Scene;
 import scene.light.Light;
 import utils.RgbColor;
 import utils.algebra.Vec3;

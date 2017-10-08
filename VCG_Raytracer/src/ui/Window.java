@@ -3,7 +3,6 @@ package ui;
 import utils.RgbColor;
 import utils.algebra.Vec2;
 import utils.io.DataExporter;
-import utils.io.Log;
 
 import javax.swing.*;
 import java.awt.*;

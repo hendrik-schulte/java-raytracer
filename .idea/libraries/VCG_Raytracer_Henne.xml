@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="VCG_Raytracer_Henne">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/build/VCG_Raytracer_Henne.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

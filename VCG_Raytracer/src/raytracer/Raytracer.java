@@ -1,30 +1,15 @@
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1. Send primary ray
-    2. intersection test with all shapes
-    3. if hit:
-    3a: send secondary ray to the light source
-    3b: 2
-        3b.i: if hit:
-            - Shape is in the shade
-            - Pixel color = ambient value
-        3b.ii: in NO hit:
-            - calculate local illumination
-    4. if NO hit:
-        - set background color
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-
 package raytracer;
 
 import material.Material;
 import scene.Scene;
-
 import scene.camera.Camera;
 import ui.Window;
-import utils.*;
+import utils.Callback;
+import utils.RgbColor;
 import utils.algebra.Vec2;
 import utils.algebra.Vec3;
 import utils.io.Log;
+import utils.AntiAliasing;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -39,9 +24,6 @@ public class Raytracer {
     private Window mRenderWindow;
 
     private Camera cam;
-//    private Vec3 windowCenter;
-//    private float windowHeight;
-//    private float windowWidth;
 
     private int mMaxRecursions;
     private int rayDistributionSamples;
@@ -49,26 +31,19 @@ public class Raytracer {
     private int threadsFinished;
     private Callback renderCallback;
 
-    private AntiAliasingLevel antiAliasingLevel;
-    private ArrayList<Vec2> antiAliasingPositions = new ArrayList<>();
+    private AntiAliasing antiAliasing;
 
-    private List<RenderBlock> renderBlocks = Collections.synchronizedList(new ArrayList<RenderBlock>());
+    private List<RenderBlock> renderBlocks = new ArrayList<>();
     private final int renderBlockSize = 10;
 
-    public enum AntiAliasingLevel {
-        disabled,
-        x4,
-        x8,
-        x16
-    }
 
-    public Raytracer(Scene scene, Window renderWindow, int recursions, int rayDistributionSamples, AntiAliasingLevel antiAliasingLevel, int multiThreading, Callback callback) {
+    public Raytracer(Scene scene, Window renderWindow, int recursions, int rayDistributionSamples, AntiAliasing antiAliasing, int multiThreading, Callback callback) {
         Log.print(this, "Init");
         mMaxRecursions = recursions;
         this.rayDistributionSamples = rayDistributionSamples;
         this.multiThreading = multiThreading;
         renderCallback = callback;
-        this.antiAliasingLevel = antiAliasingLevel;
+        this.antiAliasing = antiAliasing;
         mBufferedImage = renderWindow.getBufferedImage();
 
         this.scene = scene;
@@ -81,8 +56,7 @@ public class Raytracer {
 
         Log.print(this, "Preliminary calculation");
 
-        generateAADistribution(antiAliasingLevel);
-
+        antiAliasing.Init();
         generateRenderBlocks();
 
 //        renderPixel(455, 300);
@@ -130,9 +104,11 @@ public class Raytracer {
     private void startRenderThreads() {
         threadsFinished = 0;
 
+        List<RenderBlock> jobs = Collections.synchronizedList(new ArrayList<>(renderBlocks));
+
         for (int i = 0; i < multiThreading; i++) {
 
-            Thread renderThread = new RenderThread(this, renderBlocks, this::threadFinished);
+            Thread renderThread = new RenderThread(this, jobs, this::threadFinished);
 
             renderThread.start();
         }
@@ -143,49 +119,107 @@ public class Raytracer {
 
         if (threadsFinished < multiThreading) return;
 
-        Log.print(this, "All render threads finished!");
+        switch (antiAliasing.getRenderStage()) {
+            case PreRendering:
+                Log.print(this, "PreRendering finished.");
+                antiAliasing.FinishPreRendering();
+//                generateRenderBlocks();
+                startRenderThreads();
+                return;
+
+            case Adaptive:
+                Log.print(this, "Finished adaptive Anti Aliasing.");
+                antiAliasing.cleanup();
+        }
+
+
+        Log.print(this, "Rendering completed!");
+
         renderCallback.callback();
     }
 
+    /**
+     * Renders the given RenderBlock.
+     *
+     * @param rect
+     */
     public void renderBlock(RenderBlock rect) {
         renderBlock(rect.startX, rect.endX, rect.startY, rect.endY);
     }
 
+    /**
+     * Renders the given block of pixels by start and end coordinates.
+     *
+     * @param startX
+     * @param endX
+     * @param startY
+     * @param endY
+     */
     public void renderBlock(int startX, int endX, int startY, int endY) {
         // Rows
         for (int y = startY; y < endY; y++) {
             // Columns
             for (int x = startX; x < endX; x++) {
 
-                Vec2 normPos = pixelPosNormalized(x, y);
+                Vec2 normPos = cam.pixelPosNormalized(x, y);
 
-                if (antiAliasingLevel == AntiAliasingLevel.disabled) {
-//                    Vec3 worldPos = cam.norm2World(normPos);
-//
-//                    Ray ray = new Ray(cam.getPosition(), worldPos.sub(cam.getPosition()));
+                if (!antiAliasing.isEnabled()) {
 
-                    Ray ray = cam.calcPixelRay(normPos);
-
-                    mRenderWindow.setPixel(mBufferedImage, traceRay(ray, 0), new Vec2(x, y));
+                    SingleRayCast(normPos, x, y);
 
                 } else {
-                    ArrayList<Ray> rays = new ArrayList<>();
 
-                    for (Vec2 pos : antiAliasingPositions) {
-
-//                        Vec3 worldPos = cam.norm2World(normPos.add(pos));
-//                        Ray ray = new Ray(cam.getPosition(), worldPos.sub(cam.getPosition()));
-
-                        rays.add(cam.calcPixelRay(normPos.add(pos)));
-                    }
-
-                    mRenderWindow.setPixel(mBufferedImage, traceRays(rays, 0), new Vec2(x, y));
+                    MultiSampleRayCast(normPos, x, y);
                 }
             }
 //                if(y % 10 == 0 && x % 10 == 0) Log.print(this, "pixel: " + x + "," + y + "\nnormPos:  " + normPos + "\nworldPos: " + worldPos);
         }
     }
 
+    private RgbColor SingleRayCast(Vec2 normPos, int x, int y) {
+        Ray ray = cam.calcPixelRay(normPos);
+
+        RgbColor color = traceRay(ray, 0);
+
+        mRenderWindow.setPixel(mBufferedImage, color, new Vec2(x, y));
+
+        return color;
+    }
+
+    private void MultiSampleRayCast(Vec2 normPos, int x, int y) {
+
+        switch (antiAliasing.getRenderStage()) {
+            case PreRendering:
+                antiAliasing.savePreRendering(x, y, SingleRayCast(normPos, x, y));
+                break;
+
+            case Adaptive:
+
+                if(!antiAliasing.aaIsNecessary(x, y)) return;
+
+//                Log.print(this, "multisample pixel");
+
+            case disabled:
+
+                ArrayList<Ray> rays = new ArrayList<>();
+
+                for (Vec2 pos : antiAliasing.getAntiAliasingPositions()) {
+
+                    rays.add(cam.calcPixelRay(normPos.add(pos)));
+                }
+
+                mRenderWindow.setPixel(mBufferedImage, traceRays(rays, 0), new Vec2(x, y));
+                break;
+        }
+    }
+
+    /**
+     * Traces the given list of rays and returns the mean of their corresponding colors.
+     *
+     * @param rays
+     * @param currentRecursion
+     * @return
+     */
     private RgbColor traceRays(List<Ray> rays, int currentRecursion) {
 
         Vec3 colorVec = new Vec3(0, 0, 0);
@@ -201,6 +235,13 @@ public class Raytracer {
         return new RgbColor(colorVec.x, colorVec.y, colorVec.z);
     }
 
+    /**
+     * Traces the given ray through the scene and returns the corresponding color.
+     *
+     * @param ray
+     * @param currentRecursion
+     * @return
+     */
     private RgbColor traceRay(Ray ray, int currentRecursion) {
 
         Intersection intersection = ray.getIntersection(scene.shapeList);
@@ -225,11 +266,28 @@ public class Raytracer {
         return color;
     }
 
+    /**
+     * Calculates the local illumination model at the given intersection point.
+     *
+     * @param inter
+     * @param viewVector
+     * @param material
+     * @return
+     */
     private RgbColor traceIllumination(Intersection inter, Vec3 viewVector, Material material) {
 
         return material.getColor(inter.interSectionPoint, inter.normal, viewVector, scene);
     }
 
+    /**
+     * Traces a refraction ray through this intersection point and returns its resulting color.
+     *
+     * @param inter
+     * @param viewVector
+     * @param material
+     * @param currentRecursion
+     * @return
+     */
     private RgbColor traceRefraction(Intersection inter, Vec3 viewVector, Material material, int currentRecursion) {
         //calc refraction vector
         Vec3 refractionVector = material.getRefractionVector(inter.normal, viewVector);
@@ -247,6 +305,15 @@ public class Raytracer {
         return refractionColor.multScalar(material.transparency);
     }
 
+    /**
+     * Traces a reflection ray from this intersection point and returns its resulting color.
+     *
+     * @param inter
+     * @param viewVector
+     * @param material
+     * @param currentRecursion
+     * @return
+     */
     private RgbColor traceReflection(Intersection inter, Vec3 viewVector, Material material, int currentRecursion) {
         //calc reflection ray
         Ray reflectionRay = new Ray(inter.interSectionPoint, Material.getReflectionVector(inter.normal, viewVector));
@@ -257,70 +324,5 @@ public class Raytracer {
         RgbColor reflectionColor = traceRays(rays, currentRecursion + 1);
 
         return reflectionColor.multScalar(material.reflection);
-    }
-
-    private Vec2 pixelPosNormalized(float x, float y) {
-        //Todo in camera verscvhieben
-        return new Vec2(2 * ((x + 0.5f) / mBufferedImage.getWidth()) - 1,
-                2 * ((y + 0.5f) / mBufferedImage.getHeight()) - 1);
-    }
-
-    private void generateAADistribution(AntiAliasingLevel antiAliasingLevel) {
-        if (antiAliasingLevel != AntiAliasingLevel.disabled) {
-            float pixelSizeNormPos = 2 / (float) mBufferedImage.getWidth(); //relative pixel size relative to resolution
-
-            switch (antiAliasingLevel) {
-                case x4:
-                    float q4 = pixelSizeNormPos / 4;
-
-                    antiAliasingPositions.add(new Vec2(-q4, -q4));
-                    antiAliasingPositions.add(new Vec2(-q4, q4));
-                    antiAliasingPositions.add(new Vec2(q4, -q4));
-                    antiAliasingPositions.add(new Vec2(q4, q4));
-                    break;
-
-                case x8:
-                    float q8 = pixelSizeNormPos / 8;
-
-                    //upper left corner
-                    antiAliasingPositions.add(new Vec2(-3 * q8, q8));
-                    antiAliasingPositions.add(new Vec2(-q8, 3 * q8));
-                    //bottom left corner
-                    antiAliasingPositions.add(new Vec2(-3 * q8, -q8));
-                    antiAliasingPositions.add(new Vec2(-q8, -3 * q8));
-                    //upper right corner
-                    antiAliasingPositions.add(new Vec2(3 * q8, q8));
-                    antiAliasingPositions.add(new Vec2(q8, 3 * q8));
-                    //bottom right
-                    antiAliasingPositions.add(new Vec2(3 * q8, -q8));
-                    antiAliasingPositions.add(new Vec2(q8, -3 * q8));
-                    break;
-
-                case x16:
-                    q8 = pixelSizeNormPos / 8;
-
-                    //upper left corner
-                    antiAliasingPositions.add(new Vec2(-q8, q8));
-                    antiAliasingPositions.add(new Vec2(-3 * q8, 3 * q8));
-                    antiAliasingPositions.add(new Vec2(-3 * q8, q8));
-                    antiAliasingPositions.add(new Vec2(-q8, 3 * q8));
-                    //bottom left corner
-                    antiAliasingPositions.add(new Vec2(-q8, -q8));
-                    antiAliasingPositions.add(new Vec2(-3 * q8, -3 * q8));
-                    antiAliasingPositions.add(new Vec2(-3 * q8, -q8));
-                    antiAliasingPositions.add(new Vec2(-q8, -3 * q8));
-                    //upper right corner
-                    antiAliasingPositions.add(new Vec2(q8, q8));
-                    antiAliasingPositions.add(new Vec2(3 * q8, 3 * q8));
-                    antiAliasingPositions.add(new Vec2(3 * q8, q8));
-                    antiAliasingPositions.add(new Vec2(q8, 3 * q8));
-                    //bottom right
-                    antiAliasingPositions.add(new Vec2(q8, -q8));
-                    antiAliasingPositions.add(new Vec2(3 * q8, -3 * q8));
-                    antiAliasingPositions.add(new Vec2(3 * q8, -q8));
-                    antiAliasingPositions.add(new Vec2(q8, -3 * q8));
-                    break;
-            }
-        }
     }
 }

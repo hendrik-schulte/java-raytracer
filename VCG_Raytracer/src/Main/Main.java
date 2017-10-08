@@ -27,11 +27,15 @@ import material.Blinn;
 import material.Lambert;
 import material.Unlit;
 import raytracer.Raytracer;
+import scene.Scene;
 import scene.camera.PerspCam;
 import scene.light.AreaLight;
-import scene.shape.*;
+import scene.shape.Mesh;
+import scene.shape.Plane;
+import scene.shape.Rectangle;
+import scene.shape.Sphere;
 import ui.Window;
-import scene.Scene;
+import utils.AntiAliasing;
 import utils.RgbColor;
 import utils.algebra.Vec2;
 import utils.algebra.Vec3;
@@ -55,10 +59,10 @@ public class Main {
     private static int RAY_DISTRIBUTION_SAMPLES = 1;
     private static int MULTI_THREADING = 4;
     private static float AMBIENT = 0.04f;
-    private static Raytracer.AntiAliasingLevel ANTIALIASING_LEVEL = Raytracer.AntiAliasingLevel.x4;
+    private static AntiAliasing ANTIALIASING = new AntiAliasing(AntiAliasing.Level.x16, true, IMAGE_WIDTH, IMAGE_HEIGHT);
     public static boolean USE_SHADOWS = true;
-    private static float LIGHT_SAMPLING = 0.7f;
-    private static int NUM_LIGHTS = 5;
+    private static float LIGHT_SAMPLING = .4f;
+    private static int NUM_LIGHTS = 10;
 
     private static float ROOM_SMOOTHNESS = 1.00f;
     private static float ROOM_REFLECTIVITY = 0.0f;
@@ -66,14 +70,14 @@ public class Main {
     private static float ROOM_SPECULAREXP = 12f;
 
     private static Window renderWindow;
-    private static long tStart;
+    private static long timeStart;
 
 
     /**
      * Initial method. This is where the show begins.
      **/
     public static void main(String[] args) {
-        tStart = System.currentTimeMillis();
+        timeStart = System.currentTimeMillis();
 
         renderWindow = new Window(IMAGE_WIDTH, IMAGE_HEIGHT);
 
@@ -93,7 +97,7 @@ public class Main {
      * Raytrace through the scene
      **/
     private static void raytraceScene(Window renderWindow, Scene renderScene) {
-        Raytracer raytracer = new Raytracer(renderScene, renderWindow, RECURSIONS, RAY_DISTRIBUTION_SAMPLES, ANTIALIASING_LEVEL, MULTI_THREADING, () -> renderingFinished());
+        Raytracer raytracer = new Raytracer(renderScene, renderWindow, RECURSIONS, RAY_DISTRIBUTION_SAMPLES, ANTIALIASING, MULTI_THREADING, () -> renderingFinished());
 
         raytracer.renderScene();
     }
@@ -102,7 +106,7 @@ public class Main {
      * This is called after the last render Thread finished
      */
     private static void renderingFinished() {
-        renderWindow.exportRendering(stopTime(tStart), RECURSIONS, getAntiAliasingLevel(), MULTI_THREADING);
+        renderWindow.exportRendering(stopTime(timeStart), RECURSIONS, getAntiAliasingLevel(), MULTI_THREADING);
     }
 
     /**
@@ -505,8 +509,8 @@ public class Main {
                                 new Unlit(RgbColor.WHITE)),
                         0.2f,
                         0.95f,
-                        new Vec2(10, 10),
-                        0.4f),
+                        new Vec2(NUM_LIGHTS, NUM_LIGHTS),
+                        LIGHT_SAMPLING),
                 true);
 //
 //        scene.createLight(new AreaLight(
@@ -543,7 +547,7 @@ public class Main {
 
     private static int getAntiAliasingLevel() {
 
-        switch (ANTIALIASING_LEVEL) {
+        switch (ANTIALIASING.getLevel()) {
             case disabled:
                 return 0;
             case x4:

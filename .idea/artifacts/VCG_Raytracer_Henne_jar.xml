@@ -1,9 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="VCG_Raytracer_Henne:jar">
-    <output-path>$PROJECT_DIR$/build/</output-path>
-    <root id="archive" name="VCG_Raytracer_Henne.jar">
-      <element id="module-output" name="VCG_Raytracer_Henne" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/VCG_Raytracer/libs/JFX3DModelImporters_EA_2014-02-09/jimObjModelImporterJFX.jar" path-in-jar="/" />
-    </root>
-  </artifact>
-</component>

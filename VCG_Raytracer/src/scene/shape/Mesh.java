@@ -1,12 +1,10 @@
 package scene.shape;
 
 import javafx.scene.shape.MeshView;
-import javafx.scene.shape.TriangleMesh;
 import material.Material;
 import raytracer.Intersection;
 import raytracer.Ray;
 import utils.algebra.Vec3;
-import utils.io.Log;
 
 import java.util.ArrayList;
 
@@ -19,32 +17,32 @@ public class Mesh extends Shape {
 
         for (MeshView mesh : meshView) {
 
-            triangles.add(new Mesh(center, scale, mesh));
+//            triangles.add(new Mesh(center, scale, mesh));
         }
 
     }
 
-    public Mesh(Vec3 center, Vec3 scale/*, Material material*/, MeshView mesh) {
-        super(center, null);
-
-        Material material = Material.parseMaterial(mesh.getMaterial());
-
-        TriangleMesh triangleMesh = (TriangleMesh) mesh.getMesh();
-
-//        Log.print(this, "mesh type is " + triangleMesh.getClass().getName());
-
-        float[] dimensions = triangleMesh.getPoints().toArray(new float[triangleMesh.getPoints().size()]);
-
-        ArrayList<Vec3> points = getPoints(dimensions);
-
-        generateTriangles(points, scale, material);
-
-        for (Vec3 point : points) {
-
-
-        }
-
-    }
+//    public Mesh(Vec3 center, Vec3 scale/*, Material material*/, MeshView mesh) {
+//        super(center, null);
+//
+//        Material material = Material.parseMaterial(mesh.getMaterial());
+//
+//        TriangleMesh triangleMesh = (TriangleMesh) mesh.getMesh();
+//
+////        Log.print(this, "mesh type is " + triangleMesh.getClass().getName());
+//
+//        float[] dimensions = triangleMesh.getPoints().toArray(new float[triangleMesh.getPoints().size()]);
+//
+//        ArrayList<Vec3> points = getPoints(dimensions);
+//
+//        generateTriangles(points, scale, material);
+//
+//        for (Vec3 point : points) {
+//
+//
+//        }
+//
+//    }
 
     private ArrayList<Vec3> getPoints(float[] dimensions) {
         ArrayList<Vec3> points = new ArrayList<>();

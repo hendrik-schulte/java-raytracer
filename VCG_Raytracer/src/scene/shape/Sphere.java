@@ -4,7 +4,6 @@ import material.Material;
 import raytracer.Intersection;
 import raytracer.Ray;
 import utils.algebra.Vec3;
-import utils.io.Log;
 
 public class Sphere extends Shape {
 
