@@ -1,5 +1,6 @@
 package ui;
 
+import utils.AntiAliasing;
 import utils.RgbColor;
 import utils.algebra.Vec2;
 import utils.io.DataExporter;
@@ -52,12 +53,16 @@ public class Window {
     /**
      * Draw debug information
      **/
-    private void setOutputLabel(String text, int recursions, int antiAliasing, int multiThreading) {
+    private void setOutputLabel(String computationTime, int recursions, AntiAliasing antiAliasing, int multiThreading) {
+
+        String description = "Rendering time: " + computationTime + " min, Recursions: " + recursions + ", " + antiAliasing + ", Threads: " + multiThreading;
+
         Graphics graphic = mBufferedImage.getGraphics();
         graphic.setColor(Color.black);
-        graphic.fill3DRect(0, mHeight - 30, 410, mHeight, true);
+        graphic.fill3DRect(0, mHeight - 30, (int) (description.length() * 5.8f), mHeight, true);
         graphic.setColor(Color.green);
-        graphic.drawString("Elapsed rendering time: " + text + " min, Recursions: " + recursions + ", AA: x" + antiAliasing + ", Threads: " + multiThreading, 10, mHeight - 10);
+//        graphic.setFont();
+        graphic.drawString(description, 10, mHeight - 10);
 
         mFrame.repaint();
     }
@@ -83,13 +88,32 @@ public class Window {
     }
 
     /**
-     * Export the rendering to an PNG image with rendering information
+     * Exports the rendering to a PNG image "raytracing.png".
+     */
+    public void exportRendering(){
+        exportRendering("raytracing");
+    }
+
+    /**
+     * Exports the rendering to a PNG image with the given name (file extension will be added automaticly).
+     */
+    public void exportRendering(String fileName) {
+        DataExporter.exportImageToPng(mBufferedImage, fileName + ".png");
+    }
+
+    /**
+     * Exports the rendering to a PNG image with rendering information
      **/
-    public void exportRendering(double time, int recursions, int antiAliasing, int multiThreading) {
+    public void exportRendering(double time, int recursions, AntiAliasing antiAliasing, int multiThreading) {
         setOutputLabel(TimeFormater(time), recursions, antiAliasing, multiThreading);
         DataExporter.exportImageToPng(mBufferedImage, "raytracing.png");
     }
 
+    /**
+     * Formats the given time in seconds to a MM:SS:MS format.
+     * @param timeInSeconds
+     * @return
+     */
     private String TimeFormater(double timeInSeconds) {
         int minutes = (int) (timeInSeconds / 60);
         int seconds = (int) (timeInSeconds - minutes * 60);

@@ -18,6 +18,7 @@ public abstract class Material {
     public static final float SNELLIUS_AIR = 1.0003f;
     public static final float SNELLIUS_WATER = 1.333f;
     public static final float SNELLIUS_GLAS = 1.54f;
+    public static final float SNELLIUS_DIAMOND = 2.42f;
 
     //material attributes
     public final RgbColor ambient;

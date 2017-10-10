@@ -77,4 +77,8 @@ public class Sphere extends Shape {
 
         return inter;
     }
+
+    public float getRadius(){
+        return radius;
+    }
 }

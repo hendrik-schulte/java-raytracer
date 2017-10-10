@@ -129,7 +129,7 @@ public class Vec3 {
                 (float) Math.pow(sub.z, 2);
     }
 
-    public Vec3 multComponentWise(Vec3 mult){
+    public Vec3 multComponentWise(Vec3 mult) {
         return new Vec3(x * mult.x, y * mult.y, z * mult.z);
     }
 
@@ -160,6 +160,29 @@ public class Vec3 {
 
         return cross(new Vec3(3 + x * 0.53433435f, -1 + y * -1.53123215f, 5 + z * 0.34656868646f)).normalize();
 
+    }
+
+
+    /**
+     * Returns random vector with length of 1.
+     * @return
+     */
+    public static Vec3 Random() {
+        double x0 = -1.0 + Math.random() * 2.0;
+        double x1 = -1.0 + Math.random() * 2.0;
+        double x2 = -1.0 + Math.random() * 2.0;
+        double x3 = -1.0 + Math.random() * 2.0;
+        while (x0 * x0 + x1 * x1 + x2 * x2 + x3 * x3 >= 1) {
+            x0 = -1.0 + Math.random() * 2.0;
+            x1 = -1.0 + Math.random() * 2.0;
+            x2 = -1.0 + Math.random() * 2.0;
+            x3 = -1.0 + Math.random() * 2.0;
+        }
+        double a = x0 * x0 + x1 * x1 + x2 * x2 + x3 * x3;
+        double x = 2 * (x1 * x3 + x0 * x2) / a;
+        double y = 2 * (x2 * x3 - x0 * x1) / a;
+        double z = (x0 * x0 + x3 * x3 - x1 * x1 - x2 * x2) / a;
+        return new Vec3((float) x, (float) y, (float) z);
     }
 
     /**

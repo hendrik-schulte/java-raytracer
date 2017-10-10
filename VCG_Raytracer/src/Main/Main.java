@@ -1,27 +1,4 @@
-package Main;// ************************************************************ //
-//                      Hochschule Duesseldorf                  //
-//                                                              //
-//                     Vertiefung Computergrafik                //
-// ************************************************************ //
-
-
-/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    1. Documentation:    Did you comment your code shortly but clearly?
-    2. Structure:        Did you clean up your code and put everything into the right bucket?
-    3. Performance:      Are all loops and everything inside really necessary?
-    4. Theory:           Are you going the right way?
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
- <<< YOUR TEAM NAME >>>
-
-     Master of Documentation:
-     Master of Structure:
-     Master of Performance:
-     Master of Theory:
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+package Main;
 
 import material.Blinn;
 import material.Lambert;
@@ -30,6 +7,8 @@ import raytracer.Raytracer;
 import scene.Scene;
 import scene.camera.PerspCam;
 import scene.light.AreaLight;
+import scene.light.RectLight;
+import scene.light.VolumeLight;
 import scene.shape.Mesh;
 import scene.shape.Plane;
 import scene.shape.Rectangle;
@@ -40,28 +19,26 @@ import utils.RgbColor;
 import utils.algebra.Vec2;
 import utils.algebra.Vec3;
 import utils.io.DataImporter;
+import utils.io.Log;
 
-// Main.Main application class. This is the routine called by the JVM to run the program.
 public class Main {
 
-    /**
-     * BOX_DIMENSION
-     **/
+
+    //OUTPUT SETTINGS
 
     static int IMAGE_WIDTH = 800;
     static int IMAGE_HEIGHT = 600;
+    static boolean DRAW_STATS = true;
 
-    /**
-     * RAYTRACER
-     **/
+    //RAYTRACER OPTIONS
 
     private static int RECURSIONS = 4;
     private static int RAY_DISTRIBUTION_SAMPLES = 1;
     private static int MULTI_THREADING = 4;
     private static float AMBIENT = 0.04f;
-    private static AntiAliasing ANTIALIASING = new AntiAliasing(AntiAliasing.Level.x16, true, IMAGE_WIDTH, IMAGE_HEIGHT);
+    private static AntiAliasing ANTIALIASING = new AntiAliasing(AntiAliasing.Level.x8, true, IMAGE_WIDTH, IMAGE_HEIGHT);
     public static boolean USE_SHADOWS = true;
-    private static float LIGHT_SAMPLING = .4f;
+    private static float LIGHT_SAMPLING = .5f;
     private static int NUM_LIGHTS = 10;
 
     private static float ROOM_SMOOTHNESS = 1.00f;
@@ -73,9 +50,6 @@ public class Main {
     private static long timeStart;
 
 
-    /**
-     * Initial method. This is where the show begins.
-     **/
     public static void main(String[] args) {
         timeStart = System.currentTimeMillis();
 
@@ -106,7 +80,10 @@ public class Main {
      * This is called after the last render Thread finished
      */
     private static void renderingFinished() {
-        renderWindow.exportRendering(stopTime(timeStart), RECURSIONS, getAntiAliasingLevel(), MULTI_THREADING);
+        if (DRAW_STATS) renderWindow.exportRendering(stopTime(timeStart), RECURSIONS, ANTIALIASING, MULTI_THREADING);
+        else renderWindow.exportRendering();
+
+//        Log.print(ANTIALIASING, ANTIALIASING.calcAdaptivePerformance() + "% of multisampled pixels have been saved by adaptive AA. Color Threshold: " + ANTIALIASING.colorThreshold);
     }
 
     /**
@@ -232,7 +209,7 @@ public class Main {
 //                        1,
 //                        1)));
 
-                scene.createShape(new Sphere(
+        scene.createShape(new Sphere(
                 new Vec3(1.f, -2.233333f, 4.3333333f),
                 1.0f,
                 new Lambert(RgbColor.BLACK,                               //ambient
@@ -498,20 +475,34 @@ public class Main {
 //                0.5f));
 
         //classic area light
-        scene.createLight(new AreaLight(
+//        scene.createLight(new RectLight(
+//                        RgbColor.WHITE,
+//                        0.5f,
+//                        new Rectangle(
+//                                new Vec3(0, 3.20f, 3),    //pos
+//                                new Vec3(-0.6f, .0f, 0.0f),     //a
+//                                new Vec3(0.0f, .0f, -0.6f),     //b
+//                                true,
+//                                new Unlit(RgbColor.WHITE)),
+//                        0.2f,
+//                        0.95f,
+//                        new Vec2(NUM_LIGHTS, NUM_LIGHTS),
+//                        LIGHT_SAMPLING),
+//                true);
+
+        //volume light
+        scene.createLight(new VolumeLight(
                         RgbColor.WHITE,
                         0.5f,
-                        new Rectangle(
-                                new Vec3(0, 3.20f, 3),    //pos
-                                new Vec3(-0.6f, .0f, 0.0f),     //a
-                                new Vec3(0.0f, .0f, -0.6f),     //b
-                                true,
+                        new Sphere(
+                                new Vec3(0, 2.60f, 3),    //pos
+                                0.4f,
                                 new Unlit(RgbColor.WHITE)),
-                        0.2f,
-                        0.95f,
-                        new Vec2(NUM_LIGHTS, NUM_LIGHTS),
+                        1.4f,
+                        140,
                         LIGHT_SAMPLING),
                 true);
+
 //
 //        scene.createLight(new AreaLight(
 //                        RgbColor.WHITE,
@@ -545,18 +536,5 @@ public class Main {
 //                true);
     }
 
-    private static int getAntiAliasingLevel() {
 
-        switch (ANTIALIASING.getLevel()) {
-            case disabled:
-                return 0;
-            case x4:
-                return 4;
-            case x8:
-                return 8;
-            case x16:
-                return 16;
-        }
-        return -1;
-    }
 }

@@ -25,7 +25,7 @@ public class Scene {
     }
 
     public void createShape(Shape shape) {
-        shapeList.add(shape);
+        if(shape != null) shapeList.add(shape);
     }
 
     public void createLight(AreaLight light, boolean drawShape) {

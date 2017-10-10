@@ -36,7 +36,17 @@ public class Raytracer {
     private List<RenderBlock> renderBlocks = new ArrayList<>();
     private final int renderBlockSize = 10;
 
-
+    /**
+     * Initializes the Raytracer object.
+     *
+     * @param scene
+     * @param renderWindow
+     * @param recursions
+     * @param rayDistributionSamples
+     * @param antiAliasing
+     * @param multiThreading
+     * @param callback
+     */
     public Raytracer(Scene scene, Window renderWindow, int recursions, int rayDistributionSamples, AntiAliasing antiAliasing, int multiThreading, Callback callback) {
         Log.print(this, "Init");
         mMaxRecursions = recursions;
@@ -52,18 +62,15 @@ public class Raytracer {
         mRenderWindow = renderWindow;
     }
 
+    /**
+     * Starts the raytracing action.
+     */
     public void renderScene() {
 
         Log.print(this, "Preliminary calculation");
 
         antiAliasing.Init();
         generateRenderBlocks();
-
-//        renderPixel(455, 300);
-//        renderPixel(455, 301);
-//        renderPixel(586, 312);
-//        renderPixel(586, 313);
-//        renderBlock(586, 589, 312, 314);
 
         Log.print(this, "Start rendering");
 
@@ -75,6 +82,10 @@ public class Raytracer {
         renderBlock(x, x + 1, y, y + 1);
     }
 
+    /**
+     * Devides the rendering image into small blocks according to renderBlockSize value and fills the renderBlocks
+     * collection with it.
+     */
     private void generateRenderBlocks() {
 
         int rows = mBufferedImage.getHeight() / renderBlockSize;
@@ -114,22 +125,21 @@ public class Raytracer {
         }
     }
 
+    /**
+     * This is called whenever a render thread finished a render job and has no other job to work on.
+     */
     private synchronized void threadFinished() {
         threadsFinished++;
 
         if (threadsFinished < multiThreading) return;
 
-        switch (antiAliasing.getRenderStage()) {
-            case PreRendering:
-                Log.print(this, "PreRendering finished.");
-                antiAliasing.FinishPreRendering();
-//                generateRenderBlocks();
-                startRenderThreads();
-                return;
+        if (antiAliasing.isInPreRenderingStage()) {
 
-            case Adaptive:
-                Log.print(this, "Finished adaptive Anti Aliasing.");
-                antiAliasing.cleanup();
+            Log.print(this, "PreRendering finished.");
+            antiAliasing.FinishPreRendering();
+//                generateRenderBlocks();
+            startRenderThreads();
+            return;
         }
 
 
@@ -195,7 +205,7 @@ public class Raytracer {
 
             case Adaptive:
 
-                if(!antiAliasing.aaIsNecessary(x, y)) return;
+                if (!antiAliasing.aaIsNecessary(x, y)) return;
 
 //                Log.print(this, "multisample pixel");
 
