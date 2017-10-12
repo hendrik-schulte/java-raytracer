@@ -8,7 +8,7 @@ import utils.algebra.Vec3;
 
 public class CircleLight extends AreaLight {
 
-    private Circle circle;
+    private final Circle circle;
 
     public CircleLight(RgbColor color, float intensity, Circle circle, float planeOffset, float scale, Vec2 resolution, float sample) {
         super((int) (resolution.x * resolution.y + 1), intensity, sample);

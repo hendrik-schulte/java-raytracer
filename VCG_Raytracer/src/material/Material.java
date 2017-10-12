@@ -66,7 +66,7 @@ public abstract class Material {
 
             Vec3 lightVector = getLightVector(pos, light);      //getting light vector
 
-            if (isInShadow(pos, lightVector, light, scene.shapeList)) continue;
+            if (isInShadow(pos, lightVector, light, scene.shapes)) continue;
 
             color = color.add(calcDiffuse(light, normal, lightVector));
             color = color.add(calcSpecular(light, normal, view, lightVector));

@@ -8,26 +8,27 @@ public class Intersection {
     public Vec3 interSectionPoint;
     public Vec3 normal;
     public Shape shape;
-    public double distance;
-    public boolean incoming;
+    public double distancePWD;
 
-    public Intersection(Vec3 intersectionPoint, Vec3 normal, Shape shape, double distance, boolean incoming){
+    private double distance;
+
+    public Intersection(Vec3 intersectionPoint, Vec3 normal, Shape shape, double distancePWD){
         this.interSectionPoint = intersectionPoint;
         this.normal = normal;
         this.shape = shape;
-        this.distance = distance;
-        this.incoming = incoming;
+        this.distance = -1;
+        this.distancePWD = distancePWD;
     }
-
-//    public Ray calculateReflectionRay(){
-//        return new Ray(new Vec3(), new Vec3());
-//    }
-//
-//    public Ray calculateRefractionRay(){
-//        return new Ray(new Vec3(), new Vec3());
-//    }
 
     public String toString() {
         return "point: " + interSectionPoint + " normal: " + normal + " shape: " + shape + " distance: " + distance;
+    }
+
+    public double getDistance(){
+        if(distance < 0){
+            return distance = Math.sqrt(distancePWD);
+        }
+
+        return distance;
     }
 }

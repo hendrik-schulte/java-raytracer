@@ -74,7 +74,7 @@ public class Ray {
 
             for (Intersection intersection : tempIntersections) {
 
-                if (intersection.distance > maxDistance) continue;
+                if (intersection.distancePWD > maxDistance) continue;
 //                if (!intersection.incoming) continue;
 
 //            Log.print(this, "intersec: " + intersection.shape + " dis: " + intersection.distance);
@@ -94,7 +94,7 @@ public class Ray {
 //            Log.print(this, "closest null");
             return null;
         }
-        if (closest.distance < 0.001f) {
+        if (closest.distancePWD < 0.00001f) {
 
 //            Log.print(this, "return sec");
 
@@ -117,9 +117,9 @@ public class Ray {
         float currentDistance = Float.MAX_VALUE;
 
         for (Intersection i : intersections) {
-            if (i.distance <= currentDistance) {
+            if (i.distancePWD <= currentDistance) {
                 closest = i;
-                currentDistance = (float) i.distance;
+                currentDistance = (float) i.distancePWD;
             }
         }
 

@@ -7,8 +7,8 @@ import utils.algebra.Vec3;
 
 public class Circle extends Plane
 {
-    public float radius;
-    private float radiusSquared;
+    public final float radius;
+    private final float radiusSquared;
 
     public Circle(Vec3 pos, Vec3 normal, float radius, boolean drawBack, Material material) {
         super(pos, normal, drawBack, material);

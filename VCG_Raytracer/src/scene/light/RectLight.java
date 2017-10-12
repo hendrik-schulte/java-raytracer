@@ -8,7 +8,7 @@ import utils.algebra.Vec3;
 
 public class RectLight extends AreaLight {
 
-    private Rectangle rect;
+    private final Rectangle rect;
 
     public RectLight(RgbColor color, float intensity, Rectangle rect, float planeOffset, float scale, Vec2 resolution, float sample) {
         super((int) (resolution.x * resolution.y), intensity, sample);

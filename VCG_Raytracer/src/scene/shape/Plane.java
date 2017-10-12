@@ -15,14 +15,19 @@ public class Plane extends Shape {
         XY
     }
 
-    protected Vec3 normal;
-    private boolean drawBack;
+    protected final Vec3 normal;
+    private Vec3 reversedNormal;
+    private final boolean drawBack;
 
     public Plane(Vec3 pos, Vec3 normal, boolean drawBack, Material material) {
         super(pos, material);
 
         this.normal = normal.normalize();
         this.drawBack = drawBack;
+
+        if(!drawBack) return;
+
+        reversedNormal = normal.negate();
     }
 
     @Override
@@ -47,13 +52,12 @@ public class Plane extends Shape {
             //intersection from behind
             if (!drawBack) return null;
 
-            tempNormal = normal.negate();
-            t = (tempNormal.scalar(pos)) / denominator;
+            t = (reversedNormal.scalar(pos)) / denominator;
         }
 
         if (t < 0) return null;
 
-        return new Intersection[]{new Intersection(ray.calcPoint(t), tempNormal, this, Math.abs(t), denominator < 0)};
+        return new Intersection[]{new Intersection(ray.calcPoint(t), tempNormal, this, t * t /*Math.abs(t), denominator < 0*/)};
     }
 
     @Override

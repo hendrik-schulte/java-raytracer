@@ -1,31 +1,33 @@
 package scene;
 
+import material.Lambert;
+import material.Material;
 import scene.camera.Camera;
 import scene.light.AreaLight;
 import scene.light.Light;
 import scene.shape.Shape;
+import scene.shape.Sphere;
+import utils.RgbColor;
 import utils.io.Log;
 
 import java.util.ArrayList;
 
 public class Scene {
 
-    public ArrayList<Shape> shapeList = new ArrayList<>();
+    public ArrayList<Shape> shapes = new ArrayList<>();
     private ArrayList<Light> pointLights = new ArrayList<>();
     private ArrayList<AreaLight> areaLights = new ArrayList<>();
     public Camera camera;
     public final float ambientIntensity;
-//    public final float soroundingRefractionIndex;
 
-    public Scene(float ambientIntensity/*, float soroundingRefractionIndex*/) {
+    public Scene(float ambientIntensity) {
 
-        Log.print(this, "Init");
+//        Log.print(this, "Init");
         this.ambientIntensity = ambientIntensity;
-//        this.soroundingRefractionIndex = soroundingRefractionIndex;
     }
 
     public void createShape(Shape shape) {
-        if(shape != null) shapeList.add(shape);
+        if (shape != null) shapes.add(shape);
     }
 
     public void createLight(AreaLight light, boolean drawShape) {
@@ -33,18 +35,8 @@ public class Scene {
 
         if (drawShape) createShape(light.getShape());
 
-//        Material mat = new Lambert(
-//                RgbColor.BLACK,
-//                RgbColor.BLACK,
-//                RgbColor.GREEN,
-//                0.0f,
-//                1.0f,
-//                1,
-//                1f);
-//
-//        for (Light shape : getLights()
-//                ) {
-//            createShape(new Sphere(shape.getPosition(), 0.1f, mat));
+//        for (Light shape : getLights()) {
+//            createShape(new Sphere(shape.getPosition(), 0.1f, Lambert.DEBUG_GREEN));
 //        }
     }
 
@@ -58,6 +50,7 @@ public class Scene {
 
     /**
      * Returns all point lights and all sampled area lights.
+     *
      * @return
      */
     public ArrayList<Light> getLights() {

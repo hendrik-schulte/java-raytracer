@@ -13,10 +13,10 @@ import java.util.Collections;
  */
 public abstract class AreaLight {
 
-    protected float sample;
-    protected ArrayList<Light> sampleLights = new ArrayList<>();
+    protected final float sample;
+    protected final ArrayList<Light> sampleLights = new ArrayList<>();
     protected int sampleAmount;
-    protected float individualIntensity;
+    protected final float individualIntensity;
 
     /**
      * Creates an multisampled are light.

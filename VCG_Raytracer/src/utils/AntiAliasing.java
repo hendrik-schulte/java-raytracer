@@ -20,7 +20,7 @@ public class AntiAliasing {
         x16
     }
 
-    public final float colorThreshold = (float) Math.pow(0.04f, 2);
+    public final float colorThreshold = (float) Math.pow(0.08f, 2);
 
     private ArrayList<Vec2> antiAliasingPositions;
     private Level level;

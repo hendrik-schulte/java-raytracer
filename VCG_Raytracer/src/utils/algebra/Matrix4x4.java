@@ -1,5 +1,7 @@
 package utils.algebra;
 
+import raytracer.Ray;
+
 public class Matrix4x4 {
 
 	private Matrix mBaseMatrix;
@@ -10,6 +12,27 @@ public class Matrix4x4 {
 	public Matrix4x4(){
 		mBaseMatrix = Matrix.identity(4,4);
 	}
+
+    public Matrix4x4(Vec3 position){
+        mBaseMatrix = Matrix.identity(4,4);
+
+        setTranslation(position);
+    }
+
+    public Matrix4x4(Vec3 position, float scale){
+        mBaseMatrix = Matrix.identity(4,4);
+
+        setTranslation(position);
+        scale(scale);
+    }
+
+	public Matrix4x4(Vec3 position, Vec3 scale){
+		mBaseMatrix = Matrix.identity(4,4);
+
+        setTranslation(position);
+        scale(scale);
+	}
+
 
 	private Matrix4x4(Matrix mat){
 		mBaseMatrix = mat;
@@ -43,6 +66,19 @@ public class Matrix4x4 {
 	}
 
 	/**
+	 * Transforms the given ray by this matrix and returns the result.
+	 * @param ray
+	 * @return
+	 */
+	public Ray multRay(Ray ray){
+
+		Vec3 position = multVec3(ray.getStartPoint(), true);
+		Vec3 direction = multVec3(ray.getDirection(), false);
+
+		return new Ray(position, direction);
+	}
+
+	/**
 	    Scale uniform by factor s
 	 **/
 	public Matrix4x4 scale(double s){
@@ -66,6 +102,38 @@ public class Matrix4x4 {
 		out.setValueAt( 2, 2, vec.z );
 
 		return out;
+	}
+
+	/**
+	 * Returns the translation encoded in this matrix.
+	 * @return
+	 */
+	public Vec3 getTranslation(){
+		Vec3 vec = new Vec3(
+				(float) getValueAt(0, 3),
+				(float) getValueAt(1, 3),
+				(float) getValueAt(2, 3));
+
+		return vec;
+	}
+
+    public Vec3 getUniformScale(){
+        Vec3 vec = new Vec3(
+                (float) getValueAt(0, 0),
+                (float) getValueAt(1, 1),
+                (float) getValueAt(2, 2));
+
+        return vec;
+    }
+
+	/**
+	 * Sets the translation encoded in this matrix.
+	 * @param translation
+	 */
+	public void setTranslation(Vec3 translation){
+		setValueAt(0, 3,translation.x);
+		setValueAt(1, 3,translation.y);
+		setValueAt(2, 3,translation.z);
 	}
 
 	/**

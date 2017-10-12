@@ -2,6 +2,7 @@ package Main;
 
 import material.Blinn;
 import material.Lambert;
+import material.Material;
 import material.Unlit;
 import raytracer.Raytracer;
 import scene.Scene;
@@ -16,6 +17,7 @@ import scene.shape.Sphere;
 import ui.Window;
 import utils.AntiAliasing;
 import utils.RgbColor;
+import utils.algebra.Matrix4x4;
 import utils.algebra.Vec2;
 import utils.algebra.Vec3;
 import utils.io.DataImporter;
@@ -39,7 +41,7 @@ public class Main {
     private static AntiAliasing ANTIALIASING = new AntiAliasing(AntiAliasing.Level.x8, true, IMAGE_WIDTH, IMAGE_HEIGHT);
     public static boolean USE_SHADOWS = true;
     private static float LIGHT_SAMPLING = .5f;
-    private static int NUM_LIGHTS = 10;
+    private static int NUM_LIGHTS = 6;
 
     private static float ROOM_SMOOTHNESS = 1.00f;
     private static float ROOM_REFLECTIVITY = 0.0f;
@@ -83,7 +85,7 @@ public class Main {
         if (DRAW_STATS) renderWindow.exportRendering(stopTime(timeStart), RECURSIONS, ANTIALIASING, MULTI_THREADING);
         else renderWindow.exportRendering();
 
-//        Log.print(ANTIALIASING, ANTIALIASING.calcAdaptivePerformance() + "% of multisampled pixels have been saved by adaptive AA. Color Threshold: " + ANTIALIASING.colorThreshold);
+        Log.print(ANTIALIASING, ANTIALIASING.calcAdaptivePerformance() + "% of multisampled pixels have been saved by adaptive AA. Color Threshold: " + ANTIALIASING.colorThreshold);
     }
 
     /**
@@ -138,9 +140,15 @@ public class Main {
 //                        1,
 //                        1)));
 
+//        scene.createShape(new Sphere(
+//                new Vec3(-1, -2.233333333f, 2.66666666f),
+//                1.0f,
+//                Lambert.FULL_SMOOTH_REFLECTIVE));
+
         scene.createShape(new Sphere(
-                new Vec3(-1, -2.233333333f, 2.66666666f),
-                1.0f,
+                new Matrix4x4(
+                        new Vec3(-1, -2.033333333f, 2.66666666f),
+                        new Vec3(1, 1.05f, 1)),
                 Lambert.FULL_SMOOTH_REFLECTIVE));
 
 //        //reflective blurry
@@ -209,16 +217,17 @@ public class Main {
 //                        1,
 //                        1)));
 
+//        scene.createShape(new Sphere(
+//                new Vec3(1.f, -2.233333f, 4.3333333f),
+//                1.0f,
+//                Lambert.DIAMOND));
+
         scene.createShape(new Sphere(
-                new Vec3(1.f, -2.233333f, 4.3333333f),
-                1.0f,
-                new Lambert(RgbColor.BLACK,                               //ambient
-                        RgbColor.BLACK,                                 //diffuse
-                        RgbColor.BLACK,                                 //emission
-                        .0f,
-                        1f,
-                        0,
-                        2.417f)));
+                new Matrix4x4(
+                        new Vec3(1.f, -2.233333f, 4.3333333f),
+                        new Vec3(1.2f, 1, 1)),
+                Lambert.DIAMOND));
+
 
 //        refractive
 //        scene.createShape(new Sphere(
@@ -499,7 +508,7 @@ public class Main {
                                 0.4f,
                                 new Unlit(RgbColor.WHITE)),
                         1.4f,
-                        140,
+                        NUM_LIGHTS * NUM_LIGHTS,
                         LIGHT_SAMPLING),
                 true);
 

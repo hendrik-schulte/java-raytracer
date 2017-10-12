@@ -254,7 +254,7 @@ public class Raytracer {
      */
     private RgbColor traceRay(Ray ray, int currentRecursion) {
 
-        Intersection intersection = ray.getIntersection(scene.shapeList);
+        Intersection intersection = ray.getIntersection(scene.shapes);
 
         if (intersection == null) return BackgroundColor;
 

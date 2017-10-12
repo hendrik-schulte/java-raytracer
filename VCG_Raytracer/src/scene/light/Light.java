@@ -6,8 +6,8 @@ import utils.algebra.Vec3;
 
 public class Light extends SceneObject {
 
-    private RgbColor color;
-    public float intensity;
+    private final RgbColor color;
+    public final float intensity;
 
     public Light(Vec3 pos, RgbColor color, float intensity) {
 
