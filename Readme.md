@@ -16,10 +16,11 @@
 
 ## Roadmap
 
+- KD Tree / Octree implementation
 - Obj. Mesh rendering
 - GUI
 - Caustics
-- Radiosity
+- Radiosity / Global Illumination
 - ...
 
 Hendrik Schulte
