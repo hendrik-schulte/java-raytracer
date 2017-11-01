@@ -52,6 +52,10 @@ public class SceneObject {
         return mLocalPosition;
     }
 
+    public void setChild(SceneObject child){
+        child.setParent(this);
+    }
+
     /**
      * Sets the parent of this object. Use null to
      *
@@ -85,25 +89,17 @@ public class SceneObject {
      * @return
      */
     protected ArrayList<Intersection> intersectThis(Ray ray) {
-        return null;
+        return new ArrayList<>();
     }
 
     protected static ArrayList<Intersection> getIntersection(Ray ray, ArrayList<SceneObject> shapes) {
         ArrayList<Intersection> result = new ArrayList<>();
 
         for (SceneObject shape : shapes) {
-            ArrayList<Intersection> rectIntersection = shape.intersectAll(ray);
-
-            if (rectIntersection == null) continue;
-            if (rectIntersection.size() == 0) continue;
-
-            ArrayList<Intersection> temp = new ArrayList<>();
-            temp.add(rectIntersection.get(0));
-            result.addAll(temp);
+            result.addAll(shape.intersectAll(ray));
         }
 
-//        return result.toArray(new Intersection[result.size()]);
-        return new ArrayList<>(result);
+        return result;
     }
 
     /**
@@ -117,11 +113,15 @@ public class SceneObject {
         ArrayList<Intersection> selfIntersec = intersectThis(ray);
         ArrayList<Intersection> childIntersec = intersectChildren(ray);
 
-        if (selfIntersec != null) {
-            childIntersec.addAll(selfIntersec);
-        }
+//        Log.print(this, " self intersec: " + selfIntersec.size());
+//        Log.print(this, " child intersec: " + childIntersec.size());
 
-        return childIntersec;
+        selfIntersec.addAll(childIntersec);
+
+//        Log.print(this, " total intersec: " + selfIntersec.size());
+
+
+        return selfIntersec;
     }
 
 
@@ -134,7 +134,7 @@ public class SceneObject {
         return new ArrayList<>(children);
     }
 
-    protected ArrayList<Intersection> toList(Intersection intersection){
+    protected ArrayList<Intersection> toList(Intersection intersection) {
         ArrayList<Intersection> result = new ArrayList<>();
 
         result.add(intersection);
@@ -142,10 +142,12 @@ public class SceneObject {
         return result;
     }
 
-    protected ArrayList<Intersection> toList(Intersection inter1, Intersection inter2){
+    protected ArrayList<Intersection> toList(Intersection inter1, Intersection inter2) {
         ArrayList<Intersection> result = toList(inter1);
 
         result.add(inter2);
+
+//        Log.print(this,"two intersection sphere " + result.size());
 
         return result;
     }

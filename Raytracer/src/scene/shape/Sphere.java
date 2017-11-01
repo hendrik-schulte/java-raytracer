@@ -56,13 +56,13 @@ public class Sphere extends SceneObject {
 
         if (discriminant < 0) {
             //no intersection
-            return null;
+            return new ArrayList<>();
         }
         if (discriminant == 0) {
             //ray touches sphere
             double t = -B / 2f;
 
-            if (t < 0) return null;
+            if (t < 0) return new ArrayList<>();
 
             return toList(getIntersection(ray, transRay, t));
         }
@@ -74,14 +74,14 @@ public class Sphere extends SceneObject {
             double t0 = (-B - root) / 2f;
             double t1 = (-B + root) / 2f;
 
-            if (t0 < 0 && t1 < 0) return null;
+            if (t0 < 0 && t1 < 0) return new ArrayList<>();
             if (t0 > 0 && t1 <= 0) return toList(getIntersection(ray, transRay, t0));
             if (t0 <= 0 && t1 > 0) return toList(getIntersection(ray, transRay, t1));
 
             return toList(getIntersection(ray, transRay, t0), getIntersection(ray, transRay, t1));
         }
 
-        return null;
+        return new ArrayList<>();
     }
 
     /**
@@ -101,9 +101,7 @@ public class Sphere extends SceneObject {
         Vec3 normal = transformation.multVec3(calcNormal(intersectionPoint), false);
         double distancePWD = ray.getStartPoint().distanceSquared(intersectionPoint);
 
-        Intersection inter = new Intersection(intersectionPoint, normal, this, distancePWD);
-
-        return inter;
+        return new Intersection(intersectionPoint, normal, this, distancePWD);
     }
 
     public float getRadius() {

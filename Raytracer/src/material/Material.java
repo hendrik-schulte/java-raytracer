@@ -94,6 +94,8 @@ public abstract class Material {
 
 //        if (!Main.Set.USE_SHADOWS) return false;    //shadows not enabled
 
+//        if(true) return false;
+
         //create ray from intersection to light source
         Ray ray = new Ray(pos, lightVector);
 

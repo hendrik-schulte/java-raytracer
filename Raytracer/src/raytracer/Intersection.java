@@ -22,12 +22,12 @@ public class Intersection {
     }
 
     public String toString() {
-        return "point: " + interSectionPoint + " normal: " + normal + " shape: " + shape + " distance: " + distance;
+        return "point: " + interSectionPoint + " normal: " + normal + " shape: " + shape + " distance: " + getDistance();
     }
 
     public double getDistance(){
         if(distance < 0){
-            return distance = Math.sqrt(distancePWD);
+            distance = Math.sqrt(distancePWD);
         }
 
         return distance;

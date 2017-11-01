@@ -53,7 +53,7 @@ public class Triangle extends Plane {
     protected ArrayList<Intersection> intersectThis(Ray ray) {
         ArrayList<Intersection> planeIntersection = super.intersectThis(ray);
 
-        if (planeIntersection == null) return null;
+        if (planeIntersection.isEmpty()) return planeIntersection;
 
         //adapted from http://blackpawn.com/texts/pointinpoly/
         Vec2 projAP = projectToAxisPlane(projectToPlane, planeIntersection.get(0).interSectionPoint).sub(projA);
@@ -68,7 +68,7 @@ public class Triangle extends Plane {
             return planeIntersection;
         }
 
-        return null;
+        return new ArrayList<>();
     }
 
     public boolean isValidTriangle(){

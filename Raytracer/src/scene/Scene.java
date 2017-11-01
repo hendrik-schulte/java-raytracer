@@ -32,7 +32,6 @@ public class Scene {
     public void createShape(SceneObject shape) {
 //        createShape(shape, root);
         shape.setParent(root);
-
     }
 
     public void createLight(AreaLight light, boolean drawShape) {

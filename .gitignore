@@ -4,3 +4,5 @@ idea
 *.jar
 *.html
 *.txt
+Raytracer/models/IronMan.obj
+Raytracer/models/IronMan.mtl

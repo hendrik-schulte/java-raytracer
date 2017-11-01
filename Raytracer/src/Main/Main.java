@@ -36,7 +36,25 @@ public class Main {
         renderWindow = new Window(Set.IMAGE_WIDTH, Set.IMAGE_HEIGHT);
 
         draw(renderWindow);
+
+//        for (int i = 0; i < 20; i++) {
+//            sqrt(i * .1);
+//        }
+//
+//
+//        for (int i = 0; i < 20; i++) {
+//            power(i * .1);
+//        }
     }
+
+//    private static void sqrt(double x){
+//        Log.print(new Object(), "x: " + x + " sqrt x: " + Math.sqrt(x));
+//    }
+//
+//    private static void power(double x){
+//        Log.print(new Object(), "x: " + x + " pow x: " + Math.pow(x, 2));
+//    }
+
 
     /**
      * Draw the scene that was set up
@@ -63,7 +81,8 @@ public class Main {
 
         renderWindow.exportRendering(Set.OUTPUT_FILE_NAME, stopTime(Set.timeStart), Set);
 
-        Log.print(Set.ANTIALIASING, Set.ANTIALIASING.calcAdaptivePerformance() + "% of multi-sampled pixels have been saved by adaptive AA. Color Threshold: " + Set.ANTIALIASING.colorThreshold);
+        if(Set.ANTIALIASING.isAdaptive())
+            Log.print(Set.ANTIALIASING, Set.ANTIALIASING.calcAdaptivePerformance() + "% of multi-sampled pixels have been saved by adaptive AA. Color Threshold: " + Set.ANTIALIASING.colorThreshold);
     }
 
     /**
@@ -88,8 +107,8 @@ public class Main {
 //                IMAGE_HEIGHT));
 
 
-//        setupCustom(scene);
-        setupClassic(scene);
+        setupCustom(scene);
+//        setupClassic(scene);
 
         return scene;
     }

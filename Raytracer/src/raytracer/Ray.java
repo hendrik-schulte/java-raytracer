@@ -2,6 +2,7 @@ package raytracer;
 
 import scene.SceneObject;
 import utils.algebra.Vec3;
+import utils.io.Log;
 
 import java.util.ArrayList;
 
@@ -37,72 +38,54 @@ public class Ray {
 
     public Intersection getIntersection(SceneObject root) {
 
-        return getIntersection(root, Float.MAX_VALUE);
+        return getIntersection(root, -1);
     }
 
+    /**
+     * Returns true if there is an intersection between the origin of the ray until the given squared distance.
+     * @param root
+     * @param maxDistanceSquared
+     * @return
+     */
     public boolean shadowCheck(SceneObject root, float maxDistanceSquared) {
 
         return getIntersection(root, maxDistanceSquared) != null;
     }
 
-//    public Intersection getIntersection(Collection<SceneObject> shapeList, Shape ignore) {
-//
-//        return getIntersection(shapeList, Float.MAX_VALUE);
-//    }
-
-//    public Intersection getIntersection(Collection<SceneObject> shapeList, SceneObject ignore, float maxDistanceSquared) {
-//
-//        ArrayList<SceneObject> ignoreList = new ArrayList<>();
-//
-//        if (ignore != null) ignoreList.add(ignore);
-//
-//        return getIntersection(shapeList, ignoreList, maxDistanceSquared);
-//    }
-
     public Intersection getIntersection(SceneObject root, float maxDistanceSquared) {
 
-        ArrayList<Intersection> intersections = new ArrayList<>();
+        ArrayList<Intersection> intersections = root.intersectAll(this);
 
-//        for (SceneObject shape : shapeList) {
+        if (intersections.isEmpty()) return null;
 
-//            if (ignore != null) if (ignore.contains(shape)) continue;
-
-        ArrayList<Intersection> tempIntersections = root.intersectAll(this);
-
-        if (tempIntersections == null) return null;
-
-        for (Intersection intersection : tempIntersections) {
-
-            if (intersection.distancePWD > maxDistanceSquared) continue;
-//                if (!intersection.incoming) continue;
-
-//            Log.print(this, "intersec: " + intersection.shape + " dis: " + intersection.distance);
-
-            intersections.add(intersection);
-        }
-//        }
+        if(maxDistanceSquared > -1) removeAboveDistance(intersections, maxDistanceSquared);
 
         Intersection closest = popClosest(intersections);
         Intersection secClosest = popClosest(intersections);
 
-//        Log.print(this, "closest: " + closest);
-//        Log.print(this, "sec closest: " + secClosest);
-
 
         if (closest == null) {
-//            Log.print(this, "closest null");
             return null;
         }
-        if (closest.distancePWD < 0.00001f) {
 
-//            Log.print(this, "return sec");
+        if (closest.distancePWD < 0.00001f) {
 
             return secClosest;
         }
 
-//        Log.print(this, "return first");
-
         return closest;
+    }
+
+    /**
+     * Removes all intersections that have a squared distance greater than the given value.
+     * @param intersections
+     * @param maxDistanceSquared
+     */
+    private void removeAboveDistance(ArrayList<Intersection> intersections, float maxDistanceSquared){
+        for (int i = intersections.size() - 1; i > -1; i--) {
+
+            if (intersections.get(i).distancePWD > maxDistanceSquared) intersections.remove(i);
+        }
     }
 
     /**

@@ -23,11 +23,11 @@ public class Circle extends Plane
     public ArrayList<Intersection> intersectThis(Ray ray) {
         ArrayList<Intersection> intersec = super.intersectThis(ray);
 
-        if(intersec == null) return null;
+        if(intersec.isEmpty()) return intersec;
 
         Vec3 intersecPoint = intersec.get(0).interSectionPoint.sub(getWorldPosition());
 
-        if(radiusSquared < intersecPoint.distanceSquared(Vec3.ZERO)) return null;
+        if(radiusSquared < intersecPoint.distanceSquared(Vec3.ZERO)) return new ArrayList<>();
 
         return intersec;
     }

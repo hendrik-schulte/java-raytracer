@@ -41,7 +41,7 @@ public class Plane extends SceneObject {
 
         float denominator = normal.scalar(D);
 
-        if (denominator == 0) return null;   //no intersection
+        if (denominator == 0) return new ArrayList<>();   //no intersection
 
         float t = 0;
         Vec3 tempNormal = normal;
@@ -53,12 +53,12 @@ public class Plane extends SceneObject {
 
         if (denominator > 0) {
             //intersection from behind
-            if (!drawBack) return null;
+            if (!drawBack) return new ArrayList<>();
 
             t = (reversedNormal.scalar(pos)) / denominator;
         }
 
-        if (t < 0) return null;
+        if (t < 0) return new ArrayList<>();
 
         return toList(new Intersection(ray.calcPoint(t), tempNormal, this, t * t));
     }

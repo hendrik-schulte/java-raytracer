@@ -38,7 +38,7 @@ public class Rectangle extends Plane {
     protected ArrayList<Intersection> intersectThis(Ray ray) {
         ArrayList<Intersection> planeIntersection = super.intersectThis(ray);
 
-        if (planeIntersection == null) return null;
+        if (planeIntersection.isEmpty()) return planeIntersection;
 
         Vec3 intersecPoint = planeIntersection.get(0).interSectionPoint.sub(getWorldPosition());
 
@@ -47,7 +47,7 @@ public class Rectangle extends Plane {
         if (MathEx.isWithinValues(corner1.x, corner2.x, projIntersecPoint.x) &&
                 MathEx.isWithinValues(corner1.y, corner2.y, projIntersecPoint.y)) return planeIntersection;
 
-        return null;
+        return new ArrayList<>();
     }
 
 }

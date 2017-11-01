@@ -218,8 +218,12 @@ public class AntiAliasing {
         return renderStage;
     }
 
+    /**
+     * Returns true if AA is enabled and adaptive.
+     * @return
+     */
     public boolean isAdaptive() {
-        return adaptive;
+        return isEnabled() & adaptive;
     }
 
     public boolean isEnabled() {
