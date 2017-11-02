@@ -55,7 +55,6 @@ public class AntiAliasing {
         renderStage = RenderStage.Adaptive;
     }
 
-
     private void checkForAAEdges() {
         for (int x = 1; x < aaNecessary.length - 1; x++) {
             // Columns

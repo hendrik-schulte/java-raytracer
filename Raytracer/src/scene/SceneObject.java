@@ -52,6 +52,10 @@ public class SceneObject {
         return mLocalPosition;
     }
 
+    /**
+     * Sets the given object as a child of this.
+     * @param child
+     */
     public void setChild(SceneObject child){
         child.setParent(this);
     }
@@ -158,4 +162,10 @@ public class SceneObject {
 //
 //        return new Ray(pos, dir);
 //    }
+
+    public String getHirarchyDescription(){
+        String desc = "";
+
+        return desc;
+    }
 }
