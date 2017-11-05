@@ -23,7 +23,7 @@ public class Plane extends SceneObject {
     private final boolean drawBack;
 
     public Plane(Vec3 pos, Vec3 normal, boolean drawBack, Material material) {
-        super(pos, material);
+        super("Plane" ,pos, material);
 
         this.normal = normal.normalize();
         this.drawBack = drawBack;
@@ -44,7 +44,7 @@ public class Plane extends SceneObject {
         if (denominator == 0) return new ArrayList<>();   //no intersection
 
         float t = 0;
-        Vec3 tempNormal = normal;
+//        Vec3 tempNormal = normal;
 
         if (denominator < 0) {
             //intersection from front
@@ -60,12 +60,16 @@ public class Plane extends SceneObject {
 
         if (t < 0) return new ArrayList<>();
 
-        return toList(new Intersection(ray.calcPoint(t), tempNormal, this, t * t));
+//        Intersection i = new Intersection(ray.calcPoint(t), normal, this, (t * t));
+//        Log.print(this, "plane intersec found t: " + t + " squared: " + i.distancePWD);
+//        return toList(i);
+
+        return toList(new Intersection(ray.calcPoint(t), normal, this, (t * t)));
     }
 
     @Override
     public String toString() {
-        return "Plane color " + material.ambient;
+        return super.toString() + "color " + material.ambient;
     }
 
     public Vec3 getNormal() {

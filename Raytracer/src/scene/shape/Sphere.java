@@ -17,7 +17,7 @@ public class Sphere extends SceneObject {
     private float radius;
 
     public Sphere(Matrix4x4 transformation, Material material) {
-        super(transformation.getTranslation(), material);
+        super("Sphere", transformation.getTranslation(), material);
 
         setTransformation(transformation);
 
@@ -27,7 +27,7 @@ public class Sphere extends SceneObject {
     }
 
     public Sphere(Vec3 pos, float radius, Material material) {
-        super(pos, material);
+        super("Sphere", pos, material);
 
         setTransformation(new Matrix4x4(pos, radius));
 
@@ -35,7 +35,7 @@ public class Sphere extends SceneObject {
 //        radiusSquared = (float) Math.pow(radius, 2);
     }
 
-    private void setTransformation(Matrix4x4 transformation){
+    private void setTransformation(Matrix4x4 transformation) {
         this.transformation = transformation;
         this.inverseTransformation = transformation.invert();
     }

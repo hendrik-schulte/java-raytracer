@@ -63,11 +63,16 @@ public class Raytracer {
         settings.ANTIALIASING.Init();
         generateRenderBlocks();
 
-        Log.print(this, "Start rendering");
+        Log.print(this, "Start rendering '" + settings.OUTPUT_FILE_NAME + "'");
 
         startRenderThreads();
     }
 
+    /**
+     * Renders the given pixel in pixel coordinates.
+     * @param x
+     * @param y
+     */
     private void renderPixel(int x, int y) {
 //        Log.print(this, "calc Pixel (" + x + "," + y + ")");
         renderBlock(x, x + 1, y, y + 1);
@@ -126,15 +131,19 @@ public class Raytracer {
 
         if (settings.ANTIALIASING.isInPreRenderingStage()) {
 
-            Log.print(this, "PreRendering finished.");
+            Log.print(this, "PreRendering '" + settings.OUTPUT_FILE_NAME + "' finished.");
+
             settings.ANTIALIASING.FinishPreRendering();
 //                generateRenderBlocks();
+
+            Log.print(this, "Adaptive AA Pre Calculation '" + settings.OUTPUT_FILE_NAME + "' finished.");
+
             startRenderThreads();
             return;
         }
 
 
-        Log.print(this, "Rendering completed!");
+        Log.print(this, "Rendering '" + settings.OUTPUT_FILE_NAME + "' completed!");
 
         renderCallback.callback();
     }
@@ -251,7 +260,7 @@ public class Raytracer {
 
         RgbColor color = RgbColor.BLACK;
         Material material = intersection.shape.material;
-        Vec3 viewVector = ray.getDirection().negate().normalize();
+        Vec3 viewVector = ray.getDirection().negate();
 
         color = color.add(traceIllumination(intersection, viewVector, material));
 

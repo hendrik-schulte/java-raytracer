@@ -10,6 +10,8 @@ import java.util.ArrayList;
 
 public class SceneObject {
 
+    public String name;
+
     protected Vec3 mLocalPosition;
     private Vec3 mWorldPosition;
 
@@ -18,21 +20,63 @@ public class SceneObject {
     private SceneObject parent;
     private ArrayList<SceneObject> children = new ArrayList<>();
 
+    public SceneObject(String name, Vec3 localPosition) {
+        this(name, localPosition, null);
+    }
+
+    public SceneObject(String name) {
+        this(name, Vec3.ZERO);
+    }
+
     public SceneObject() {
-        mLocalPosition = Vec3.ZERO;
+        this("", Vec3.ZERO, null);
     }
 
     public SceneObject(Vec3 localPosition) {
-
-        mLocalPosition = localPosition;
+        this("", localPosition, null);
     }
 
     public SceneObject(Vec3 localPosition, Material material) {
+        this("", localPosition, material);
+    }
 
+    public SceneObject(String name, Vec3 localPosition, Material material) {
+
+        this.name = name;
         mLocalPosition = localPosition;
         this.material = material;
     }
 
+    /**
+     * Sets the local position of this object to the given value. Refreshes world positions for all children.
+     *
+     * @param localPosition
+     */
+    public void setLocalPosition(Vec3 localPosition) {
+        mLocalPosition = localPosition;
+
+        calcWorldPos();
+    }
+
+    /**
+     * Sets the local position of this object to the given value. Refreshes world positions for all children.
+     *
+     * @param worldPosition
+     */
+    public void setWorldPosition(Vec3 worldPosition) {
+
+        if (hasParent()) {
+            setLocalPosition(worldPosition.sub(parent.getWorldPosition()));
+        } else {
+            setLocalPosition(worldPosition);
+        }
+    }
+
+    /**
+     * Returns the position of this object in world space.
+     *
+     * @return
+     */
     public Vec3 getWorldPosition() {
 
         if (mWorldPosition == null) {
@@ -54,36 +98,52 @@ public class SceneObject {
 
     /**
      * Sets the given object as a child of this.
+     *
      * @param child
      */
-    public void setChild(SceneObject child){
+    public void setChild(SceneObject child) {
         child.setParent(this);
     }
 
     /**
-     * Sets the parent of this object. Use null to
+     * Sets the parent of this object.
      *
      * @param parent
      */
     public void setParent(SceneObject parent) {
-        if (this.parent != null) {
+        if (hasParent()) {
             this.parent.children.remove(this);
         }
 
         this.parent = parent;
 
-        if (parent != null) {
+        if (hasParent()) {
             parent.children.add(this);
         }
 
         calcWorldPos();
+//        Log.print(this, this.toString() + ":" + " parented to " + parent.toString());
+//        Log.print(this, " parented to " + parent.toString() + " children " + children.size());
     }
 
-    public void calcWorldPos() {
+    protected void calcWorldPos() {
         if (parent != null)
             mWorldPosition = parent.getWorldPosition().add(mLocalPosition);
         else
             mWorldPosition = mLocalPosition;
+
+        for (SceneObject child : children) {
+            child.calcWorldPos();
+        }
+    }
+
+    /**
+     * Returns true if this object has a parent.
+     *
+     * @return
+     */
+    public boolean hasParent() {
+        return parent != null;
     }
 
     /**
@@ -163,9 +223,31 @@ public class SceneObject {
 //        return new Ray(pos, dir);
 //    }
 
-    public String getHirarchyDescription(){
-        String desc = "";
+    public void printRecursively() {
+        Log.print(new SceneObject(), "Printing Scenegraph");
+        printRecursively(0);
+    }
 
-        return desc;
+    private void printRecursively(int depth) {
+
+        String out = "";
+
+        for (int i = -1; i < depth; i++) {
+            out += "   ";
+        }
+        out += "-> ";
+
+//        out += toString();
+        Log.print(new SceneObject(), out + toString());
+
+        for (SceneObject child : children) {
+            child.printRecursively(depth + 1);
+        }
+
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " " + name + "(" + children.size() + ")";
     }
 }

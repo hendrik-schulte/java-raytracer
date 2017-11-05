@@ -20,4 +20,17 @@ public class Unlit extends Material {
     protected RgbColor calcSpecular(Light light, Vec3 normal, Vec3 view, Vec3 lightVector) {
         return RgbColor.BLACK;
     }
+
+    //region Default Materials
+
+    //Emmissive
+    public static final Unlit EMMISIVE_WHITE = new Unlit(RgbColor.WHITE);
+    public static final Unlit EMMISIVE_GREEN = new Unlit(RgbColor.GREEN);
+    public static final Unlit EMMISIVE_BLUE = new Unlit(RgbColor.BLUE);
+    public static final Unlit EMMISIVE_RED = new Unlit(RgbColor.RED);
+    public static final Unlit EMMISIVE_BLACK = new Unlit(RgbColor.BLACK);
+    public static final Unlit EMMISIVE_YELLOW = new Unlit(RgbColor.YELLOW);
+    public static final Unlit EMMISIVE_MAGENTA = new Unlit(RgbColor.MAGENTA);
+
+    //endregion
 }

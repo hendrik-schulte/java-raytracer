@@ -1,7 +1,6 @@
 package raytracer;
 
 import scene.SceneObject;
-import scene.shape.Shape;
 import utils.algebra.Vec3;
 
 public class Intersection {
@@ -22,7 +21,7 @@ public class Intersection {
     }
 
     public String toString() {
-        return "point: " + interSectionPoint + " normal: " + normal + " shape: " + shape + " distance: " + getDistance();
+        return "point: " + interSectionPoint + " normal: " + normal + " shape: " + shape + " distance: " + getDistance()+ " distancePWD: " + distancePWD;
     }
 
     public double getDistance(){

@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 public class Ray {
 
+    private static final float roundTolerance = 0.00001f;
+
     private Vec3 startPoint;
     private Vec3 direction;
 //    public Vec3 endPoint;
@@ -50,15 +52,37 @@ public class Ray {
     public boolean shadowCheck(SceneObject root, float maxDistanceSquared) {
 
         return getIntersection(root, maxDistanceSquared) != null;
+
+//        Intersection i = getIntersection(root, maxDistanceSquared + 0.001f);
+//
+//        if (i != null) {
+//
+//            if(maxDistanceSquared == i.distancePWD){
+//
+//                Log.print(this, "shit is fucked up!!!!");
+////                Log.print(this, "max distance squared " + maxDistanceSquared);
+//                Log.print(this, "shadow because of " + i);
+//
+//            }
+//        }
+//
+//
+//        return i != null;
     }
 
     public Intersection getIntersection(SceneObject root, float maxDistanceSquared) {
 
         ArrayList<Intersection> intersections = root.intersectAll(this);
 
+//        Log.print(this, "inter raw " + intersections.size());
+//        int raw = intersections.size();
+
         if (intersections.isEmpty()) return null;
 
         if(maxDistanceSquared > -1) removeAboveDistance(intersections, maxDistanceSquared);
+
+
+//        Log.print(this, "inter raw: + " + raw + " after " + intersections.size());
 
         Intersection closest = popClosest(intersections);
         Intersection secClosest = popClosest(intersections);
@@ -68,7 +92,7 @@ public class Ray {
             return null;
         }
 
-        if (closest.distancePWD < 0.00001f) {
+        if (closest.distancePWD < roundTolerance) {
 
             return secClosest;
         }

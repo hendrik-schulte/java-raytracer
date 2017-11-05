@@ -22,6 +22,8 @@ public class Rectangle extends Plane {
 
         super(pos, a.normalize().cross(b.normalize()), drawBack, material);
 
+        name = "Rectangle";
+
         this.a = a;
         this.b = b;
 

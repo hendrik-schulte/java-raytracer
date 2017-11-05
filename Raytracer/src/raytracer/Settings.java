@@ -14,20 +14,47 @@ public class Settings {
 
     public int IMAGE_WIDTH = 800;
     public int IMAGE_HEIGHT = 600;
+
+    /**
+     * When true, render stats are drawn on top of the rendering.
+     */
     public boolean DRAW_STATS = true;
+
+    /**
+     * Defines the name of the output file (.png is added automatically).
+     */
     public String OUTPUT_FILE_NAME = "pretty";
 
     //RAYTRACER OPTIONS
 
     public int RECURSIONS = 4;
+
+    /**
+     * How many samples are taken for blurry reflections.
+     */
     public int RAY_DISTRIBUTION_SAMPLES = 1;
+
+    /**
+     * How many Render threads render a single image simultaneously (4 seems best).
+     */
     public int MULTI_THREADING = 4;
-    public float AMBIENT = 0.04f;
+
+
+
+    /**
+     * Anti Aliasing options.
+     */
     public AntiAliasing ANTIALIASING = new AntiAliasing(
             AntiAliasing.Level.x16,
             true,
             IMAGE_WIDTH, IMAGE_HEIGHT);
-//    public boolean USE_SHADOWS = true;
+//    public boolean USE_SHADOWS = true;#
+
+    /**
+     * Ambient lighting factor.
+     */
+    public float AMBIENT = 0.04f;
+    public boolean USE_AREA_LIGHTS = true;
     public float LIGHT_SAMPLING = .5f;
     public int NUM_LIGHTS = 8;
 
@@ -66,8 +93,9 @@ public class Settings {
         s.RECURSIONS = 2;
         s.ANTIALIASING = new AntiAliasing(AntiAliasing.Level.x4, true, s.IMAGE_WIDTH, s.IMAGE_HEIGHT);
 
-        s.LIGHT_SAMPLING = 0.3f;
-        s.NUM_LIGHTS = 3;
+        s.USE_AREA_LIGHTS = false;
+        s.LIGHT_SAMPLING = 0.5f;
+        s.NUM_LIGHTS = 2;
 
         s.FLOOR_SMOOTHNESS = 1;
         s.WALL_SMOOTHNESS = 1;
@@ -84,6 +112,7 @@ public class Settings {
         s.RECURSIONS = 3;
         s.ANTIALIASING = new AntiAliasing(AntiAliasing.Level.x8, true, s.IMAGE_WIDTH, s.IMAGE_HEIGHT);
 
+        s.USE_AREA_LIGHTS = true;
         s.LIGHT_SAMPLING = 0.4f;
         s.NUM_LIGHTS = 7;
 
@@ -102,9 +131,11 @@ public class Settings {
 //        s.IMAGE_WIDTH = 1024;
 //        s.IMAGE_HEIGHT = 800;
 
+        s.RAY_DISTRIBUTION_SAMPLES = 2;
         s.RECURSIONS = 4;
         s.ANTIALIASING = new AntiAliasing(AntiAliasing.Level.x16, true, s.IMAGE_WIDTH, s.IMAGE_HEIGHT);
 
+        s.USE_AREA_LIGHTS = true;
         s.LIGHT_SAMPLING = 0.8f;
         s.NUM_LIGHTS = 9;
 

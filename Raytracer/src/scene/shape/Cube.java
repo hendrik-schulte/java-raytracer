@@ -14,6 +14,8 @@ public class Cube extends SceneObject {
     public Cube(Vec3 center, Vec3 side, Vec3 up, Vec3 forward, Material material) {
         super(center, material);
 
+        this.name = "Cube";
+
 //        triangles.add(new Rectangle());
     }
 

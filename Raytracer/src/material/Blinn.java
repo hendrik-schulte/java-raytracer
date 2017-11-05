@@ -1,5 +1,7 @@
 package material;
 
+import org.w3c.dom.css.RGBColor;
+import raytracer.Settings;
 import scene.light.Light;
 import utils.RgbColor;
 import utils.algebra.Vec3;
@@ -34,5 +36,20 @@ public class Blinn extends Material {
         return specular.multRGB(
                 light.getColor()).multScalar(
                 specScalar);  //multiply intensity with light color and specular color
+    }
+
+    /**
+     * Creates the default wall material based on the raytracer settings.
+     * @param settings
+     * @param baseColor
+     * @param floor
+     * @return
+     */
+    public static Blinn CreateWall(Settings settings, RgbColor baseColor, boolean floor){
+        float smoothness = 1;
+
+        if(floor) smoothness = settings.FLOOR_SMOOTHNESS;
+
+        return new Blinn(baseColor, baseColor, RgbColor.BLACK, settings.ROOM_SPECULAR, settings.ROOM_SPECULAREXP, settings.ROOM_REFLECTIVITY, smoothness, 1, 1);
     }
 }

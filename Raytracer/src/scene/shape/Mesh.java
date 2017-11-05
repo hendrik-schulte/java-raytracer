@@ -14,7 +14,7 @@ public class Mesh extends SceneObject {
     ArrayList<SceneObject> triangles = new ArrayList<>();
 
     public Mesh(Vec3 center, Vec3 scale/*, Material material*/, MeshView[] meshView) {
-        super(center, null);
+        super("Mesh",center, null);
 
         for (MeshView mesh : meshView) {
 
@@ -60,9 +60,9 @@ public class Mesh extends SceneObject {
 
         for (int i = 2; i < points.size(); i = i + 3) {
 
-            Vec3 a = getWorldPosition().add(points.get(i - 2).multComponentWise(scale));
-            Vec3 b = getWorldPosition().add(points.get(i - 1).multComponentWise(scale));
-            Vec3 c = getWorldPosition().add(points.get(i).multComponentWise(scale));
+            Vec3 a = getWorldPosition().add(points.get(i - 2).scale(scale));
+            Vec3 b = getWorldPosition().add(points.get(i - 1).scale(scale));
+            Vec3 c = getWorldPosition().add(points.get(i).scale(scale));
 
 //            Triangle triangle;
 

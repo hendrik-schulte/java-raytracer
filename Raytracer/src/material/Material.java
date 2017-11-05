@@ -1,12 +1,12 @@
 package material;
 
-import Main.Main;
 import raytracer.Ray;
 import scene.Scene;
 import scene.SceneObject;
 import scene.light.Light;
 import utils.RgbColor;
 import utils.algebra.Vec3;
+import utils.io.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +57,14 @@ public abstract class Material {
         materialToAirSnelliusPWD = (float) Math.pow(materialToAirSnellius, 2);
     }
 
-    //    public abstract RgbColor getColor(Vec3 pos, Vec3 normal, Vec3 view, Scene scene);
+    /**
+     * Calculates a local illumination model for this material.
+     * @param pos position in world space.
+     * @param normal
+     * @param view vector from material to camera.
+     * @param scene
+     * @return
+     */
     public RgbColor getColor(Vec3 pos, Vec3 normal, Vec3 view, Scene scene) {
 
         RgbColor color = calcAmbient(scene);
@@ -75,10 +82,22 @@ public abstract class Material {
         return color;
     }
 
+    /**
+     * Calculates the ambient color.
+     * @param scene
+     * @return
+     */
     protected RgbColor calcAmbient(Scene scene) {
         return emission.add(ambient.multScalar(scene.ambientIntensity * opacity));
     }
 
+    /**
+     * Colculates the diffuse part of the local illumination model.
+     * @param light
+     * @param normal
+     * @param lightVector
+     * @return
+     */
     protected RgbColor calcDiffuse(Light light, Vec3 normal, Vec3 lightVector) {
 
         return diffuse.multRGB(                                   //color of material multiplicated with
@@ -88,21 +107,43 @@ public abstract class Material {
                         Math.max(0, normal.scalar(lightVector)));           //dot product of normal and light vector
     }
 
+    /**
+     * Calculates the specular part of the local illumination model.
+     * @param light
+     * @param normal
+     * @param view
+     * @param lightVector
+     * @return
+     */
     protected abstract RgbColor calcSpecular(Light light, Vec3 normal, Vec3 view, Vec3 lightVector);
 
+    /**
+     * Returns true if the given point is in shadow in respect to the given light source.
+     * @param pos
+     * @param lightVector
+     * @param light
+     * @param root
+     * @return
+     */
     protected boolean isInShadow(Vec3 pos, Vec3 lightVector, Light light, SceneObject root) {
-
-//        if (!Main.Set.USE_SHADOWS) return false;    //shadows not enabled
 
 //        if(true) return false;
 
         //create ray from intersection to light source
         Ray ray = new Ray(pos, lightVector);
 
+//        Log.print(this, "checking shadow at " + pos + " sqrd: " + pos.distanceSquared(light.getWorldPosition()) + " dist: " + pos.distance(light.getWorldPosition()));
+
         //check if there is anything in the way to the light source
         return ray.shadowCheck(root, pos.distanceSquared(light.getWorldPosition()));
     }
 
+    /**
+     * Given the position and light source this returns the light vector.
+     * @param pos
+     * @param light
+     * @return
+     */
     protected static Vec3 getLightVector(Vec3 pos, Light light) {
 
         return light.getWorldPosition().sub(pos).normalize();
@@ -119,65 +160,6 @@ public abstract class Material {
         return normal.multScalar(2 * incoming.scalar(normal)).sub(incoming).normalize();
     }
 
-//    public Vec3 getRefractionVector(Vec3 normal, Vec3 I) {
-//
-//        float dot = normal.scalar(I);
-//        if (dot == 0) {
-//            return I;
-//        }
-//
-//        float snelliusRatio;
-//        float snelliusRatioPWD;
-//        float cosA;                 //cosine alpha
-//
-//        if (dot < 0) {
-//            //from outside to mateiral
-//            snelliusRatio = airToMaterialSnellius;
-//            snelliusRatioPWD = airToMaterialSnelliusPWD;
-//            cosA = -dot;
-////            Log.print(this, "from out to in");
-//
-//        } else {
-//            //from inside of material to air
-//            snelliusRatio = materialToAirSnellius;
-//            snelliusRatioPWD = materialToAirSnelliusPWD;
-//            cosA = dot;
-////            Log.print(this, "from in to out. dot: " + dot);
-//        }
-//
-//
-//        double cosA_PWD = Math.pow(dot, 2);                                                 //dot^2 bzw. cosA^2
-//
-//        float inverseSneliusRatio = 1 - snelliusRatioPWD;
-//        float inverseCosA_PWD = (float) (1 - cosA_PWD);
-//        double cosB_PWD = 1 - snelliusRatioPWD * (1 - cosA_PWD);
-//
-//        if (cosB_PWD < 0) {
-//            //total internal reflection
-//
-//            return getReflectionVector(I, normal.negate());
-////            return Vec3.ZERO;
-//        }
-//
-//
-////        double cosB_PWD = 1 - (snelliusRatioPWD * (1 - cosA_PWD) );
-//        float cosB = (float) Math.sqrt(cosB_PWD);          //cosine beta
-//        Vec3 NcosB = normal.multScalar(cosB);                                               //normal * cosine beta
-//
-//
-////        Vec3 NcosAMinI = normal.multScalar((float) Math.cos(dot)).sub(I);
-//        Vec3 NcosAMinI = normal.multScalar(cosA).sub(I);                    //N * cos(a) - I
-//
-////        Log.print(this, "inverseSneliusRatio: " + inverseSneliusRatio);
-////        Log.print(this, "inverseCosA_PWD: " + inverseCosA_PWD);
-////        Log.print(this, "cosA: " + cosA);
-////        Log.print(this, "cosA^2: " + cosA_PWD);
-////        Log.print(this, "cosB^2: " + cosB_PWD);
-////        Log.print(this, "cosB: " + cosB);
-////        Log.print(this, "NcosB: " + NcosB);
-//
-//        return (NcosAMinI.sub(NcosB)).multScalar(snelliusRatio);
-//    }
     /**
      * Returns the refraction vector based on the given normal and incoming vectors.
      * @param normal
@@ -212,94 +194,6 @@ public abstract class Material {
         return I.negate().multScalar(n).add(normal.multScalar(a - b));
     }
 
-//    public Vec3 getRefractionVector(Vec3 normal, Vec3 I) {
-//
-//        float dot = normal.scalar(I);
-//
-//        Log.print(this, "starting refract calculation");
-//        Log.print(this, "normal: " + normal + " I: " + I);
-//        Log.print(this, "dot: " + dot);
-//
-//        float n = airToMaterialSnellius;
-//        float nPWD = airToMaterialSnelliusPWD;
-//
-//        if (dot < 0) {
-//            //in to out
-//            n = materialToAirSnellius;
-//            nPWD = materialToAirSnelliusPWD;
-////            dot = -dot;
-//
-//            Log.print(this, "in to out ");
-//        } else{
-//            Log.print(this, "out to in");
-//        }
-//
-//        float cosBRadiant = 1 - nPWD * (1 - dot * dot);
-//
-//        if (cosBRadiant < 0) {
-//            //total internal reflection
-//            Log.print(this, "TIR !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//
-////            return getReflectionVector(I, normal);
-//                return getReflectionVector(I, normal.negate().normalize());
-//        }
-//
-//        float cosB = (float) Math.sqrt(cosBRadiant);
-//
-//        return (normal.multScalar(Math.abs(dot)).sub(I).sub(normal.multScalar(cosB))).multScalar(n);
-//    }
-
-
-//    /**
-//     * Taken from https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/reflection-refraction-fresnel
-//     *
-//     * @param normal
-//     * @param I
-//     * @param n1
-//     * @param n2
-//     * @return
-//     */
-//    public static Vec3 getRefractionVector(Vec3 normal, Vec3 I, float n1, float n2) {
-//        float cosi = MathEx.clamp(normal.scalar(I), -1, 1);
-//        float etai = n1, etat = n2;
-//        Vec3 N = normal.negate();
-//
-//
-//        if (cosi < 0) {
-//            cosi = -cosi;
-//        } else {
-//            //internal reflection
-//            etai = n2;
-//            etat = n1;
-//            N = N.negate();
-//        }
-//
-//        float eta = etai / etat;
-//        float k = 1 - eta * eta * (1 - cosi * cosi);
-//        return k < 0 ? Vec3.ZERO : I.multScalar(eta).add(N.multScalar(eta * cosi - (float) Math.sqrt(k)));
-//    }
-
-//    public static Vec3 getRefractionVector(Vec3 normal, Vec3 I, float n1, float n2) {
-//
-//        float c1 = normal.scalar(I);
-//        float c2 = 1; //not implemented
-//        float n = 0;
-//
-//        if (c1 == 0) return I;
-//
-//        if (c1 < 0) {
-//            //entering medium
-//            n = n1 / n2;
-//        }
-//
-//        if (c1 > 0) {
-//            //leaving medium
-//            n = n2 / n1;
-//        }
-//
-//        return I.multScalar(n).add(normal.multScalar(n * c1 - c2));
-//    }
-
     public Vec3 getRefractionVectorDeGreve(Vec3 normal, Vec3 I){
 
         return getRefractionVector(normal, I, SNELLIUS_AIR, refractionIndex);
@@ -325,7 +219,12 @@ public abstract class Material {
         return I.multScalar(n).add(normal.multScalar((n * cosI - cosT)));
     }
 
-
+    /**
+     * Returns a bundle of rays of the given amount where each ray is randomly altered based on the smoothness.
+     * @param idealRay
+     * @param amount
+     * @return
+     */
     public List<Ray> getDistributedRays(Ray idealRay, int amount) {
 
         ArrayList<Ray> rays = new ArrayList<>();
@@ -367,14 +266,4 @@ public abstract class Material {
     private float normalDistributedRoughness(Random r) {
         return (float) (Math.pow(r.nextFloat(), 2) * 2 - 1) * roughness;
     }
-
-//    public static Material parseMaterial(javafx.scene.paint.Material mat){
-//        return new Lambert(RgbColor.RED,
-//                RgbColor.RED,
-//                RgbColor.BLACK,
-//                0.0f,
-//                1.0f,
-//                1,
-//                1);
-//    }
 }

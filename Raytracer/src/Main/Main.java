@@ -18,15 +18,15 @@ public class Main {
         Settings pretty = Settings.PRETTY();
 
 
-//        Scene renderScene = SceneFactory.createCustom(settings);
+        Scene renderScene = SceneFactory.createCustom(pretty);
 //        Scene renderScene = SceneFactory.createClassic(settings);
 
-//        render(renderScene, settings);
+        render(renderScene, pretty);
 
-        renderClassic(custom);
-        renderClassic(fast);
-        renderClassic(average);
-        renderClassic(pretty);
+//        renderClassic(custom);
+//        renderClassic(fast);
+//        renderClassic(average);
+//        renderClassic(pretty);
     }
 
     private static void renderClassic(Settings settings) {

@@ -115,11 +115,21 @@ public class Vec3 {
         );
     }
 
+    /**
+     * Returns the distance between this and the given position.
+     * @param v
+     * @return
+     */
     public float distance(Vec3 v) {
 
         return sub(v).length();
     }
 
+    /**
+     * Returns the squared distance between this and the given position.
+     * @param v
+     * @return
+     */
     public float distanceSquared(Vec3 v) {
 
         Vec3 sub = sub(v);
@@ -129,7 +139,8 @@ public class Vec3 {
                 (float) Math.pow(sub.z, 2);
     }
 
-    public Vec3 multComponentWise(Vec3 mult) {
+    public Vec3 scale(Vec3 mult) {
+
         return new Vec3(x * mult.x, y * mult.y, z * mult.z);
     }
 

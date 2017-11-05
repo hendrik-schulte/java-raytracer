@@ -50,7 +50,7 @@ public class AntiAliasing {
     public void FinishPreRendering() {
         checkForAAEdges();
 
-        Log.print(this, "Finished adaptive AA calculation.");
+//        Log.print(this, "Finished adaptive AA calculation.");
 
         renderStage = RenderStage.Adaptive;
     }

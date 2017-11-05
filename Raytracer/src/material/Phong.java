@@ -36,4 +36,39 @@ public class Phong extends Material {
                 light.getColor()).multScalar(
                 specScalar);  //multiply intensity with light color and specular color
     }
+
+    //region Default Materials
+
+    public static final Phong SMOOTH_GREY = new Phong(RgbColor.GRAY,
+            RgbColor.GRAY,
+            RgbColor.BLACK,
+            new RgbColor(0.05f, 0.05f, 0.05f),
+            24,
+            .0f,
+            1f,
+            1,
+            1);
+
+    public static final Phong SMOOTH_BLUE = new Phong(RgbColor.BLUE,
+            RgbColor.BLUE,
+            RgbColor.BLACK,
+            new RgbColor(0.05f, 0.05f, 0.05f),
+            24,
+            .0f,
+            1f,
+            1,
+            1);
+
+    public static final Phong SMOOTH_RED = new Phong(RgbColor.RED,
+            RgbColor.RED,
+            RgbColor.BLACK,
+            new RgbColor(0.05f, 0.05f, 0.05f),
+            24,
+            .0f,
+            1f,
+            1,
+            1);
+
+
+    //endregion
 }

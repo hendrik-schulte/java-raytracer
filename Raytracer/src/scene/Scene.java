@@ -12,7 +12,7 @@ public class Scene {
 
 //    public ArrayList<SceneObject> shapes = new ArrayList<>();
 
-    public SceneObject root = new SceneObject();
+    public SceneObject root = new SceneObject("Root");
 
     private ArrayList<Light> pointLights = new ArrayList<>();
     private ArrayList<AreaLight> areaLights = new ArrayList<>();
@@ -66,6 +66,4 @@ public class Scene {
 
         return lights;
     }
-
-//    public static final Scene CLASSIC_CORNELL_BOX = new Scene()
 }

@@ -28,9 +28,12 @@ public class Triangle extends Plane {
     public Triangle(Vec3 a, Vec3 b, Vec3 c, boolean drawBack, Material material) {
         super(a, b.sub(a).cross(c.sub(a)), drawBack, material);
 
+        name = "Triangle";
+
         if(Float.isNaN(normal.x) || Float.isNaN(normal.y) || Float.isNaN(normal.z)){
             Log.error(this, "Triangle is invalid!");
             initializationFailed = true;
+            name = "Broken Triangle";
             return;
         }
 

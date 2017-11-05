@@ -15,6 +15,7 @@ public class Circle extends Plane
     public Circle(Vec3 pos, Vec3 normal, float radius, boolean drawBack, Material material) {
         super(pos, normal, drawBack, material);
 
+        this.name = "Circle";
         this.radius = radius;
         radiusSquared = (float) Math.pow(radius, 2);
     }
