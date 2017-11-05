@@ -1,6 +1,8 @@
 
 # Java Raytracer
 
+![](https://github.com/hendrik-schulte/java-raytracer/blob/master/pretty.png)
+
 ![](https://github.com/hendrik-schulte/java-raytracer/blob/master/raytracing.png)
 		   
 ## Featuring                
