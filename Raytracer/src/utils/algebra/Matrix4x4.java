@@ -6,6 +6,8 @@ public class Matrix4x4 {
 
 	private Matrix mBaseMatrix;
 
+	public static final Matrix4x4 IDENTITY = new Matrix4x4();
+
 	/**
 	    The standard constructor will produce an identity matrix
 	 **/
@@ -110,18 +112,18 @@ public class Matrix4x4 {
 	 */
 	public Vec3 getTranslation(){
 		Vec3 vec = new Vec3(
-				(float) getValueAt(0, 3),
-				(float) getValueAt(1, 3),
-				(float) getValueAt(2, 3));
+				(float) get(0, 3),
+				(float) get(1, 3),
+				(float) get(2, 3));
 
 		return vec;
 	}
 
     public Vec3 getUniformScale(){
         Vec3 vec = new Vec3(
-                (float) getValueAt(0, 0),
-                (float) getValueAt(1, 1),
-                (float) getValueAt(2, 2));
+                (float) get(0, 0),
+                (float) get(1, 1),
+                (float) get(2, 2));
 
         return vec;
     }
@@ -160,7 +162,7 @@ public class Matrix4x4 {
 	/**
 	    Get 'value' in matrix from position row and column
 	 **/
-	public double getValueAt(int row, int col){
+	public double get(int row, int col){
 		return mBaseMatrix.get(row, col);
 	}
 
@@ -169,44 +171,44 @@ public class Matrix4x4 {
 	 **/
 	public Vec4 multVec3(Vec4 vec){
 		return new Vec4(
-				vec.x * ( float ) this.getValueAt(0,0) + vec.y * ( float ) this.getValueAt(0,1) + vec.z * ( float ) this.getValueAt(0,2) + vec.w * ( float ) this.getValueAt(0,3),
-				vec.x * ( float ) this.getValueAt(1,0) + vec.y * ( float ) this.getValueAt(1,1) + vec.z * ( float ) this.getValueAt(1,2) + vec.w * ( float ) this.getValueAt(1,3),
-				vec.x * ( float ) this.getValueAt(2,0) + vec.y * ( float ) this.getValueAt(2,1) + vec.z * ( float ) this.getValueAt(2,2) + vec.w * ( float ) this.getValueAt(2,3),
-				vec.x * ( float ) this.getValueAt(3,0) + vec.y * ( float ) this.getValueAt(3,1) + vec.z * ( float ) this.getValueAt(3,2) + vec.w * ( float ) this.getValueAt(3,3)
+				vec.x * ( float ) this.get(0,0) + vec.y * ( float ) this.get(0,1) + vec.z * ( float ) this.get(0,2) + vec.w * ( float ) this.get(0,3),
+				vec.x * ( float ) this.get(1,0) + vec.y * ( float ) this.get(1,1) + vec.z * ( float ) this.get(1,2) + vec.w * ( float ) this.get(1,3),
+				vec.x * ( float ) this.get(2,0) + vec.y * ( float ) this.get(2,1) + vec.z * ( float ) this.get(2,2) + vec.w * ( float ) this.get(2,3),
+				vec.x * ( float ) this.get(3,0) + vec.y * ( float ) this.get(3,1) + vec.z * ( float ) this.get(3,2) + vec.w * ( float ) this.get(3,3)
 		);
 	}
 
 	/**
-	    Multiply a 3D point OR vector with the matrix
+	 *  Multiply a 3D point OR vector with the matrix
 	 **/
 	public Vec3 multVec3(Vec3 vec, Boolean isPoint){
 
 		float w = isPoint ? 1 : 0;
 
 		Vec4 out = new Vec4(
-				vec.x * ( float ) this.getValueAt(0,0) + vec.y * ( float ) this.getValueAt(0,1) + vec.z * ( float ) this.getValueAt(0,2) + w * ( float ) this.getValueAt(0,3),
-				vec.x * ( float ) this.getValueAt(1,0) + vec.y * ( float ) this.getValueAt(1,1) + vec.z * ( float ) this.getValueAt(1,2) + w * ( float ) this.getValueAt(1,3),
-				vec.x * ( float ) this.getValueAt(2,0) + vec.y * ( float ) this.getValueAt(2,1) + vec.z * ( float ) this.getValueAt(2,2) + w * ( float ) this.getValueAt(2,3),
-				vec.x * ( float ) this.getValueAt(3,0) + vec.y * ( float ) this.getValueAt(3,1) + vec.z * ( float ) this.getValueAt(3,2) + w * ( float ) this.getValueAt(3,3)
+				vec.x * ( float ) this.get(0,0) + vec.y * ( float ) this.get(0,1) + vec.z * ( float ) this.get(0,2) + w * ( float ) this.get(0,3),
+				vec.x * ( float ) this.get(1,0) + vec.y * ( float ) this.get(1,1) + vec.z * ( float ) this.get(1,2) + w * ( float ) this.get(1,3),
+				vec.x * ( float ) this.get(2,0) + vec.y * ( float ) this.get(2,1) + vec.z * ( float ) this.get(2,2) + w * ( float ) this.get(2,3),
+				vec.x * ( float ) this.get(3,0) + vec.y * ( float ) this.get(3,1) + vec.z * ( float ) this.get(3,2) + w * ( float ) this.get(3,3)
 		);
 
 		return new Vec3(out.x, out.y, out.z);
 	}
 
 	/**
-	    Print values of matrix
+	 *  Print values of matrix
 	 **/
 	@Override
 	public String toString(){
 		return  "\n" +
-				this.getValueAt(0,0) + "\t\t\t\t\t\t" + this.getValueAt(0,1) + "\t\t\t\t\t\t" + this.getValueAt(0,2) + "\t\t\t\t\t\t" + this.getValueAt(0,3) + "\t\t\n" +
-				this.getValueAt(1,0) + "\t\t\t\t\t\t" + this.getValueAt(1,1) + "\t\t\t\t\t\t" + this.getValueAt(1,2) + "\t\t\t\t\t\t" + this.getValueAt(1,3) + "\t\t\n" +
-				this.getValueAt(2,0) + "\t\t\t\t\t\t" + this.getValueAt(2,1) + "\t\t\t\t\t\t" + this.getValueAt(2,2) + "\t\t\t\t\t\t" + this.getValueAt(2,3) + "\t\t\n" +
-				this.getValueAt(3,0) + "\t\t\t\t\t\t" + this.getValueAt(3,1) + "\t\t\t\t\t\t" + this.getValueAt(3,2) + "\t\t\t\t\t\t" + this.getValueAt(3,3) + "\t\t\n" ;
+				this.get(0,0) + "\t\t\t\t\t\t" + this.get(0,1) + "\t\t\t\t\t\t" + this.get(0,2) + "\t\t\t\t\t\t" + this.get(0,3) + "\t\t\n" +
+				this.get(1,0) + "\t\t\t\t\t\t" + this.get(1,1) + "\t\t\t\t\t\t" + this.get(1,2) + "\t\t\t\t\t\t" + this.get(1,3) + "\t\t\n" +
+				this.get(2,0) + "\t\t\t\t\t\t" + this.get(2,1) + "\t\t\t\t\t\t" + this.get(2,2) + "\t\t\t\t\t\t" + this.get(2,3) + "\t\t\n" +
+				this.get(3,0) + "\t\t\t\t\t\t" + this.get(3,1) + "\t\t\t\t\t\t" + this.get(3,2) + "\t\t\t\t\t\t" + this.get(3,3) + "\t\t\n" ;
 	}
 
 	/**
-	    Here's the background calculation...
+	 *  Here's the background calculation...
 	 **/
 	private static class Matrix implements Cloneable, java.io.Serializable {
 

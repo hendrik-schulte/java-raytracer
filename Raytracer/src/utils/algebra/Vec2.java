@@ -1,6 +1,8 @@
 package utils.algebra;
 
 
+import utils.MathEx;
+
 public class Vec2 {
     public float x;
     public float y;
@@ -88,6 +90,21 @@ public class Vec2 {
         return new Vec2(
                 this.y * inputVec.x - inputVec.y * this.x,
                 this.x * inputVec.y - inputVec.x * this.y
+        );
+    }
+
+
+    /**
+     * Performs a linear interpolation between a and b by the lerp value where lerp = 0 returns a and lerp = 1 returns b.
+     * @param a
+     * @param b
+     * @param lerp
+     * @return
+     */
+    public static Vec2 lerp(Vec2 a, Vec2 b, float lerp){
+        return new Vec2(
+                MathEx.lerp(a.x, b.x, lerp),
+                MathEx.lerp(a.y, b.y, lerp)
         );
     }
 

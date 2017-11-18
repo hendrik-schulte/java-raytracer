@@ -44,7 +44,6 @@ public class Plane extends SceneObject {
         if (denominator == 0) return new ArrayList<>();   //no intersection
 
         float t = 0;
-//        Vec3 tempNormal = normal;
 
         if (denominator < 0) {
             //intersection from front
@@ -59,10 +58,6 @@ public class Plane extends SceneObject {
         }
 
         if (t < 0) return new ArrayList<>();
-
-//        Intersection i = new Intersection(ray.calcPoint(t), normal, this, (t * t));
-//        Log.print(this, "plane intersec found t: " + t + " squared: " + i.distancePWD);
-//        return toList(i);
 
         return toList(new Intersection(ray.calcPoint(t), normal, this, (t * t)));
     }

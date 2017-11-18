@@ -12,16 +12,13 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Settings custom = Settings.CUSTOM();
-        Settings fast = Settings.FAST();
-        Settings average = Settings.AVERAGE();
-        Settings pretty = Settings.PRETTY();
+        Settings set = Settings.PRETTY();
 
 
-        Scene renderScene = SceneFactory.createCustom(pretty);
+        Scene renderScene = SceneFactory.createCustom(set);
 //        Scene renderScene = SceneFactory.createClassic(settings);
 
-        render(renderScene, pretty);
+        render(renderScene, set);
 
 //        renderClassic(custom);
 //        renderClassic(fast);
@@ -36,7 +33,7 @@ public class Main {
 
 
     /**
-     * Raytrac through the given
+     * Raytrace through the given scene with the given settings.
      **/
     private static void render(Scene scene, Settings settings) {
         Window renderWindow = new Window(settings.IMAGE_WIDTH, settings.IMAGE_HEIGHT);

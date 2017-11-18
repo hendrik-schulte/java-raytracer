@@ -1,12 +1,16 @@
 package utils.algebra;
 
+import utils.MathEx;
+
 public class Vec3 {
     public float x;
     public float y;
     public float z;
 
-    public static Vec3 ZERO = new Vec3(0, 0, 0);
-    public static Vec3 ONE = new Vec3(1, 1, 1);
+    public static final Vec3 ZERO = new Vec3(0, 0, 0);
+    public static final Vec3 ONE = new Vec3(1, 1, 1);
+    public static final Vec3 UP = new Vec3(0, 1, 0);
+    public static final Vec3 DOWN = new Vec3(0, -1, 0);
 
     /**
      * Standard 3D constructor taking all values given
@@ -115,6 +119,22 @@ public class Vec3 {
         );
     }
 
+
+    /**
+     * Performs a linear interpolation between a and b by the lerp value where lerp = 0 returns a and lerp = 1 returns b.
+     * @param a
+     * @param b
+     * @param lerp
+     * @return
+     */
+    public static Vec3 lerp(Vec3 a, Vec3 b, float lerp){
+        return new Vec3(
+                MathEx.lerp(a.x, b.x, lerp),
+                MathEx.lerp(a.y, b.y, lerp),
+                MathEx.lerp(a.z, b.z, lerp)
+        );
+    }
+
     /**
      * Returns the distance between this and the given position.
      * @param v
@@ -139,9 +159,22 @@ public class Vec3 {
                 (float) Math.pow(sub.z, 2);
     }
 
+    /**
+     * Multiplies components of this vector with components of the given vector and returns the result.
+     * @param mult
+     * @return
+     */
     public Vec3 scale(Vec3 mult) {
 
         return new Vec3(x * mult.x, y * mult.y, z * mult.z);
+    }
+
+    /**
+     * Returns a new Vector where all components are c = (1 / c)
+     * @return
+     */
+    public Vec3 inverseScale(){
+        return new Vec3(1 / x, 1 / y, 1 / z);
     }
 
     /**

@@ -1,5 +1,7 @@
 package utils.algebra;
 
+import utils.MathEx;
+
 public class Vec4 {
     public float x;
     public float y;
@@ -7,13 +9,21 @@ public class Vec4 {
     public float w;
 
     /**
-        Standard 4D constructor taking all values given
+     * Standard 4D constructor taking all values given
      **/
     public Vec4(float x, float y, float z, float w){
         this.x = x;
         this.y = y;
         this.z = z;
         this.w = w;
+    }
+
+    /**
+     * Construts a Vec4 by the values of the given quaternion.
+     * @param q
+     */
+    public Vec4(Quaternion q){
+        this(q.x,q.y,q.z,q.w);
     }
 
     /**
@@ -79,7 +89,7 @@ public class Vec4 {
     /**
         Get new vector with the given value multiplied to every component
      **/
-    public Vec4 multScalar(float value){
+    public Vec4 mult(float value){
         return new Vec4(this.x * value, this.y * value, this.z * value, this.w * value);
     }
 
@@ -92,6 +102,23 @@ public class Vec4 {
                 this.z * inputVec.w - inputVec.z * this.w,
                 this.w * inputVec.x - inputVec.w * this.x,
                 this.x * inputVec.y - inputVec.y * this.x
+        );
+    }
+
+
+    /**
+     * Performs a linear interpolation between a and b by the lerp value where lerp = 0 returns a and lerp = 1 returns b.
+     * @param a
+     * @param b
+     * @param lerp
+     * @return
+     */
+    public static Vec4 lerp(Vec4 a, Vec4 b, float lerp){
+        return new Vec4(
+                MathEx.lerp(a.x, b.x, lerp),
+                MathEx.lerp(a.y, b.y, lerp),
+                MathEx.lerp(a.z, b.z, lerp),
+                MathEx.lerp(a.w, b.w, lerp)
         );
     }
 

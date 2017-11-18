@@ -52,22 +52,6 @@ public class Ray {
     public boolean shadowCheck(SceneObject root, float maxDistanceSquared) {
 
         return getIntersection(root, maxDistanceSquared) != null;
-
-//        Intersection i = getIntersection(root, maxDistanceSquared + 0.001f);
-//
-//        if (i != null) {
-//
-//            if(maxDistanceSquared == i.distancePWD){
-//
-//                Log.print(this, "shit is fucked up!!!!");
-////                Log.print(this, "max distance squared " + maxDistanceSquared);
-//                Log.print(this, "shadow because of " + i);
-//
-//            }
-//        }
-//
-//
-//        return i != null;
     }
 
     public Intersection getIntersection(SceneObject root, float maxDistanceSquared) {
