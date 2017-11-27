@@ -1,7 +1,6 @@
 package scene.light;
 
 import scene.SceneObject;
-import scene.shape.Shape;
 import scene.shape.Sphere;
 import utils.RgbColor;
 import utils.algebra.Vec3;
@@ -17,9 +16,9 @@ public class VolumeLight extends AreaLight {
 
         for (int x = 0; x < resolution; x++) {
 
-            Vec3 position = sphere.getWorldPosition().add(Vec3.Random().multScalar(scale * sphere.getRadius()));
+            Vec3 pos  = sphere.getWorldTransformInverse().multPoint(Vec3.Random().multScalar(scale));
 
-            sampleLights.add(new Light(position, color, individualIntensity));
+            sampleLights.add(new Light(pos, color, individualIntensity));
         }
 
         sampleAmount = (int) (sampleLights.size() * sample);

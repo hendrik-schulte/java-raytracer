@@ -12,7 +12,11 @@ public class Ray {
 
     private Vec3 startPoint;
     private Vec3 direction;
-//    public Vec3 endPoint;
+
+    /**
+     * If this ray has been transformed to a local coordinat system, this is a reference to the original ray in world space.
+     */
+    private Ray worldSpaceRay;
 
     public Ray(Vec3 origin, Vec3 direction) {
         startPoint = origin;
@@ -20,6 +24,22 @@ public class Ray {
 //        if(this.direction.length() < 0.1f){
 //            Log.print(this, "dir is zero");
 //        }
+    }
+
+    public Ray(Vec3 origin, Vec3 direction, Ray worldSpaceRay){
+        this(origin, direction);
+
+        this.worldSpaceRay = worldSpaceRay;
+    }
+
+    /**
+     * Returns this ray in world space or itself if it was created in world space.
+     * @return
+     */
+    public Ray getWorldSpaceRay(){
+        if(worldSpaceRay == null) return this;
+
+        return worldSpaceRay;
     }
 
     public Vec3 getStartPoint() {

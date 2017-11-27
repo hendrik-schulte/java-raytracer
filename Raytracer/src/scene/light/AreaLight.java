@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * A multisampled light for soft shadows.
+ * A multi-sampled light for soft shadows.
  */
 public abstract class AreaLight {
 
@@ -33,7 +33,7 @@ public abstract class AreaLight {
     }
 
     protected float getIndividualIntensity(int amount, float intensity) {
-        return intensity / (amount * sample);
+        return intensity / (((float) amount) * sample);
     }
 
     protected Vec2 getNormalizedPosition(Vec2 resolution, float x, float y) {

@@ -6,48 +6,43 @@ import raytracer.Ray;
 import scene.SceneObject;
 import utils.algebra.Matrix4x4;
 import utils.algebra.Vec3;
+import utils.io.Log;
 
 import java.util.ArrayList;
 
 public class Sphere extends SceneObject {
 
-    private Matrix4x4 transformation;
-    private Matrix4x4 inverseTransformation;
-
-    private float radius;
+//    private Matrix4x4 transformation;
+//    private Matrix4x4 inverseTransformation;
+//
+//    private float radius;
 
     public Sphere(Matrix4x4 transformation, Material material) {
-        super("Sphere", transformation.getTranslation(), material);
+        super("Sphere", transformation, material);
 
-        setTransformation(transformation);
+//        setTransformation(transformation);
 
         //calc approximate radius
-        Vec3 scale = transformation.getUniformScale();
-        radius = scale.x * scale.y * scale.z;
+//        Vec3 setScale = transformation.getUniformScale();
+//        radius = setScale.x * setScale.y * setScale.z;
     }
 
     public Sphere(Vec3 pos, float radius, Material material) {
-        super("Sphere", pos, material);
+        super("Sphere", new Matrix4x4(pos, radius), material);
 
-        setTransformation(new Matrix4x4(pos, radius));
+//        Log.print(this, "sphere world transform " + getWorldTransform());
+//        setTransformation(new Matrix4x4(pos, radius));
 
-        this.radius = radius;
+//        this.radius = radius;
 //        radiusSquared = (float) Math.pow(radius, 2);
     }
 
-    private void setTransformation(Matrix4x4 transformation) {
-        this.transformation = transformation;
-        this.inverseTransformation = transformation.invert();
-    }
-
     @Override
-    protected ArrayList<Intersection> intersectThis(Ray ray) {
+    protected ArrayList<Intersection> intersectThis(Ray localRay) {
 
         //transform ray to spheres local coordinate system
-        Ray transRay = inverseTransformation.multRay(ray);
-
-        Vec3 pos = transRay.getStartPoint();
-        Vec3 dir = transRay.getDirection();
+        Vec3 pos = localRay.getStartPoint();
+        Vec3 dir = localRay.getDirection();
 
         float B = 2 * (pos.x * dir.x + pos.y * dir.y + pos.z * dir.z);
         float C = (float) (Math.pow(pos.x, 2) + Math.pow(pos.y, 2) + Math.pow(pos.z, 2) - 1);
@@ -64,7 +59,7 @@ public class Sphere extends SceneObject {
 
             if (t < 0) return new ArrayList<>();
 
-            return toList(getIntersection(ray, transRay, t));
+            return toList(calcWorldSpaceIntersection(localRay, t));
         }
         if (discriminant > 0) {
             //two intersections
@@ -75,10 +70,10 @@ public class Sphere extends SceneObject {
             double t1 = (-B + root) / 2f;
 
             if (t0 < 0 && t1 < 0) return new ArrayList<>();
-            if (t0 > 0 && t1 <= 0) return toList(getIntersection(ray, transRay, t0));
-            if (t0 <= 0 && t1 > 0) return toList(getIntersection(ray, transRay, t1));
+            if (t0 > 0 && t1 <= 0) return toList(calcWorldSpaceIntersection(localRay, t0));
+            if (t0 <= 0 && t1 > 0) return toList(calcWorldSpaceIntersection(localRay, t1));
 
-            return toList(getIntersection(ray, transRay, t0), getIntersection(ray, transRay, t1));
+            return toList(calcWorldSpaceIntersection(localRay, t0), calcWorldSpaceIntersection(localRay, t1));
         }
 
         return new ArrayList<>();
@@ -95,16 +90,16 @@ public class Sphere extends SceneObject {
         return pointOnSphere.sub(getWorldPosition()).normalize();
     }
 
-    private Intersection getIntersection(Ray ray, Ray transRay, double t) {
+    private Intersection calcWorldSpaceIntersection(Ray localRay, double t) {
 
-        Vec3 intersectionPoint = transformation.multVec3(transRay.calcPoint(t), true);
-        Vec3 normal = transformation.multVec3(calcNormal(intersectionPoint), false);
-        double distancePWD = ray.getStartPoint().distanceSquared(intersectionPoint);
+        Vec3 intersectionPoint = getWorldTransform().multPoint(localRay.calcPoint(t));
+        Vec3 normal = getWorldTransform().multVec(calcNormal(intersectionPoint)).normalize();
+        double distancePWD = localRay.getWorldSpaceRay().getStartPoint().distanceSquared(intersectionPoint);
+
+//        Vec3 localNormal = calcNormal(intersectionPoint);
+//        Log.print(this, "normal: " + localNormal + "len: " + localNormal.length() +
+//                " world space normal: " + normal + "len: " + normal.length());
 
         return new Intersection(intersectionPoint, normal, this, distancePWD);
-    }
-
-    public float getRadius() {
-        return radius;
     }
 }

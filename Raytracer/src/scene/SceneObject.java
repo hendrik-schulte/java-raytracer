@@ -3,6 +3,7 @@ package scene;
 import material.Material;
 import raytracer.Intersection;
 import raytracer.Ray;
+import utils.algebra.Matrix4x4;
 import utils.algebra.Quaternion;
 import utils.algebra.Vec3;
 import utils.io.Log;
@@ -15,14 +16,10 @@ public class SceneObject {
 
     public String name;
 
-    private Vec3 mLocalPosition;
-    private Vec3 mWorldPosition;
-
-    private Vec3 mLocalScale;
-    private Vec3 mWorldScale;
-
-    private Quaternion mLocalRotation;
-    private Quaternion mWorldRotation;
+    private Matrix4x4 mLocalTransform;
+    private Matrix4x4 mLocalTransformInverse;
+    private Matrix4x4 mWorldTransform;
+    private Matrix4x4 mWorldTransformInverse;
 
     public Material material;
 
@@ -33,12 +30,14 @@ public class SceneObject {
 
     //region Contructors
 
-    public SceneObject(String name, Vec3 localPosition, Quaternion localRotation, Vec3 localScale, Material material) {
+    public SceneObject(String name, Matrix4x4 localTransform, Material material) {
         this.name = name;
-        mLocalPosition = localPosition;
-        mLocalRotation = localRotation;
-        mLocalScale = localScale;
         this.material = material;
+        this.setLocalTransform(localTransform);
+    }
+
+    public SceneObject(String name, Matrix4x4 localTransform) {
+        this(name, localTransform, null);
     }
 
     public SceneObject(String name, Vec3 localPosition) {
@@ -54,20 +53,21 @@ public class SceneObject {
     }
 
     public SceneObject(Vec3 localPosition) {
+
         this("", localPosition, null);
     }
 
-    public SceneObject(Vec3 localPosition, Quaternion localRotation, Vec3 localScale, Material material) {
-        this("", localPosition, localRotation, localScale, material);
-    }
-
     public SceneObject(Vec3 localPosition, Material material) {
+
         this("", localPosition, material);
     }
 
     public SceneObject(String name, Vec3 localPosition, Material material) {
-        this(name, localPosition, Quaternion.IDENTITY, Vec3.ONE, material);
+        this.name = name;
+        this.material = material;
+        this.setLocalPosition(localPosition);
     }
+
 
     //endregion
 
@@ -98,13 +98,8 @@ public class SceneObject {
             parent.children.add(this);
         }
 
-        calcWorldPosition();
-        calcWorldRotation();
-        calcWorldScale();
-        //        Log.print(this, this.toString() + ":" + " parented to " + parent.toString());
-//        Log.print(this, " parented to " + parent.toString() + " children " + children.size());
+        calcWorldTransform();
     }
-
 
     /**
      * Returns true if this object has a parent.
@@ -124,9 +119,20 @@ public class SceneObject {
         return result;
     }
 
+    /**
+     * walks up the scene graph and returns its root.
+     *
+     * @return
+     */
+    public SceneObject getRoot() {
+        if (hasParent()) return parent.getRoot();
+
+        return this;
+    }
+
     //endregion
 
-    //region Position
+    //region Transformation
 
     /**
      * Returns the position of this object in world space.
@@ -135,30 +141,89 @@ public class SceneObject {
      */
     public Vec3 getWorldPosition() {
 
-        if (mWorldPosition == null) calcWorldPosition();
+        if (mWorldTransform == null) calcWorldTransform();
 
-        return mWorldPosition;
+        return mWorldTransform.getTranslation();
+//        return mWorldTransform.mult(Vec3.ZERO, true);
     }
 
     /**
-     * Returns the position of this object relative to its parent.
+     * Returns the transform of this object in world space.
+     *
+     * @return
+     */
+    public Matrix4x4 getWorldTransform() {
+
+        if (mWorldTransform == null) calcWorldTransform();
+
+        return mWorldTransform;
+    }
+
+    /**
+     * Returns the inverse of the transform of this object in world space.
+     *
+     * @return
+     */
+    public Matrix4x4 getWorldTransformInverse() {
+
+        if (mWorldTransformInverse == null) calcWorldTransform();
+
+        return mWorldTransformInverse;
+    }
+
+    /**
+     * Returns the transform of this object in local space.
+     *
+     * @return
+     */
+    public Matrix4x4 getLocalTransform() {
+
+        return mLocalTransform;
+    }
+
+    /**
+     * Returns the inverse of the transform of this object in local space.
+     *
+     * @return
+     */
+    public Matrix4x4 getLocalTransformInverse() {
+
+        return mLocalTransformInverse;
+    }
+
+    /**
+     * Returns the position of this object relative to its parent including its local scale.
      *
      * @return
      */
     public Vec3 getLocalPosition() {
-
-        return mLocalPosition;
+//        return mLocalTransform.mult(Vec3.ZERO, true);
+        return mLocalTransform.getTranslation();
     }
 
-    private void calcWorldPosition() {
+    /**
+     * Calculates the world transform of this object and all of its children.
+     */
+    private void calcWorldTransform() {
+
         if (parent != null)
-            mWorldPosition = parent.getWorldPosition().add(mLocalPosition);
+            mWorldTransform = mLocalTransform.mult(parent.getWorldTransform());
         else
-            mWorldPosition = mLocalPosition;
+            mWorldTransform = new Matrix4x4(mLocalTransform);
+
+        mWorldTransformInverse = mWorldTransform.invert();
+
+        onTransformChange();
 
         for (SceneObject child : children) {
-            child.calcWorldPosition();
+            child.calcWorldTransform();
         }
+    }
+
+    /**
+     * This is called when the world transform of this object is recalculated.
+     */
+    protected void onTransformChange(){
     }
 
     /**
@@ -167,9 +232,20 @@ public class SceneObject {
      * @param localPosition
      */
     public void setLocalPosition(Vec3 localPosition) {
-        mLocalPosition = localPosition;
 
-        calcWorldPosition();
+        if (mLocalTransform == null) mLocalTransform = new Matrix4x4();
+
+        mLocalTransform.setTranslation(localPosition);
+        mLocalTransformInverse = mLocalTransform.invert();
+
+        calcWorldTransform();
+    }
+
+    public void setLocalTransform(Matrix4x4 localTransform) {
+        mLocalTransform = localTransform;
+        mLocalTransformInverse = mLocalTransform.invert();
+
+        calcWorldTransform();
     }
 
     /**
@@ -188,139 +264,16 @@ public class SceneObject {
 
     //endregion
 
-    //region Rotation
-
-    /**
-     * Returns the rotation of this object in World space.
-     *
-     * @return
-     */
-    public Quaternion getWorldRotation() {
-
-        if (mWorldRotation == null) calcWorldRotation();
-
-        return mWorldRotation;
-    }
-
-    /**
-     * Returns the rotation of this object relative to its parent.
-     *
-     * @return
-     */
-    public Quaternion getLocalRotation() {
-
-        return mLocalRotation;
-    }
-
-    private void calcWorldRotation() {
-        if (hasParent())
-            mWorldRotation = parent.getWorldRotation().mult(mLocalRotation);
-        else
-            mWorldRotation = mLocalRotation;
-
-        for (SceneObject child : children) {
-            child.calcWorldRotation();
-        }
-    }
-
-    /**
-     * Sets the local rotation of this object to the given value. Refreshes world rotations for all children.
-     *
-     * @param localRotation
-     */
-    public void setLocalRotation(Quaternion localRotation) {
-        mLocalRotation = localRotation;
-
-        calcWorldRotation();
-    }
-
-    /**
-     * Sets the world space rotation of this object to the given value. Refreshes world positions for all children.
-     *
-     * @param worldRotation
-     */
-    public void setWorldRotation(Quaternion worldRotation) {
-
-        if (hasParent()) {
-            setLocalRotation(parent.getWorldRotation().inverse().mult(worldRotation));
-        } else {
-            setLocalRotation(worldRotation);
-        }
-    }
-
-    //endregion
-
-    // region Scale
-
-    /**
-     * Returns the scale of this object in World space.
-     *
-     * @return
-     */
-    public Vec3 getWorldScale() {
-
-        if (mWorldScale == null) calcWorldScale();
-
-        return mWorldScale;
-    }
-
-    /**
-     * Returns the scale of this object relative to its parent.
-     *
-     * @return
-     */
-    public Vec3 getLocalScale() {
-
-        return mLocalScale;
-    }
-
-    private void calcWorldScale() {
-        if (hasParent())
-            mWorldScale = parent.getWorldScale().scale(mLocalScale);
-        else
-            mWorldScale = mLocalScale;
-
-        for (SceneObject child : children) {
-            child.calcWorldScale();
-        }
-    }
-
-    /**
-     * Sets the local scale of this object to the given value. Refreshes world scale for all children.
-     *
-     * @param localScale
-     */
-    public void setLocalScale(Vec3 localScale) {
-        mLocalScale = localScale;
-
-        calcWorldScale();
-    }
-
-    /**
-     * Sets the world space scale of this object to the given value. Refreshes world scale for all children.
-     *
-     * @param worldScale
-     */
-    public void setWorldScale(Vec3 worldScale) {
-
-        if (hasParent()) {
-            setLocalScale(parent.getWorldScale().inverseScale().scale(worldScale));
-        } else {
-            setLocalScale(worldScale);
-        }
-    }
-
-    //endregion
-
     //region Intersection
 
     /**
      * Calculates the intersection point of the given ray with this object without concerning children.
+     * This need to be overridden for inheriting classes.
      *
-     * @param ray
+     * @param localRay ray in local space of this object.
      * @return
      */
-    protected ArrayList<Intersection> intersectThis(Ray ray) {
+    protected ArrayList<Intersection> intersectThis(Ray localRay) {
         return new ArrayList<>();
     }
 
@@ -343,22 +296,12 @@ public class SceneObject {
     public ArrayList<Intersection> intersectAll(Ray ray) {
 
         //transform ray from parent to local space
-        Vec3 rayPos = ray.getStartPoint()/*.sub(mLocalPosition)*/;
-        Vec3 rayDir = ray.getDirection();
-
-//        Ray localRay = new Ray(mLocalRotation.mult(ray.getStartPoint()), mLocalRotation.mult(ray.getDirection()));
-        Ray localRay = new Ray(rayPos, rayDir);
+        Ray localRay = mLocalTransformInverse.mult(ray);
 
         ArrayList<Intersection> selfIntersec = intersectThis(localRay);
         ArrayList<Intersection> childIntersec = intersectChildren(localRay);
 
-//        Log.print(this, " self intersec: " + selfIntersec.size());
-//        Log.print(this, " child intersec: " + childIntersec.size());
-
         selfIntersec.addAll(childIntersec);
-
-//        Log.print(this, " total intersec: " + selfIntersec.size());
-
 
         return selfIntersec;
     }
@@ -383,12 +326,21 @@ public class SceneObject {
         return result;
     }
 
+    protected Intersection calcWorldSpaceIntersection(Ray localRay, Vec3 worldNormal, double t) {
+
+        Vec3 intersectionPoint = getWorldTransform().multPoint(localRay.calcPoint(t));
+        double distancePWD = localRay.getWorldSpaceRay().getStartPoint().distanceSquared(intersectionPoint);
+
+        return new Intersection(intersectionPoint, worldNormal, this, distancePWD);
+    }
+
+//    protected Intersection getWorldSpaceIntersectionLocalNormal(Ray localRay, Vec3 localNormal, double t) {
 //
-//    protected Ray WorldToLocal(Ray worldRay){
-//        Vec3 pos = worldRay.getStartPoint();
-//        Vec3 dir = worldRay.getDirection();
+//        Vec3 intersectionPoint = getWorldTransform().mult(localRay.calcPoint(t), true);
+//        Vec3 normal = getWorldTransform().mult(localNormal, false);
+//        double distancePWD = localRay.getWorldSpaceRay().getStartPoint().distanceSquared(intersectionPoint);
 //
-//        return new Ray(pos, dir);
+//        return new Intersection(intersectionPoint, normal, this, distancePWD);
 //    }
 
     //endregion
@@ -396,7 +348,7 @@ public class SceneObject {
     //region Debug
 
     public void printRecursively() {
-        Log.print(new SceneObject(), "Printing Scenegraph");
+        Log.print(getRoot(), "Printing Scenegraph");
         printRecursively(0);
     }
 
@@ -404,13 +356,13 @@ public class SceneObject {
 
         String out = "";
 
-        for (int i = -1; i < depth; i++) {
+        for (int i = 0; i < depth; i++) {
             out += "   ";
         }
         out += "-> ";
 
 //        out += toString();
-        Log.print(new SceneObject(), out + toString());
+        Log.print(getRoot(), out + toString());
 
         for (SceneObject child : children) {
             child.printRecursively(depth + 1);
@@ -419,7 +371,7 @@ public class SceneObject {
 
     @Override
     public String toString() {
-        return super.toString() + " " + name + "(" + children.size() + ")";
+        return super.toString() + " " + name + " local: " + getLocalPosition() + " world: " + getWorldPosition();
     }
 
     //endregion

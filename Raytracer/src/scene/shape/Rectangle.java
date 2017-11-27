@@ -37,8 +37,8 @@ public class Rectangle extends Plane {
     }
 
     @Override
-    protected ArrayList<Intersection> intersectThis(Ray ray) {
-        ArrayList<Intersection> planeIntersection = super.intersectThis(ray);
+    protected ArrayList<Intersection> intersectThis(Ray localRay) {
+        ArrayList<Intersection> planeIntersection = super.intersectThis(localRay);
 
         if (planeIntersection.isEmpty()) return planeIntersection;
 

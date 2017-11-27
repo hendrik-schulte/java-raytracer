@@ -81,11 +81,12 @@ public class Window {
      **/
     public void exportRendering(String fileName, double time, Settings settings) {
         if (settings.DRAW_STATS) setOutputLabel(TimeFormater(time), settings);
-        DataExporter.exportImageToPng(mBufferedImage, fileName +".png");
+        if (settings.SAVE_FILE) DataExporter.exportImageToPng(mBufferedImage, fileName + ".png");
     }
 
     /**
      * Formats the given time in seconds to a MM:SS:MS format.
+     *
      * @param timeInSeconds
      * @return
      */

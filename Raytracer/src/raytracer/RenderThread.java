@@ -52,7 +52,7 @@ public class RenderThread extends Thread {
                     RenderBlock block;
 
 //                    synchronized (saveList){
-                        block = saveList.remove(0);
+                    block = saveList.remove(0);
 //                    }
 
                     raytracer.renderBlock(block);

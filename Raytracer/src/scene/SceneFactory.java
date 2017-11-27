@@ -8,9 +8,12 @@ import scene.light.RectLight;
 import scene.light.VolumeLight;
 import scene.shape.*;
 import utils.RgbColor;
+import utils.algebra.Matrix4x4;
+import utils.algebra.Quaternion;
 import utils.algebra.Vec2;
 import utils.algebra.Vec3;
 import utils.io.DataImporter;
+import utils.io.Log;
 
 public class SceneFactory {
 
@@ -79,6 +82,19 @@ public class SceneFactory {
 
     private static void setupSpheres(Scene scene) {
 
+        SceneObject sphereRoot = new SceneObject("Sphere Root", new Vec3(0, 1, 0));
+        scene.createShape(sphereRoot);
+
+        sphereRoot.setChild(new Sphere(
+                new Vec3(-2, -1, 2),
+                1.5f,
+                Lambert.BLUE));
+
+        sphereRoot.setChild(new Sphere(
+                new Vec3(2, -1, 2),
+                1.0f,
+                Lambert.RED));
+
         //reflective
 //        scene.createShape(new Sphere(
 //                new Vec3(-1, -2.23f, 2.66f),
@@ -94,15 +110,15 @@ public class SceneFactory {
 
 
         //reflective blurry
-        scene.createShape(new Sphere(
-                new Vec3(-1, -2.0f, 2.66666666f),
-                1.0f,
-                Lambert.GREY_BLURRY_REFLECTIVE));
-
-        scene.createShape(new Sphere(
-                new Vec3(2, -2f, 4f),
-                1f,
-                Lambert.DIAMOND_VERY_ROUGH));
+//        scene.createShape(new Sphere(
+//                new Vec3(-1, -2.0f, 2.66666666f),
+//                1.0f,
+//                Lambert.GREY_BLURRY_REFLECTIVE));
+//
+//        scene.createShape(new Sphere(
+//                new Vec3(2, -2f, 4f),
+//                1f,
+//                Lambert.DIAMOND_VERY_ROUGH));
 
 //        scene.createShape(new Sphere(
 //                new Vec3(0, -2f, 3.0f),
@@ -120,7 +136,6 @@ public class SceneFactory {
 //                        new Vec3(1.2f, 1, 1)),
 //                Lambert.DIAMOND));
 
-
         //refractive blurry
 //        scene.createShape(new Sphere(
 //                new Vec3(1.f, -1.f, 4.3333333f),
@@ -130,63 +145,66 @@ public class SceneFactory {
 
     private static void setupBox(Scene scene, Settings settings) {
 
-        SceneObject boxRoot = new SceneObject("Walls", new Vec3(0, 0, 0));
+        SceneObject boxRoot = new SceneObject("Walls", new Matrix4x4(
+                Quaternion.euler(0,0,0),
+                new Vec3(0,0,0),                      //position
+                new Vec3(3,3,3)));   //setScale
         scene.createShape(boxRoot);
 
-        float top = 5;
-        float bottom = -3;
-        float back = -8;
-        float front = 8;
-        float left = -5;
-        float right = 5;
+        float top = 1;
+        float bottom = -1;
+        float back = -1;
+        float front = 1;
+        float left = -1;
+        float right = 1;
 
         //Floor
-        scene.createShape(new Plane(
+        boxRoot.setChild(new Plane(
                 new Vec3(0, bottom, 0),    //pos
                 new Vec3(0, 1, 0),     //normal
                 false,
                 Blinn.CreateWall(settings, RgbColor.LIGHT_GRAY, true)));
 
         //left wall
-        scene.createShape(new Plane(
+        boxRoot.setChild(new Plane(
                 new Vec3(left, 0, 0),    //pos
                 new Vec3(1, 0, 0),     //normal
                 false,
                 Blinn.CreateWall(settings, RgbColor.DARK_MAGENTA, false)));
 
         //right wall
-        scene.createShape(new Plane(
+        boxRoot.setChild(new Plane(
                 new Vec3(right, 0, 0),    //pos
                 new Vec3(-1, 0, 0),     //normal
                 false,
                 Blinn.CreateWall(settings, RgbColor.DARK_GREEN, false)));
 
         //back wall
-        scene.createShape(new Plane(
-                new Vec3(0, 0, back),    //pos
-                new Vec3(0, 0, 1),     //normal
-                false,
-                Blinn.CreateWall(settings, RgbColor.SOFT_GRAY, false)));
+//        boxRoot.setChild(new Plane(
+//                new Vec3(0, 0, back),    //pos
+//                new Vec3(0, 0, 1),     //normal
+//                false,
+//                Blinn.CreateWall(settings, RgbColor.SOFT_GRAY, false)));
 
         //Ceiling
-        scene.createShape(new Plane(
-                new Vec3(0, top, 0),    //pos
-                new Vec3(0, -1, 0),      //normal
-                false,
-                Blinn.CreateWall(settings, RgbColor.DARK_CYAN, false)));
+//        boxRoot.setChild(new Plane(
+//                new Vec3(0, top, 0),    //pos
+//                new Vec3(0, -1, 0),      //normal
+//                false,
+//                Blinn.CreateWall(settings, RgbColor.DARK_CYAN, false)));
 
         //front wall
-        scene.createShape(new Plane(
-                new Vec3(0, 0, front),    //pos
-                new Vec3(0, 0, -1),     //normal
-                false,
-                Blinn.CreateWall(settings, RgbColor.BLACK, false)));
+//        boxRoot.setChild(new Plane(
+//                new Vec3(0, 0, front),    //pos
+//                new Vec3(0, 0, -1),     //normal
+//                false,
+//                Blinn.CreateWall(settings, RgbColor.BLACK, false)));
     }
 
     private static void setupLight(Scene scene, Settings settings) {
 
         Vec3 center = new Vec3(0, 3.7f, 3f);
-        float intensity = 1.0f;
+        float intensity = 0.80f;
 
         if (!settings.USE_AREA_LIGHTS) {
 

@@ -20,26 +20,40 @@ public class Plane extends SceneObject {
 
     protected final Vec3 normal;
     private Vec3 reversedNormal;
+
+    private Vec3 worldSpaceNormal;
+
     private final boolean drawBack;
 
     public Plane(Vec3 pos, Vec3 normal, boolean drawBack, Material material) {
-        super("Plane" ,pos, material);
+        super("Plane", pos, material);
 
         this.normal = normal.normalize();
         this.drawBack = drawBack;
 
-        if(!drawBack) return;
+        if (!drawBack) return;
 
         reversedNormal = normal.negate();
+
+        onTransformChange();
     }
 
     @Override
-    protected ArrayList<Intersection> intersectThis(Ray ray) {
+    protected void onTransformChange() {
 
-        Vec3 pos = ray.getStartPoint().sub(getWorldPosition());
-        Vec3 D = ray.getDirection();
+        if (normal == null) return;
 
-        float denominator = normal.scalar(D);
+        worldSpaceNormal = getWorldTransform().multVec(normal).normalize();
+
+        Log.print(this, "normal: " + normal + " world space normal: " + worldSpaceNormal);
+    }
+
+    @Override
+    protected ArrayList<Intersection> intersectThis(Ray localRay) {
+
+        Vec3 pos = localRay.getStartPoint();
+
+        float denominator = normal.scalar(localRay.getDirection());
 
         if (denominator == 0) return new ArrayList<>();   //no intersection
 
@@ -59,12 +73,12 @@ public class Plane extends SceneObject {
 
         if (t < 0) return new ArrayList<>();
 
-        return toList(new Intersection(ray.calcPoint(t), normal, this, (t * t)));
+        return toList(calcWorldSpaceIntersection(localRay, worldSpaceNormal, t));
     }
 
     @Override
     public String toString() {
-        return super.toString() + "color " + material.ambient;
+        return super.toString() + " color " + material.ambient;
     }
 
     public Vec3 getNormal() {

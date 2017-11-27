@@ -20,6 +20,8 @@ public class Settings {
      */
     public boolean DRAW_STATS = true;
 
+    public boolean SAVE_FILE = true;
+
     /**
      * Defines the name of the output file (.png is added automatically).
      */
@@ -142,6 +144,25 @@ public class Settings {
         s.FLOOR_SMOOTHNESS = 0.97f;
         s.WALL_SMOOTHNESS = 1;
         s.ROOM_REFLECTIVITY = 0.2f;
+
+        return s;
+    }
+
+    public static Settings DEBUG(){
+        Settings s = new Settings();
+
+        s.OUTPUT_FILE_NAME = "debug";
+        s.SAVE_FILE = false;
+//        s.IMAGE_WIDTH = 1024;
+//        s.IMAGE_HEIGHT = 800;
+
+        s.RAY_DISTRIBUTION_SAMPLES = 1;
+        s.RECURSIONS = 4;
+
+        s.USE_AREA_LIGHTS = false;
+
+        s.ROOM_REFLECTIVITY = 0;
+        s.AMBIENT = .4f;
 
         return s;
     }

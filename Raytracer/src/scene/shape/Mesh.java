@@ -18,12 +18,12 @@ public class Mesh extends SceneObject {
 
         for (MeshView mesh : meshView) {
 
-//            triangles.add(new Mesh(center, scale, mesh));
+//            triangles.add(new Mesh(center, setScale, mesh));
         }
 
     }
 
-//    public Mesh(Vec3 center, Vec3 scale/*, Material material*/, MeshView mesh) {
+//    public Mesh(Vec3 center, Vec3 setScale/*, Material material*/, MeshView mesh) {
 //        super(center, null);
 //
 //        Material material = Material.parseMaterial(mesh.getMaterial());
@@ -36,7 +36,7 @@ public class Mesh extends SceneObject {
 //
 //        ArrayList<Vec3> points = getPoints(dimensions);
 //
-//        generateTriangles(points, scale, material);
+//        generateTriangles(points, setScale, material);
 //
 //        for (Vec3 point : points) {
 //
@@ -75,8 +75,8 @@ public class Mesh extends SceneObject {
     }
 
     @Override
-    protected ArrayList<Intersection> intersectThis(Ray ray) {
+    protected ArrayList<Intersection> intersectThis(Ray localRay) {
 
-        return getIntersection(ray, triangles);
+        return getIntersection(localRay, triangles);
     }
 }

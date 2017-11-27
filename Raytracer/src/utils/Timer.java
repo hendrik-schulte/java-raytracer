@@ -1,9 +1,15 @@
 package utils;
 
+/**
+ * This timer class allows time measurement.
+ */
 public class Timer {
 
     private long timeStart;
 
+    /**
+     * Creates a timer object and starts it.
+     */
     public Timer(){
         timeStart = System.currentTimeMillis();
     }

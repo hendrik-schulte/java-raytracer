@@ -6,17 +6,36 @@ import scene.Scene;
 import scene.SceneFactory;
 import ui.Window;
 import utils.Timer;
+import utils.algebra.Matrix4x4;
+import utils.algebra.Quaternion;
+import utils.algebra.Vec3;
 import utils.io.Log;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        Settings set = Settings.PRETTY();
+//        Matrix4x4 mat1 =  new Matrix4x4(
+//                Quaternion.euler(0,0,0),
+//                Vec3.ZERO,                      //position
+//                new Vec3(5, 1, 1));
+//
+//        Matrix4x4 mat2 =  new Matrix4x4(
+//                Quaternion.euler(90,0,0),
+//                Vec3.ZERO,                      //position
+//                new Vec3(1, 1, 1));
+//
+//        Log.print(new Object(), "mat1: " + mat1);
+//        Log.print(new Object(), "mat2: " + mat2);
+//        Log.print(new Object(), "mat1 * mat2: " + mat1.mult(mat2));
+
+        Settings set = Settings.AVERAGE();
 
 
         Scene renderScene = SceneFactory.createCustom(set);
 //        Scene renderScene = SceneFactory.createClassic(settings);
+
+        renderScene.root.printRecursively();
 
         render(renderScene, set);
 

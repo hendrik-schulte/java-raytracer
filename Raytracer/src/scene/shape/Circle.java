@@ -21,8 +21,8 @@ public class Circle extends Plane
     }
 
     @Override
-    public ArrayList<Intersection> intersectThis(Ray ray) {
-        ArrayList<Intersection> intersec = super.intersectThis(ray);
+    public ArrayList<Intersection> intersectThis(Ray localRay) {
+        ArrayList<Intersection> intersec = super.intersectThis(localRay);
 
         if(intersec.isEmpty()) return intersec;
 
