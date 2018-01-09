@@ -53,6 +53,11 @@ public class Plane extends SceneObject {
 
         Vec3 pos = localRay.getStartPoint();
 
+//        Log.print(this, "plane normal: " + normal);
+//        Log.print(this, "world ray: " + localRay.getWorldSpaceRay());
+//        Log.print(this, "local ray: " + localRay);
+
+
         float denominator = normal.scalar(localRay.getDirection());
 
         if (denominator == 0) return new ArrayList<>();   //no intersection

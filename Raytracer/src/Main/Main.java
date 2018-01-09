@@ -1,5 +1,6 @@
 package Main;
 
+import raytracer.Ray;
 import raytracer.Raytracer;
 import raytracer.Settings;
 import scene.Scene;
@@ -15,10 +16,12 @@ public class Main {
 
     public static void main(String[] args) {
 
+////        Quaternion q = Quaternion.euler((float) Math.PI,0,0);
+//
 //        Matrix4x4 mat1 =  new Matrix4x4(
-//                Quaternion.euler(0,0,0),
+//                Quaternion.euler(90,0,0),
 //                Vec3.ZERO,                      //position
-//                new Vec3(5, 1, 1));
+//                new Vec3(1, 1, 1));
 //
 //        Matrix4x4 mat2 =  new Matrix4x4(
 //                Quaternion.euler(90,0,0),
@@ -26,10 +29,17 @@ public class Main {
 //                new Vec3(1, 1, 1));
 //
 //        Log.print(new Object(), "mat1: " + mat1);
-//        Log.print(new Object(), "mat2: " + mat2);
-//        Log.print(new Object(), "mat1 * mat2: " + mat1.mult(mat2));
+////        Log.print(new Object(), "mat2: " + mat2);
+////        Log.print(new Object(), "mat1 * mat2: " + mat1.mult(mat2));
+//
+//        Ray ray = new Ray(new Vec3(1,1,1), new Vec3(1,1,1));
+//
+//        Log.print(ray, "ray: " + ray);
+//        Log.print(ray, "mat1 * ray: " + mat1.mult(ray));
 
-        Settings set = Settings.AVERAGE();
+//        if(true) return;
+
+        Settings set = Settings.DEBUG();
 
 
         Scene renderScene = SceneFactory.createCustom(set);

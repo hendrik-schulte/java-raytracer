@@ -24,9 +24,9 @@ public class Phong extends Material {
 
         Vec3 reflectionVec = getReflectionVector(normal, lightVector);    //calculate reflection vector
 
-        float tempSpec = Math.max(view.scalar(reflectionVec), 0f);
+        float tempSpec = view.scalar(reflectionVec);
 
-        if (tempSpec == 0) return RgbColor.BLACK;
+        if (tempSpec <= 0) return RgbColor.BLACK;
 
         float specScalar = light.getIntensity() *                           //get light intensity multiplied with
                 specularNormalFactor *                                      //normalised specular factor

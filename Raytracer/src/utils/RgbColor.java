@@ -92,7 +92,7 @@ public class RgbColor {
      * Get another color as the product of the vector and the given value
      **/
     public RgbColor multScalar(float value) {
-        return new RgbColor(colors.multScalar(value));
+        return new RgbColor(colors.scale(value));
     }
 
     public RgbColor divideScalar(float value) {

@@ -44,8 +44,8 @@ public abstract class Camera extends SceneObject {
      */
     protected Vec3 norm2World(Vec2 normPos) {
         return windowCenter
-                .add(camUp.multScalar(normPos.y * windowHeight / -2f))
-                .add(side.multScalar(normPos.x * windowWidth / 2f));
+                .add(camUp.scale(normPos.y * windowHeight / -2f))
+                .add(side.scale(normPos.x * windowWidth / 2f));
     }
 
     public abstract Ray calcPixelRay(Vec2 normPos);

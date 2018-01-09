@@ -5,7 +5,6 @@ import raytracer.Settings;
 import scene.camera.PerspCam;
 import scene.light.Light;
 import scene.light.RectLight;
-import scene.light.VolumeLight;
 import scene.shape.*;
 import utils.RgbColor;
 import utils.algebra.Matrix4x4;
@@ -13,7 +12,6 @@ import utils.algebra.Quaternion;
 import utils.algebra.Vec2;
 import utils.algebra.Vec3;
 import utils.io.DataImporter;
-import utils.io.Log;
 
 public class SceneFactory {
 
@@ -25,7 +23,7 @@ public class SceneFactory {
 
 //        setupObjects(scene);
         setupSpheres(scene);
-        setupBox(scene, settings);
+//        setupBox(scene, settings);
         setupLight(scene, settings);
 //        setupTest(scene, settings);
 
@@ -82,16 +80,20 @@ public class SceneFactory {
 
     private static void setupSpheres(Scene scene) {
 
-        SceneObject sphereRoot = new SceneObject("Sphere Root", new Vec3(0, 1, 0));
+        SceneObject sphereRoot = new SceneObject("Sphere Root",
+                new Vec3(0, 0, 0),  //pos
+                new Vec3(1.4f,1.5f,1),    //scale
+                Quaternion.euler(0,0,0));   //rotation
+
         scene.createShape(sphereRoot);
 
         sphereRoot.setChild(new Sphere(
-                new Vec3(-2, -1, 2),
+                new Vec3(-2, 0, 0),
                 1.5f,
                 Lambert.BLUE));
 
         sphereRoot.setChild(new Sphere(
-                new Vec3(2, -1, 2),
+                new Vec3(2, 0, 0),
                 1.0f,
                 Lambert.RED));
 
@@ -107,7 +109,6 @@ public class SceneFactory {
 //                        new Vec3(-1, -2.033333333f, 2.66666666f),
 //                        new Vec3(1, 1.05f, 1)),
 //                Lambert.FULL_SMOOTH_REFLECTIVE));
-
 
         //reflective blurry
 //        scene.createShape(new Sphere(
@@ -148,15 +149,17 @@ public class SceneFactory {
         SceneObject boxRoot = new SceneObject("Walls", new Matrix4x4(
                 Quaternion.euler(0,0,0),
                 new Vec3(0,0,0),                      //position
-                new Vec3(3,3,3)));   //setScale
+                new Vec3(1,1,1)));   //setScale
         scene.createShape(boxRoot);
 
-        float top = 1;
-        float bottom = -1;
-        float back = -1;
-        float front = 1;
-        float left = -1;
-        float right = 1;
+        float dimensions = 3;
+
+        float top = dimensions;
+        float bottom = -dimensions;
+        float back = -dimensions;
+        float front = dimensions;
+        float left = -dimensions;
+        float right = dimensions;
 
         //Floor
         boxRoot.setChild(new Plane(
@@ -180,11 +183,11 @@ public class SceneFactory {
                 Blinn.CreateWall(settings, RgbColor.DARK_GREEN, false)));
 
         //back wall
-//        boxRoot.setChild(new Plane(
-//                new Vec3(0, 0, back),    //pos
-//                new Vec3(0, 0, 1),     //normal
-//                false,
-//                Blinn.CreateWall(settings, RgbColor.SOFT_GRAY, false)));
+        boxRoot.setChild(new Plane(
+                new Vec3(0, 0, back),    //pos
+                new Vec3(0, 0, 1),     //normal
+                false,
+                Blinn.CreateWall(settings, RgbColor.SOFT_GRAY, false)));
 
         //Ceiling
 //        boxRoot.setChild(new Plane(
@@ -203,7 +206,8 @@ public class SceneFactory {
 
     private static void setupLight(Scene scene, Settings settings) {
 
-        Vec3 center = new Vec3(0, 3.7f, 3f);
+//        Vec3 center = new Vec3(0, 3.7f, 3f);
+        Vec3 center = new Vec3(0, 3, 3f);
         float intensity = 0.80f;
 
         if (!settings.USE_AREA_LIGHTS) {
@@ -311,7 +315,7 @@ public class SceneFactory {
         //mesh
         scene.createShape(new Mesh(
                 new Vec3(0, 0f, 8),
-                Vec3.ONE.multScalar(5),
+                Vec3.ONE.scale(5),
 //                DataImporter.loadOBJ("VCG_Raytracer\\models\\IronMan.obj"),
                 DataImporter.loadOBJ("VCG_Raytracer\\models\\Scooter-smgrps.obj")
                 //                new Phong(RgbColor.BLACK,

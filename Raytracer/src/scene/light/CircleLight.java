@@ -2,7 +2,6 @@ package scene.light;
 
 import scene.SceneObject;
 import scene.shape.Circle;
-import scene.shape.Shape;
 import utils.RgbColor;
 import utils.algebra.Vec2;
 import utils.algebra.Vec3;
@@ -16,7 +15,7 @@ public class CircleLight extends AreaLight {
 
         this.circle = circle;
 
-        Vec3 center = circle.getWorldPosition().add(circle.getNormal().multScalar(planeOffset));
+        Vec3 center = circle.getWorldPosition().add(circle.getNormal().scale(planeOffset));
         float diameter = circle.radius * 2 * scale;
 
         Vec3 ortho1 = circle.getNormal().getOrthogonal();

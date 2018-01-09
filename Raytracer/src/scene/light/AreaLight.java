@@ -1,7 +1,6 @@
 package scene.light;
 
 import scene.SceneObject;
-import scene.shape.Shape;
 import utils.MathEx;
 import utils.algebra.Vec2;
 import utils.algebra.Vec3;
@@ -44,8 +43,8 @@ public abstract class AreaLight {
     protected Vec3 norm2WorldRect(Vec3 center, Vec3 ortho1, Vec3 ortho2, Vec2 normPos, float rectWidth, float rectHeight) {
 
         return center
-                .add(ortho1.multScalar(normPos.x * rectWidth / 2f))
-                .add(ortho2.multScalar(normPos.y * rectHeight / 2f));
+                .add(ortho1.scale(normPos.x * rectWidth / 2f))
+                .add(ortho2.scale(normPos.y * rectHeight / 2f));
     }
 
     public ArrayList<Light> getLights() {

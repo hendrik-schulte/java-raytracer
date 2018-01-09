@@ -16,7 +16,7 @@ public class VolumeLight extends AreaLight {
 
         for (int x = 0; x < resolution; x++) {
 
-            Vec3 pos  = sphere.getWorldTransformInverse().multPoint(Vec3.Random().multScalar(scale));
+            Vec3 pos  = sphere.getWorldTransformInverse().multPoint(Vec3.Random().scale(scale));
 
             sampleLights.add(new Light(pos, color, individualIntensity));
         }

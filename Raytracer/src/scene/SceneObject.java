@@ -30,6 +30,14 @@ public class SceneObject {
 
     //region Contructors
 
+    public SceneObject(String name, Vec3 localPosition, Vec3 localScale, Quaternion localRotation){
+        this(name, new Matrix4x4(localRotation, localPosition, localScale));
+    }
+
+    public SceneObject(String name, Vec3 localPosition, Vec3 localScale, Quaternion localRotation, Material material){
+        this(name, new Matrix4x4(localRotation, localPosition, localScale), material);
+    }
+
     public SceneObject(String name, Matrix4x4 localTransform, Material material) {
         this.name = name;
         this.material = material;

@@ -215,16 +215,17 @@ public class Quaternion {
 
         Vec3 xyz = XYZ();
 
-        Vec3 t = xyz.cross(v).multScalar(2);
-        return v.add(t.multScalar(w)).add(xyz.cross(t));
+        Vec3 t = xyz.cross(v).scale(2);
+        return v.add(t.scale(w)).add(xyz.cross(t));
     }
 
     /**
      * Rotates the given ray by this quaternion.
+     *
      * @param ray
      * @return
      */
-    public Ray mult(Ray ray){
+    public Ray mult(Ray ray) {
 
         return new Ray(mult(ray.getStartPoint()), mult(ray.getDirection()));
     }
@@ -305,7 +306,6 @@ public class Quaternion {
 
     /**
      * Creates a quaternion from the given euler angles.
-     * Adapted from: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
      *
      * @param x
      * @param y
@@ -313,6 +313,20 @@ public class Quaternion {
      * @return
      */
     public static Quaternion euler(float x, float y, float z) {
+
+        return eulerR((float) toRadians(x), (float) toRadians(y), (float) toRadians(z));
+    }
+
+    /**
+     * Creates a quaternion from the given euler angles (in radians).
+     * Adapted from: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+     *
+     * @param x
+     * @param y
+     * @param z
+     * @return
+     */
+    public static Quaternion eulerR(float x, float y, float z) {
 
         // Abbreviations for the various angular functions
         float cy = (float) cos(z * 0.5);
@@ -322,11 +336,6 @@ public class Quaternion {
         float cp = (float) cos(y * 0.5);
         float sp = (float) sin(y * 0.5);
 
-//        float w = (cy * cr * cp + sy * sr * sp);
-//        float x = (float) (cy * sr * cp - sy * cr * sp);
-//        float y = (float) (cy * cr * sp + sy * sr * cp);
-//        float z = (float) (sy * cr * cp - cy * sr * sp);
-
         return new Quaternion(
                 cy * sr * cp - sy * cr * sp,
                 cy * cr * sp + sy * sr * cp,
@@ -335,12 +344,23 @@ public class Quaternion {
     }
 
     /**
-     * Returns the euler angle representation of this quaternion.
+     * Returns the euler angle representation of this quaternion (in degrees).
+     * @return
+     */
+    public Vec3 eulerAngles() {
+
+        Vec3 radians = eulerAnglesRadians();
+
+        return new Vec3((float) Math.toDegrees(radians.x), (float) Math.toDegrees(radians.y), (float) Math.toDegrees(radians.z));
+    }
+
+    /**
+     * Returns the euler angle representation of this quaternion (in radians).
      * Adapted from: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
      *
      * @return
      */
-    public Vec3 eulerAngles() {
+    public Vec3 eulerAnglesRadians() {
         // roll (x-axis rotation)
         double sinr = 2.0 * (w * x + y * z);
         double cosr = 1.0 - 2.0 * (x * x + y * y);

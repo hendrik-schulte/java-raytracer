@@ -89,14 +89,14 @@ public class Vec3 {
     /**
      * Get new vector with the given value multiplied to every component
      **/
-    public Vec3 multScalar(float value) {
+    public Vec3 scale(float value) {
         return new Vec3(this.x * value, this.y * value, this.z * value);
     }
 
     /**
      * Get new vector with the given value multiplied to every component
      **/
-    public Vec3 multScalar(double value) {
+    public Vec3 scale(double value) {
         return new Vec3(this.x * (float) value, this.y * (float) value, this.z * (float) value);
     }
 

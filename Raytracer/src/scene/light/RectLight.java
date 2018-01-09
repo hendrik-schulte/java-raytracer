@@ -2,7 +2,6 @@ package scene.light;
 
 import scene.SceneObject;
 import scene.shape.Rectangle;
-import scene.shape.Shape;
 import utils.RgbColor;
 import utils.algebra.Vec2;
 import utils.algebra.Vec3;
@@ -16,7 +15,7 @@ public class RectLight extends AreaLight {
 
         this.rect = rect;
 
-        Vec3 center = rect.getWorldPosition().add(rect.getNormal().multScalar(planeOffset));
+        Vec3 center = rect.getWorldPosition().add(rect.getNormal().scale(planeOffset));
         float width = rect.a.length() * 2 * scale;
         float height = rect.b.length() * 2 * scale;
 

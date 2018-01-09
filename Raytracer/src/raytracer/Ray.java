@@ -2,7 +2,6 @@ package raytracer;
 
 import scene.SceneObject;
 import utils.algebra.Vec3;
-import utils.io.Log;
 
 import java.util.ArrayList;
 
@@ -51,11 +50,11 @@ public class Ray {
     }
 
     public Vec3 calcPoint(float distance) {
-        return startPoint.add(direction.multScalar(distance));
+        return startPoint.add(direction.scale(distance));
     }
 
     public Vec3 calcPoint(double distance) {
-        return startPoint.add(direction.multScalar((float) distance));
+        return startPoint.add(direction.scale((float) distance));
     }
 
     public Intersection getIntersection(SceneObject root) {

@@ -92,13 +92,19 @@ public class Sphere extends SceneObject {
 
     private Intersection calcWorldSpaceIntersection(Ray localRay, double t) {
 
-        Vec3 intersectionPoint = getWorldTransform().multPoint(localRay.calcPoint(t));
-        Vec3 normal = getWorldTransform().multVec(calcNormal(intersectionPoint)).normalize();
+        Vec3 localPoint = localRay.calcPoint(t);
+
+
+        Vec3 intersectionPoint = getWorldTransform().multPoint(localPoint);
+//        Vec3 normal = getWorldTransform().multVec(calcNormal(intersectionPoint)).normalize();
+//        Vec3 normal = calcNormal(intersectionPoint);
+        Vec3 normal = getWorldTransform().multVec(localPoint).normalize();
         double distancePWD = localRay.getWorldSpaceRay().getStartPoint().distanceSquared(intersectionPoint);
 
 //        Vec3 localNormal = calcNormal(intersectionPoint);
-//        Log.print(this, "normal: " + localNormal + "len: " + localNormal.length() +
-//                " world space normal: " + normal + "len: " + normal.length());
+//        Log.print(this, "");
+//        Log.print(this, "localPoint: " + localPoint + " local normal: " + localPoint.normalize());
+//        Log.print(this, "worldPoint: " + intersectionPoint+ " world space normal: " + normal);
 
         return new Intersection(intersectionPoint, normal, this, distancePWD);
     }

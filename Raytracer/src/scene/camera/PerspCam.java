@@ -22,7 +22,7 @@ public class PerspCam extends Camera {
 
         windowHeight = (float) (2 * focalLength * Math.tan(viewAngle * Math.PI / 360));
         windowWidth = ratio * windowHeight;
-        windowCenter = getWorldPosition().add(view.multScalar(focalLength));
+        windowCenter = getWorldPosition().add(view.scale(focalLength));
 
 //        Log.print(this, "windowWidth: " + windowWidth);
 //        Log.print(this, "windowHeight: " + windowHeight);

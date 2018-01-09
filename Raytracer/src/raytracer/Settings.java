@@ -115,8 +115,8 @@ public class Settings {
         s.ANTIALIASING = new AntiAliasing(AntiAliasing.Level.x8, true, s.IMAGE_WIDTH, s.IMAGE_HEIGHT);
 
         s.USE_AREA_LIGHTS = true;
-        s.LIGHT_SAMPLING = 0.4f;
-        s.NUM_LIGHTS = 7;
+        s.LIGHT_SAMPLING = 0.5f;
+        s.NUM_LIGHTS = 6;
 
         s.FLOOR_SMOOTHNESS = 1;
         s.WALL_SMOOTHNESS = 1;
@@ -155,7 +155,7 @@ public class Settings {
         s.SAVE_FILE = false;
 //        s.IMAGE_WIDTH = 1024;
 //        s.IMAGE_HEIGHT = 800;
-
+        s.MULTI_THREADING = 1;
         s.RAY_DISTRIBUTION_SAMPLES = 1;
         s.RECURSIONS = 4;
 

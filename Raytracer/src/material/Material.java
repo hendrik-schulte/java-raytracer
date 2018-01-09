@@ -6,7 +6,6 @@ import scene.SceneObject;
 import scene.light.Light;
 import utils.RgbColor;
 import utils.algebra.Vec3;
-import utils.io.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -157,7 +156,7 @@ public abstract class Material {
      */
     public static Vec3 getReflectionVector(Vec3 normal, Vec3 incoming) {
 
-        return normal.multScalar(2 * incoming.scalar(normal)).sub(incoming).normalize();
+        return normal.scale(2 * incoming.scalar(normal)).sub(incoming).normalize();
     }
 
     /**
@@ -191,7 +190,7 @@ public abstract class Material {
         float a = n * cosB;
         float b = (float) Math.sqrt(1 - sinB_PWD);
 
-        return I.negate().multScalar(n).add(normal.multScalar(a - b));
+        return I.negate().scale(n).add(normal.scale(a - b));
     }
 
     public Vec3 getRefractionVectorDeGreve(Vec3 normal, Vec3 I){
@@ -216,7 +215,7 @@ public abstract class Material {
         double sinT2 = n * n * (1.0f - cosI * cosI);
         if (sinT2 > 1) return getReflectionVector(I, normal);
         double cosT = Math.sqrt(1.0 - sinT2);
-        return I.multScalar(n).add(normal.multScalar((n * cosI - cosT)));
+        return I.scale(n).add(normal.scale((n * cosI - cosT)));
     }
 
     /**
@@ -248,10 +247,10 @@ public abstract class Material {
 //        Log.print(this, "norm roughness: " + normalDistributedRoughness(r));
 
         for (int i = 0; i < amount; i++) {
-            Vec3 deviation = (orthogonalVec1.multScalar(normalDistributedRoughness(r)).add(
-                    orthogonalVec2.multScalar(normalDistributedRoughness(r))));
+            Vec3 deviation = (orthogonalVec1.scale(normalDistributedRoughness(r)).add(
+                    orthogonalVec2.scale(normalDistributedRoughness(r))));
 
-            Vec3 direction = dir.multScalar(smoothness).add(deviation);
+            Vec3 direction = dir.scale(smoothness).add(deviation);
 
             Vec3 newDirection = direction.add(deviation).normalize();
 
